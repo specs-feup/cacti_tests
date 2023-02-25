@@ -5,5 +5,5 @@
 
 int main()
 {
-   char8_t c = 1;
+   char8_t myChar = 'a';
 }

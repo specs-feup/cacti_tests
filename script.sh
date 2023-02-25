@@ -83,8 +83,8 @@ for i in ${!dirs[@]}
 do
     if [ $i -lt 10 ]
     then
-        mkdir "01_language/01_keywords/""0$i"_"${dirs[i]}"
+        mkdir "00_language/00_keywords/""0$i"_"${dirs[i]}"
     else
-        mkdir "01_language/01_keywords/""$i"_"${dirs[i]}"
+        mkdir "00_language/00_keywords/""$i"_"${dirs[i]}"
     fi
 done

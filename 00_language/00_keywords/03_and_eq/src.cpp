@@ -1,9 +1,8 @@
-#include <iostream>
 #include <bitset>
+
 int main()
 {
-    std::bitset<4> mask("1100");
-    std::bitset<4> val("0111");
+    uint8_t mask = 0xF0;
+    uint8_t val = 0x0F;
     val and_eq mask;
-    std::cout << val << '\n';
 }

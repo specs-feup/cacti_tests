@@ -1,9 +1,1 @@
-#include <iostream>
-#include <cstdint>
-#include <cstdio>
-
-
-int main()
-{
-   char8_t myChar = 'a';
-}
+char8_t a = 'a';

@@ -1,3 +1,1 @@
-int main(){
-    char myGrade = 'B';
-}
+char a = 'a';

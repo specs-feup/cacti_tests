@@ -1,9 +1,9 @@
 void foo() {
     while (true)
     {
-    int i = 1;
-    continue;
-    i = 2;
+        int i = 1;
+        continue;
+        i = 2;
     }
 
     do
@@ -22,12 +22,10 @@ void foo() {
     
     for (int j = 0; 2 != j; ++j)
     {
-        for (int k = 0; k < 5; k++)     // only this loop is affected by continue
+        for (int k = 0; k < 5; k++)    
         {
             if (k == 3)
                 continue;
-            // this statement is skipped each time k == 3:
-            std::cout << '(' << j << ',' << k << ") ";
         }
     }
 }

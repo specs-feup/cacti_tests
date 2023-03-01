@@ -36,10 +36,7 @@ struct task
  
 task resuming_on_new_thread(std::jthread& out)
 {
-    std::cout << "Coroutine started on thread: " << std::this_thread::get_id() << '\n';
     co_await switch_to_new_thread(out);
-    // awaiter destroyed here
-    std::cout << "Coroutine resumed on thread: " << std::this_thread::get_id() << '\n';
 }
  
 int main()

@@ -3,6 +3,18 @@ import os
 import pylatex
 
 
+
+
+class Result:
+    def __init__(self, name, runtime, tests):
+        self.name = name
+        self.runtime = runtime
+        self.tests= tests
+class Test:
+    def __init__(self, name, success):
+        self.name = name
+        self.success = success
+
 if __name__ == '__main__':
     root_dir = './'
 
@@ -21,10 +33,9 @@ if __name__ == '__main__':
     doc.preamble.append(pylatex.Command('title', 'Clava tests'))
     doc.preamble.append(pylatex.Command('begin{document}'))
     doc.preamble.append(pylatex.Command('maketitle'))
-    doc.preamble.append(pylatex.Command('begin{tabular}', '{||c c c c c||} '))
-    doc.preamble.append(pylatex.NoEscape(r'\hline  & testParsing & testCodeGeneration & testIdempotency & runtime \\ [0.5ex]'))
+    doc.preamble.append(pylatex.Command('begin{tabular}', '{||c c c c c} '))
     
-   
+    results= []
     
 
     for general_type in os.listdir(general_path):
@@ -40,38 +51,46 @@ if __name__ == '__main__':
                 # loops over files to find JSON files
                 for filename in os.listdir(indiv_path):
                     if filename.endswith('.json'):
-                        json_path = os.path.join(indiv_path, filename)
-                        # print(json_path)
-
-                            
+                        json_path = os.path.join(indiv_path, filename)    
 
                         # reads the JSON file
                         with open(json_path) as json_file:
                             parsed_json= json.load(json_file)
 
                         name = ""
-                        tp_success = ""
-                        tcg_success = ""
-                        ti_success = ""
                         runtime = ""
+                        tests= []
                 
                         for key,value in parsed_json.items():
                             if key == "name":
                                 name = parsed_json[key]
                             elif key == "runtime":
                                 runtime = parsed_json[key]
-                            elif key == "test_parsing":
-                                tp_success = parsed_json[key]["success"]
-                            elif key == "test_code_generation":
-                                tcg_success = parsed_json[key]["success"]
-                            elif key == "test_idempotency":
-                                ti_success = parsed_json[key]["success"]
+                            else:
+                                test = Test(key, parsed_json[key]["success"]) 
+                                tests.append(test)
 
-                        
-                        
-                        
-                        doc.preamble.append(pylatex.NoEscape(r'\hline {0} & {1} & {2} & {3} & {4} \\'.format(name, tp_success, tcg_success, ti_success, runtime)))
+                        result = Result(name, runtime, tests)
+                        results.append(result)
+    
+    results.sort(key=lambda x:x.name)
 
+    header = r'\hline && runtime' 
+    for test in results[0].tests:
+        header+= r'&& {0}'.format(test.name.replace("_","\_"))
+
+    header+= r'\\'
+    doc.preamble.append(pylatex.NoEscape(header))
+
+
+    for result in results:
+        row= r'\hline {0} && {1}'.format(result.name.replace("_","\_"), result.runtime)
+        for test in result.tests:
+            row+= r'&& {0}'.format(test.success)
+        row += r' \\'
+        doc.preamble.append(pylatex.NoEscape(row))
+    
+    
     doc.preamble.append(pylatex.Command('end{tabular}'))
     doc.preamble.append(pylatex.Command('end{document}'))
     doc.generate_tex("report")

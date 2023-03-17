@@ -8,12 +8,12 @@
 \title{Clava tests}%
 \begin{document}%
 \maketitle%
-\begin{tabular}{\{||c c c c c||\} }%
-\hline  & testParsing & testCodeGeneration & testIdempotency & runtime \\ [0.5ex]%
-\hline 01_alignof & True & True & true & 4.959 \\%
-\hline 03_and_eq & True & True & true & 4.561 \\%
-\hline 02_and & True & True & true & 4.916 \\%
-\hline 00_alignas & True & True & False & 4.49 \\%
+\begin{tabular}{\{||c c c c c\} }%
+\hline && runtime&& test\_parsing&& test\_code\_generation&& test\_idempotency\\%
+\hline 00\_alignas && 4.49&& True&& True&& False \\%
+\hline 01\_alignof && 4.959&& True&& True&& true \\%
+\hline 02\_and && 4.916&& True&& True&& true \\%
+\hline 03\_and\_eq && 4.561&& True&& True&& true \\%
 \end{tabular}%
 \end{document}%
 %

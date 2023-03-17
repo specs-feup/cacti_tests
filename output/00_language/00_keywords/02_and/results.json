@@ -1,15 +1,1 @@
-{
-    "name": "02_and",
-    "test_parsing": {
-        "success": true,
-        "log": "The parsing of the source code was completed successfully."
-    },
-    "test_code_generation": {
-        "success": true,
-        "log": "The generation of the source code was completed succesfully."
-    },
-    "runtime": 4.916,
-    "test_idempotency": {
-        "success": "true"
-    }
-}
+{"name": "02_and", "test_parsing": {"success": true, "log": "The parsing of the source code was completed successfully."}, "test_code_generation": {"success": true, "log": "The generation of the source code was completed succesfully."}, "runtime": 3.659, "test_idempotency": {"success": "true"}}

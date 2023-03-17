@@ -1,7 +1,5 @@
 import json
 import os
-import pylatex
-
 
 
 
@@ -19,7 +17,8 @@ if __name__ == '__main__':
     root_dir = './'
 
     # creates path to generate the latex file
-    latex_path = os.path.join(root_dir, "report.tex")
+    # latex_path = os.path.join(root_dir, "report.tex")
+    f = open("report.tex", "w")
 
     # different test types folders
     general_path = os.path.join(root_dir, "output")
@@ -28,12 +27,11 @@ if __name__ == '__main__':
 
   #  with doc.create(pylatex.Section("Clava results")):
         
-
-    doc = pylatex.Document()
-    doc.preamble.append(pylatex.Command('title', 'Clava tests'))
-    doc.preamble.append(pylatex.Command('begin{document}'))
-    doc.preamble.append(pylatex.Command('maketitle'))
-    doc.preamble.append(pylatex.Command('begin{tabular}', '{||c c c c c} '))
+    f.write(r"\documentclass{article}"+"\n"+r"\usepackage{booktabs}"+"\n"+r"\usepackage{longtable}"+"\n")
+    f.write(r"\usepackage[top=1.5cm,bottom=3cm,left=1.5cm,right=1cm,marginparwidth=1.75cm]{geometry}"+"\n"+r"\begin{document}"+"\n")
+    f.write(r"\title{Clava Testing Results}"+"\n"+r"\maketitle"+"\n")
+   
+   # doc.preamble.append(pylatex.Command('begin{tabular}', '{||c c c c c} '))
     
     results= []
     
@@ -74,23 +72,30 @@ if __name__ == '__main__':
                         results.append(result)
     
     results.sort(key=lambda x:x.name)
+    f.write(r"\begin{longtable}{lr")
+    for x in range(len(results[0].tests)):
+        f.write("c")
+    f.write(r"}"+ "\n"+ r"\toprule"+"\n")
 
-    header = r'\hline && runtime' 
+    
+    
+    
+    
+    
+    header = r'& Runtime' 
     for test in results[0].tests:
-        header+= r'&& {0}'.format(test.name.replace("_","\_"))
+        header+= r'& {0}'.format(test.name.replace("_","\_").capitalize())
 
-    header+= r'\\'
-    doc.preamble.append(pylatex.NoEscape(header))
+    header+= r'\\[0.5ex]'
+    f.write(header+"\n"+r"\midrule"+"\n")
 
 
     for result in results:
-        row= r'\hline {0} && {1}'.format(result.name.replace("_","\_"), result.runtime)
+        row= r'{0} & {1}'.format(result.name.replace("_","\_"), result.runtime)
         for test in result.tests:
-            row+= r'&& {0}'.format(test.success)
-        row += r' \\'
-        doc.preamble.append(pylatex.NoEscape(row))
-    
-    
-    doc.preamble.append(pylatex.Command('end{tabular}'))
-    doc.preamble.append(pylatex.Command('end{document}'))
-    doc.generate_tex("report")
+            row+= r'& {0}'.format(test.success)
+        row += r' \\[0.5ex]'
+        f.write(row+"\n")
+    f.write(r"\bottomrule"+"\n")
+    f.write(r"\end{longtable}"+"\n"+r"\end{document}")
+  

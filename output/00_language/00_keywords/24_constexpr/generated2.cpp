@@ -1,0 +1,1 @@
+constexpr int f();

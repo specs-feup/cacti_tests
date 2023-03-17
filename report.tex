@@ -1,22 +1,98 @@
-\documentclass{article}%
-\usepackage[T1]{fontenc}%
-\usepackage[utf8]{inputenc}%
-\usepackage{lmodern}%
-\usepackage{textcomp}%
-\usepackage{lastpage}%
-%
-\title{Clava tests}%
-\begin{document}%
-\maketitle%
-\begin{tabular}{\{||c c c c c\} }%
-\hline && runtime&& test\_parsing&& test\_code\_generation&& test\_idempotency\\%
-\hline 00\_alignas && 4.49&& True&& True&& False \\%
-\hline 01\_alignof && 4.959&& True&& True&& true \\%
-\hline 02\_and && 4.916&& True&& True&& true \\%
-\hline 03\_and\_eq && 4.561&& True&& True&& true \\%
-\end{tabular}%
-\end{document}%
-%
-\begin{document}%
-\normalsize%
+\documentclass{article}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage[top=1.5cm,bottom=3cm,left=1.5cm,right=1cm,marginparwidth=1.75cm]{geometry}
+\begin{document}
+\title{Clava Testing Results}
+\maketitle
+\begin{longtable}{lrccc}
+\toprule
+& Runtime& Test\_parsing& Test\_code\_generation& Test\_idempotency\\[0.5ex]
+\midrule
+00\_alignas & 3.139& True& True& False \\[0.5ex]
+01\_alignof & 3.674& True& True& true \\[0.5ex]
+02\_and & 3.48& True& True& true \\[0.5ex]
+03\_and\_eq & 3.349& True& True& true \\[0.5ex]
+04\_asm & 2.765& False \\[0.5ex]
+05\_atomic\_cancel & 2.848& False \\[0.5ex]
+06\_atomic\_commit & 2.895& False \\[0.5ex]
+07\_atomic\_noexcept & 2.623& False \\[0.5ex]
+08\_auto & 2.938& False \\[0.5ex]
+09\_bitand & 3.383& True& True& true \\[0.5ex]
+10\_bitor & 3.547& True& True& true \\[0.5ex]
+11\_bool & 3.275& True& True& true \\[0.5ex]
+12\_break & 3.727& True& True& true \\[0.5ex]
+13\_case & 3.078& False \\[0.5ex]
+14\_catch & 4.138& True& True& true \\[0.5ex]
+15\_char & 3.268& True& True& true \\[0.5ex]
+16\_char8\_t & 3.595& False \\[0.5ex]
+17\_char16\_t & 3.276& True& True& true \\[0.5ex]
+18\_char32\_t & 3.746& True& True& true \\[0.5ex]
+19\_class & 3.578& True& True& true \\[0.5ex]
+20\_compl & 3.646& True& True& true \\[0.5ex]
+21\_concept & 3.068& False \\[0.5ex]
+22\_const & 3.395& True& True& true \\[0.5ex]
+23\_consteval & 2.954& False \\[0.5ex]
+24\_constexpr & 3.254& True& True& true \\[0.5ex]
+25\_constinit & 2.927& False \\[0.5ex]
+26\_const\_cast & 3.597& True& True& true \\[0.5ex]
+27\_continue & 3.623& True& True& true \\[0.5ex]
+28\_co\_await & 3.553& False \\[0.5ex]
+29\_co\_return & 3.611& False \\[0.5ex]
+30\_co\_yield & 3.47& False \\[0.5ex]
+31\_decltype & 3.668& False \\[0.5ex]
+32\_default & 3.199& False \\[0.5ex]
+33\_delete & 3.346& False \\[0.5ex]
+34\_do & 4.103& True& True& false \\[0.5ex]
+35\_double & 3.558& True& True& true \\[0.5ex]
+36\_dynamic\_cast & 3.585& True& True& true \\[0.5ex]
+37\_else & 4.04& True& True& true \\[0.5ex]
+38\_enum & 3.651& True& True& true \\[0.5ex]
+39\_explicit & 3.709& True& True& true \\[0.5ex]
+40\_export & 3.592& False \\[0.5ex]
+41\_extern & 3.928& False \\[0.5ex]
+42\_false & 3.993& True& True& true \\[0.5ex]
+43\_float & 3.793& True& True& true \\[0.5ex]
+44\_for & 3.674& True& True& true \\[0.5ex]
+45\_friend & 3.535& False \\[0.5ex]
+46\_goto & 3.879& True& True& true \\[0.5ex]
+47\_if & 3.782& True& True& true \\[0.5ex]
+48\_inline & 3.736& True& True& true \\[0.5ex]
+49\_int & 3.523& True& True& true \\[0.5ex]
+50\_long & 3.501& True& True& true \\[0.5ex]
+51\_mutable & 3.778& True& True& False \\[0.5ex]
+52\_namespace & 3.516& False \\[0.5ex]
+53\_new & 3.5& True& True& False \\[0.5ex]
+54\_noexcept & 3.665& True& True& true \\[0.5ex]
+55\_not & 4.295& True& True& true \\[0.5ex]
+56\_not\_eq & 3.825& True& True& true \\[0.5ex]
+57\_nullptr & 3.758& True& True& true \\[0.5ex]
+58\_operator & 3.825& True& True& true \\[0.5ex]
+59\_or & 3.737& True& True& true \\[0.5ex]
+60\_or\_eq & 3.243& True& True& true \\[0.5ex]
+61\_private & 3.33& True& True& true \\[0.5ex]
+62\_protected & 3.313& True& True& true \\[0.5ex]
+63\_public & 3.288& True& True& true \\[0.5ex]
+64\_reflexpr & 3.038& False \\[0.5ex]
+65\_register & 3.19& True& True& true \\[0.5ex]
+66\_reinterpret\_cast & 3.753& True& True& true \\[0.5ex]
+67\_requires & 2.949& False \\[0.5ex]
+68\_return & 3.235& True& True& true \\[0.5ex]
+69\_short & 3.391& True& True& true \\[0.5ex]
+70\_signed & 3.563& True& True& true \\[0.5ex]
+71\_sizeof & 3.333& True& True& false \\[0.5ex]
+72\_static & 3.663& True& True& true \\[0.5ex]
+73\_static\_assert & 3.162& False \\[0.5ex]
+74\_static\_cast & 3.858& True& True& true \\[0.5ex]
+75\_struct & 3.969& True& True& true \\[0.5ex]
+76\_switch & 3.724& False \\[0.5ex]
+77\_synchronized & 3.681& False \\[0.5ex]
+78\_template & 4.147& True& True& true \\[0.5ex]
+79\_this & 4.837& True& True& true \\[0.5ex]
+80\_thread\_local & 5.002& True& True& False \\[0.5ex]
+81\_throw & 4.326& False \\[0.5ex]
+82\_true & 4.142& True& True& true \\[0.5ex]
+83\_try & 3.732& False \\[0.5ex]
+\bottomrule
+\end{longtable}
 \end{document}

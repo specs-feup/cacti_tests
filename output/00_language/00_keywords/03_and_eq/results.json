@@ -1,15 +1,1 @@
-{
-    "name": "03_and_eq",
-    "test_parsing": {
-        "success": true,
-        "log": "The parsing of the source code was completed successfully."
-    },
-    "test_code_generation": {
-        "success": true,
-        "log": "The generation of the source code was completed succesfully."
-    },
-    "runtime": 3.462,
-    "test_idempotency": {
-        "success": "true"
-    }
-}
+{"name": "03_and_eq", "test_parsing": {"success": true, "log": "The parsing of the source code was completed successfully."}, "test_code_generation": {"success": true, "log": "The generation of the source code was completed succesfully."}, "test_idempotency": {"success": "true", "log": ""}, "runtime": 3.349}

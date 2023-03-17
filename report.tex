@@ -1,0 +1,22 @@
+\documentclass{article}%
+\usepackage[T1]{fontenc}%
+\usepackage[utf8]{inputenc}%
+\usepackage{lmodern}%
+\usepackage{textcomp}%
+\usepackage{lastpage}%
+%
+\title{Clava tests}%
+\begin{document}%
+\maketitle%
+\begin{tabular}{\{||c c c c c||\} }%
+\hline  & testParsing & testCodeGeneration & testIdempotency & runtime \\ [0.5ex]%
+\hline 01_alignof & True & True & true & 4.959 \\%
+\hline 03_and_eq & True & True & true & 4.561 \\%
+\hline 02_and & True & True & true & 4.916 \\%
+\hline 00_alignas & True & True & False & 4.49 \\%
+\end{tabular}%
+\end{document}%
+%
+\begin{document}%
+\normalsize%
+\end{document}

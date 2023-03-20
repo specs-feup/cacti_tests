@@ -1,1 +1,0 @@
-{"name": "14_catch", "test_parsing": {"success": true, "log": "The parsing of the source code was completed successfully."}, "test_code_generation": {"success": true, "log": "The generation of the source code was completed succesfully."}, "test_idempotency": {"success": "true", "log": ""}, "runtime": 4.138}

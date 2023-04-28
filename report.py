@@ -99,7 +99,7 @@ if __name__ == '__main__':
                                     if key == "name":
                                         name = parsed_json[key]
                                     elif key == "test_idempotency":
-                                        test = Test(key, parsed_json[key]["success"], len(tries=parsed_json[key]["results"]))
+                                        test = Test(key, parsed_json[key]["success"], tries=len(parsed_json[key]["results"]))
                                         tests.append(test)
                                     else:
                                         if (parsed_json[key]["success"]):

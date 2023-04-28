@@ -52,7 +52,7 @@ class Result:
         self.name = name
         self.tests= tests
 class Test:
-    def __init__(self, name, success, time=0, tries=1):
+    def __init__(self, name, success, time=0, tries=-1):
         self.name = name
         self.success = success
         self.time = time
@@ -99,7 +99,7 @@ if __name__ == '__main__':
                                     if key == "name":
                                         name = parsed_json[key]
                                     elif key == "test_idempotency":
-                                        test = Test(key, parsed_json[key]["success"])
+                                        test = Test(key, parsed_json[key]["success"], len(tries=parsed_json[key]["results"]))
                                         tests.append(test)
                                     else:
                                         if (parsed_json[key]["success"]):
@@ -136,7 +136,10 @@ if __name__ == '__main__':
         f.write(r"\cmidrule{2-"+str(2*len(results[0].tests)+1)+r"}")
 
         for test in results[0].tests:
-            f.write(r"&Time&Success")
+            if (test.tries == -1):
+                f.write(r"&Time&Success")
+            else:
+                f.write(r"&Tries&Success")
         f.write(r"\\"+"\n")
         f.write(r"\midrule"+"\n")
         f.write(r"\endhead")
@@ -145,7 +148,10 @@ if __name__ == '__main__':
         for result in results:
             row= r"\textbf{" + latexSource(result.name) + r"}"
             for test in result.tests:
-                row+= r'& {0}&{1}'.format(test.time, latexBool(test.success))
+                if (test.tries == -1):
+                    row+= r'& {0}&{1}'.format(test.time, latexBool(test.success))
+                else: 
+                    row+= r'& {0}&{1}'.format(test.tries, latexBool(test.success))
             row += r' \\[0.5ex]'
             f.write(row+"\n")
         f.write(r"\bottomrule"+"\n")

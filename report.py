@@ -156,5 +156,6 @@ if __name__ == '__main__':
             f.write(row+"\n")
         f.write(r"\bottomrule"+"\n")
         f.write(r"\end{xltabular}"+"\n")
+        f.write(r"\newpage" + "\n")
     f.write(r"\end{document}")
   

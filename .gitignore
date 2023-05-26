@@ -1,5 +1,5 @@
 .vscode/
 output/
-report.aux
-report.log
+*.aux
+*.log
 

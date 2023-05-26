@@ -9,6 +9,9 @@ class standards(Enum):
     stand_98 = 4
     extensions = 5
 
+true_counter = 0
+false_counter = 0
+unknown_counter = 0
 
 
 def latexTest(string):
@@ -21,14 +24,29 @@ def latexSource(string):
     latexString=string.replace("_","\_").capitalize()
     return latexString
 
+def latexCamelCase(string):
+    words = string.split("\_",1)
+    latexString = string
+    if (len(words)>1):
+        latexString = words[0]+" "+words[1].capitalize()
+    return latexString
 
 
 def latexBool(bool):
-    if bool== True:
+    if bool is True:
         latexBool= r"\textcolor{green}{True}"
+        global true_counter
+        true_counter+=1
+        return latexBool
+    elif bool is False:
+        latexBool= r"\textcolor{red}{False}"
+        global false_counter
+        false_counter+=1
         return latexBool
     else:
-        latexBool= r"\textcolor{red}{False}"
+        latexBool= r"N/A"
+        global unknown_counter
+        unknown_counter+=1
         return latexBool
 
 def getStand(stand):
@@ -60,26 +78,26 @@ class Test:
 
 if __name__ == '__main__':
     root_dir = './'
+    transpiler = os.sys.argv[1]
 
     # creates path to generate the latex file
     # latex_path = os.path.join(root_dir, "report.tex")
-    f = open("report.tex", "w")
+    f = open(transpiler+".tex", "w")
 
     # different test types folders
-    general_path = os.path.join(root_dir, "output/")
+    general_path = os.path.join(root_dir, "output/"+transpiler+"/")
 
     # write usepackages and title to the tex file
     f.write(r"\documentclass{article}"+"\n"+r"\usepackage{booktabs}"+"\n"+r"\usepackage{xltabular}"+"\n")
     f.write(r"\usepackage{xcolor}"+"\n")
     f.write(r"\usepackage[top=1.5cm,bottom=3cm,left=1.5cm,right=1cm,marginparwidth=1.75cm]{geometry}"+"\n"+r"\begin{document}"+"\n")
-    f.write(r"\title{Cacti Testing Results}"+"\n"+r"\maketitle"+"\n"+r"\newcolumntype{Y}{>{\centering\arraybackslash}X}"+"\n")
+    f.write(r"\title{" + transpiler.capitalize() + r" Testing Results}"+"\n"+r"\maketitle"+"\n"+r"\newcolumntype{Y}{>{\centering\arraybackslash}X}"+"\n")
    
    
     standards= []
     results= []
     
     for standard_spec in os.listdir(general_path):              # standard folders
-        print(standard_spec)
         general_path = os.path.join(general_path, standard_spec)   
         for general_type in os.listdir(general_path):           # cpp reference categories
             general_path = os.path.join(general_path, general_type)
@@ -105,7 +123,7 @@ if __name__ == '__main__':
                                         if (parsed_json[key]["success"]):
                                             test = Test(key, parsed_json[key]["success"], parsed_json[key]["time"]) 
                                         else:
-                                            test = Test(key, parsed_json)
+                                            test = Test(key, False )
                                         tests.append(test)
 
                                 result = Result(name, tests)
@@ -115,7 +133,7 @@ if __name__ == '__main__':
         stand = Standard(standard_spec, results)
         results=[]
         standards.append(stand)
-        general_path = os.path.join(root_dir, "output")
+        general_path = os.path.join(root_dir, "output/"+transpiler+"/")
     
     standards.sort(key=lambda x: getStand(x))
 
@@ -131,7 +149,7 @@ if __name__ == '__main__':
         f.write(r"\multicolumn{1}{Y}{}"+"\n")
 
         for test in standard.result[0].tests:
-            f.write(r"& \multicolumn{2}{Y}{\textbf{"+ "{0}".format(latexTest(test.name))+ r"}}")
+            f.write(r"& \multicolumn{2}{Y}{\textbf{"+ "{0}".format(latexCamelCase(latexTest(test.name)))+ r"}}")
 
         f.write(r"\\"+"\n")
         f.write(r"\cmidrule{2-"+str(2*len(standard.result[0].tests)+1)+r"}")
@@ -149,6 +167,7 @@ if __name__ == '__main__':
         for result in standard.result:
             row= r"\textbf{" + latexSource(result.name) + r"}"
             for test in result.tests:
+                print (str(test.success)+"\n")
                 if (test.tries == -1):
                     row+= r'& {0}&{1}'.format(test.time, latexBool(test.success))
                 else: 
@@ -158,5 +177,8 @@ if __name__ == '__main__':
         f.write(r"\bottomrule"+"\n")
         f.write(r"\end{xltabular}"+"\n")
         f.write(r"\newpage" + "\n")
+    f.write(r"\section{Percentages}")
+    f.write("Percentage of passed tests:\n")
+    f.write(str(round(true_counter/(false_counter+unknown_counter+true_counter)*100,2))+r" \%")
     f.write(r"\end{document}")
   

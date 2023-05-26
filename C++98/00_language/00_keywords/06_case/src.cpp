@@ -11,5 +11,6 @@ int main()
         case 3:
         case 5:
         case 6:
+            break;
     }
 }

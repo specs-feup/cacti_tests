@@ -7,5 +7,6 @@ int main() {
   case 5:
     break; // execution of subsequent statements is terminated
   case 6:
+    break;
   }
 }

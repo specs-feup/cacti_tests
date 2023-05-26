@@ -113,6 +113,7 @@ if __name__ == '__main__':
         # sort tests since they are not granted to be in order
         results.sort(key=lambda x:x.name)
         stand = Standard(standard_spec, results)
+        results=[]
         standards.append(stand)
         general_path = os.path.join(root_dir, "output")
     
@@ -122,20 +123,20 @@ if __name__ == '__main__':
         f.write(r"\section{"+ standard.name + r"}"+"\n")
         # start table with a column for source file's name and 2 columns per test  
         f.write(r"\begin{xltabular}{\textwidth}{l")
-        for x in range(len(results[0].tests)):
+        for x in range(len(standard.result[0].tests)):
             f.write("cc")
         f.write(r"}"+ "\n"+(r"\toprule")+"\n")
 
         #column with source file's name
         f.write(r"\multicolumn{1}{Y}{}"+"\n")
 
-        for test in results[0].tests:
+        for test in standard.result[0].tests:
             f.write(r"& \multicolumn{2}{Y}{\textbf{"+ "{0}".format(latexTest(test.name))+ r"}}")
 
         f.write(r"\\"+"\n")
-        f.write(r"\cmidrule{2-"+str(2*len(results[0].tests)+1)+r"}")
+        f.write(r"\cmidrule{2-"+str(2*len(standard.result[0].tests)+1)+r"}")
 
-        for test in results[0].tests:
+        for test in standard.result[0].tests:
             if (test.tries == -1):
                 f.write(r"&Time&Success")
             else:
@@ -145,7 +146,7 @@ if __name__ == '__main__':
         f.write(r"\endhead")
 
         # writing result rows
-        for result in results:
+        for result in standard.result:
             row= r"\textbf{" + latexSource(result.name) + r"}"
             for test in result.tests:
                 if (test.tries == -1):

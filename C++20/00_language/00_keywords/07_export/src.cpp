@@ -14,8 +14,3 @@ export
 }
  
 // Exporting namespaces also works: hi::english() and hi::french() will be visible.
-export namespace hi
-{
-    char const* english() { return "Hi!"; }
-    char const* french()  { return "Salut!"; }
-}

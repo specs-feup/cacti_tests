@@ -1,1 +1,1 @@
-char32_t a = 'a';
+int main() { char32_t a = 'a'; }

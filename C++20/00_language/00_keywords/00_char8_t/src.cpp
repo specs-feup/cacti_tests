@@ -1,1 +1,1 @@
-char8_t a = 'a';
+int main() { char8_t a = 'a'; }

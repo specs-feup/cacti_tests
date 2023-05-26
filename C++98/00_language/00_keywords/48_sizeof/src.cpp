@@ -1,4 +1,4 @@
-int main(){
-    char A= 'b';
-    sizeof(A);
+int main() {
+  char A = 'b';
+  sizeof(A);
 }

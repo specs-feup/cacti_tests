@@ -1,2 +1,2 @@
-constexpr const char *f(bool p) { return p ? "constant initializer" : g(); }
+constexpr const char *f(bool p) { return ""; }
 constinit const char *c = f(true);

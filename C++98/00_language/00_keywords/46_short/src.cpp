@@ -1,3 +1,1 @@
-int main(){
-    short Number = 1234;
-}
+int main() { short Number = 1234; }

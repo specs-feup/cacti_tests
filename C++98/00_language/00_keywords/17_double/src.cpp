@@ -1,1 +1,1 @@
-double a = 1.0;
+int main() { double a = 1.0; }

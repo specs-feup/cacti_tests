@@ -1,8 +1,9 @@
-void f() {}
+#include <exception>
 
-try {
-  f();
-}
-catch (const std::exception& e) {
-  // ...
+int main() {
+  try {
+
+  } catch (const std::exception &e) {
+    // ...
+  }
 }

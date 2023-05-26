@@ -1,3 +1,1 @@
-int main(){
-    signed Number = -123;
-}
+int main() { signed Number = -123; }

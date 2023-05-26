@@ -1,12 +1,8 @@
 #include <string>
 #include <cstddef>
 #include <concepts>
- 
-template<typename T>
-concept Hashable = requires(T a)
-{
-    { std::hash<T>{}(a) } -> std::convertible_to<std::size_t>;
-};
 
-template<Hashable T>
-void f(T) {}
+template<class T, class U>
+concept Derived = std::is_base_of<U, T>::value;
+
+int main() {}

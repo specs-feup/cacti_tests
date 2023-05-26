@@ -1,2 +1,4 @@
-// delete []{ return new int; }(); // parse error
-delete ([]{ return new int; })();  // OK
+int main() {
+  int *x = new int;
+  delete x;
+}

@@ -178,6 +178,6 @@ if __name__ == '__main__':
         f.write(r"\newpage" + "\n")
     f.write(r"\section{Percentages}")
     f.write("Percentage of passed tests:\n")
-    f.write(str(round(true_counter/(false_counter+unknown_counter+true_counter)*100,2))+r" \%")
+    f.write(str(round(true_counter/(false_counter+true_counter)*100,2))+r" \%")
     f.write(r"\end{document}")
   

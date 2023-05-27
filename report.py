@@ -123,7 +123,7 @@ if __name__ == '__main__':
                                         if (parsed_json[key]["success"]):
                                             test = Test(key, parsed_json[key]["success"], parsed_json[key]["time"]) 
                                         else:
-                                            test = Test(key, False )
+                                            test = Test(key, parsed_json[key]["success"])
                                         tests.append(test)
 
                                 result = Result(name, tests)

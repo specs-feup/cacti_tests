@@ -1,0 +1,132 @@
+\documentclass{article}
+\usepackage{booktabs}
+\usepackage{xltabular}
+\usepackage{xcolor}
+\usepackage[top=1.5cm,bottom=3cm,left=1.5cm,right=1cm,marginparwidth=1.75cm]{geometry}
+\begin{document}
+\title{Cetus Testing Results}
+\maketitle
+\newcolumntype{Y}{>{\centering\arraybackslash}X}
+\section{C++98}
+\begin{xltabular}{\textwidth}{lcccccccc}
+\toprule
+\multicolumn{1}{Y}{}
+& \multicolumn{2}{Y}{\textbf{Parsing}}& \multicolumn{2}{Y}{\textbf{Code Generation}}& \multicolumn{2}{Y}{\textbf{Idempotency}}& \multicolumn{2}{Y}{\textbf{Correctness}}\\
+\cmidrule{2-9}&Time&Success&Time&Success&Tries&Success&Time&Success\\
+\midrule
+\endhead\textbf{00\_and}& 0&\textcolor{red}{False}& 0&N/A& 0&N/A& 0&N/A \\[0.5ex]
+\textbf{01\_and\_eq}& 0&\textcolor{red}{False}& 0&N/A& 0&N/A& 0&N/A \\[0.5ex]
+\textbf{02\_bitand}& 0&\textcolor{red}{False}& 0&N/A& 0&N/A& 0&N/A \\[0.5ex]
+\textbf{03\_bitor}& 0&\textcolor{red}{False}& 0&N/A& 0&N/A& 0&N/A \\[0.5ex]
+\textbf{04\_bool}& 0&\textcolor{red}{False}& 0&N/A& 0&N/A& 0&N/A \\[0.5ex]
+\textbf{05\_break}& 0&\textcolor{red}{False}& 0&N/A& 0&N/A& 0&N/A \\[0.5ex]
+\textbf{06\_case}& 0&\textcolor{red}{False}& 0&N/A& 0&N/A& 0&N/A \\[0.5ex]
+\textbf{07\_catch}& 0&\textcolor{red}{False}& 0&N/A& 0&N/A& 0&N/A \\[0.5ex]
+\textbf{08\_char}& 130&\textcolor{green}{True}& 0&\textcolor{red}{False}& 0&N/A& 0&N/A \\[0.5ex]
+\textbf{09\_class}& 0&\textcolor{red}{False}& 0&N/A& 0&N/A& 0&N/A \\[0.5ex]
+\textbf{10\_compl}& 0&\textcolor{red}{False}& 0&N/A& 0&N/A& 0&N/A \\[0.5ex]
+\textbf{11\_const}& 0&\textcolor{red}{False}& 0&N/A& 0&N/A& 0&N/A \\[0.5ex]
+\textbf{12\_const\_cast}& 0&\textcolor{red}{False}& 0&N/A& 0&N/A& 0&N/A \\[0.5ex]
+\textbf{13\_continue}& 0&\textcolor{red}{False}& 0&N/A& 0&N/A& 0&N/A \\[0.5ex]
+\textbf{14\_default}& 0&\textcolor{red}{False}& 0&N/A& 0&N/A& 0&N/A \\[0.5ex]
+\textbf{15\_delete}& 0&\textcolor{red}{False}& 0&N/A& 0&N/A& 0&N/A \\[0.5ex]
+\textbf{16\_do}& 0&\textcolor{red}{False}& 0&N/A& 0&N/A& 0&N/A \\[0.5ex]
+\textbf{17\_double}& 0&\textcolor{red}{False}& 0&N/A& 0&N/A& 0&N/A \\[0.5ex]
+\textbf{18\_dynamic\_cast}& 0&\textcolor{red}{False}& 0&N/A& 0&N/A& 0&N/A \\[0.5ex]
+\textbf{19\_else}& 133&\textcolor{green}{True}& 0&\textcolor{red}{False}& 0&N/A& 0&N/A \\[0.5ex]
+\textbf{20\_enum}& 130&\textcolor{green}{True}& 0&\textcolor{red}{False}& 0&N/A& 0&N/A \\[0.5ex]
+\textbf{21\_explicit}& 0&\textcolor{red}{False}& 0&N/A& 0&N/A& 0&N/A \\[0.5ex]
+\textbf{22\_extern}& 0&\textcolor{red}{False}& 0&N/A& 0&N/A& 0&N/A \\[0.5ex]
+\textbf{23\_false}& 0&\textcolor{red}{False}& 0&N/A& 0&N/A& 0&N/A \\[0.5ex]
+\textbf{24\_float}& 0&\textcolor{red}{False}& 0&N/A& 0&N/A& 0&N/A \\[0.5ex]
+\textbf{25\_for}& 0&\textcolor{red}{False}& 0&N/A& 0&N/A& 0&N/A \\[0.5ex]
+\textbf{26\_friend}& 0&\textcolor{red}{False}& 0&N/A& 0&N/A& 0&N/A \\[0.5ex]
+\textbf{27\_goto}& 0&\textcolor{red}{False}& 0&N/A& 0&N/A& 0&N/A \\[0.5ex]
+\textbf{28\_if}& 0&\textcolor{red}{False}& 0&N/A& 0&N/A& 0&N/A \\[0.5ex]
+\textbf{29\_inline}& 137&\textcolor{green}{True}& 0&\textcolor{red}{False}& 0&N/A& 0&N/A \\[0.5ex]
+\textbf{30\_int}& 0&\textcolor{red}{False}& 0&N/A& 0&N/A& 0&N/A \\[0.5ex]
+\textbf{31\_long}& 0&\textcolor{red}{False}& 0&N/A& 0&N/A& 0&N/A \\[0.5ex]
+\textbf{32\_mutable}& 0&\textcolor{red}{False}& 0&N/A& 0&N/A& 0&N/A \\[0.5ex]
+\textbf{33\_namespace}& 0&\textcolor{red}{False}& 0&N/A& 0&N/A& 0&N/A \\[0.5ex]
+\textbf{34\_new}& 0&\textcolor{red}{False}& 0&N/A& 0&N/A& 0&N/A \\[0.5ex]
+\textbf{35\_not}& 0&\textcolor{red}{False}& 0&N/A& 0&N/A& 0&N/A \\[0.5ex]
+\textbf{36\_not\_eq}& 0&\textcolor{red}{False}& 0&N/A& 0&N/A& 0&N/A \\[0.5ex]
+\textbf{37\_operator}& 0&\textcolor{red}{False}& 0&N/A& 0&N/A& 0&N/A \\[0.5ex]
+\textbf{38\_or}& 0&\textcolor{red}{False}& 0&N/A& 0&N/A& 0&N/A \\[0.5ex]
+\textbf{39\_or\_eq}& 0&\textcolor{red}{False}& 0&N/A& 0&N/A& 0&N/A \\[0.5ex]
+\textbf{40\_private}& 0&\textcolor{red}{False}& 0&N/A& 0&N/A& 0&N/A \\[0.5ex]
+\textbf{41\_protected}& 0&\textcolor{red}{False}& 0&N/A& 0&N/A& 0&N/A \\[0.5ex]
+\textbf{42\_public}& 0&\textcolor{red}{False}& 0&N/A& 0&N/A& 0&N/A \\[0.5ex]
+\textbf{43\_register}& 0&\textcolor{red}{False}& 0&N/A& 0&N/A& 0&N/A \\[0.5ex]
+\textbf{44\_reinterpret\_cast}& 0&\textcolor{red}{False}& 0&N/A& 0&N/A& 0&N/A \\[0.5ex]
+\textbf{45\_return}& 0&\textcolor{red}{False}& 0&N/A& 0&N/A& 0&N/A \\[0.5ex]
+\textbf{46\_short}& 0&\textcolor{red}{False}& 0&N/A& 0&N/A& 0&N/A \\[0.5ex]
+\textbf{47\_signed}& 0&\textcolor{red}{False}& 0&N/A& 0&N/A& 0&N/A \\[0.5ex]
+\textbf{48\_sizeof}& 0&\textcolor{red}{False}& 0&N/A& 0&N/A& 0&N/A \\[0.5ex]
+\textbf{49\_static}& 0&\textcolor{red}{False}& 0&N/A& 0&N/A& 0&N/A \\[0.5ex]
+\textbf{50\_static\_cast}& 0&\textcolor{red}{False}& 0&N/A& 0&N/A& 0&N/A \\[0.5ex]
+\textbf{51\_struct}& 127&\textcolor{green}{True}& 0&\textcolor{red}{False}& 0&N/A& 0&N/A \\[0.5ex]
+\textbf{52\_switch}& 0&\textcolor{red}{False}& 0&N/A& 0&N/A& 0&N/A \\[0.5ex]
+\textbf{53\_template}& 0&\textcolor{red}{False}& 0&N/A& 0&N/A& 0&N/A \\[0.5ex]
+\textbf{54\_this}& 0&\textcolor{red}{False}& 0&N/A& 0&N/A& 0&N/A \\[0.5ex]
+\textbf{55\_throw}& 0&\textcolor{red}{False}& 0&N/A& 0&N/A& 0&N/A \\[0.5ex]
+\textbf{56\_true}& 0&\textcolor{red}{False}& 0&N/A& 0&N/A& 0&N/A \\[0.5ex]
+\textbf{57\_try}& 0&\textcolor{red}{False}& 0&N/A& 0&N/A& 0&N/A \\[0.5ex]
+\textbf{58\_typedef}& 131&\textcolor{green}{True}& 0&\textcolor{red}{False}& 0&N/A& 0&N/A \\[0.5ex]
+\textbf{59\_typeid}& 0&\textcolor{red}{False}& 0&N/A& 0&N/A& 0&N/A \\[0.5ex]
+\textbf{60\_typename}& 0&\textcolor{red}{False}& 0&N/A& 0&N/A& 0&N/A \\[0.5ex]
+\textbf{61\_union}& 126&\textcolor{green}{True}& 0&\textcolor{red}{False}& 0&N/A& 0&N/A \\[0.5ex]
+\textbf{62\_unsigned}& 117&\textcolor{green}{True}& 0&\textcolor{red}{False}& 0&N/A& 0&N/A \\[0.5ex]
+\textbf{63\_using}& 0&\textcolor{red}{False}& 0&N/A& 0&N/A& 0&N/A \\[0.5ex]
+\textbf{64\_virtual}& 0&\textcolor{red}{False}& 0&N/A& 0&N/A& 0&N/A \\[0.5ex]
+\textbf{65\_void}& 0&\textcolor{red}{False}& 0&N/A& 0&N/A& 0&N/A \\[0.5ex]
+\textbf{66\_volatile}& 0&\textcolor{red}{False}& 0&N/A& 0&N/A& 0&N/A \\[0.5ex]
+\textbf{67\_wchar\_t}& 0&\textcolor{red}{False}& 0&N/A& 0&N/A& 0&N/A \\[0.5ex]
+\textbf{68\_while}& 107&\textcolor{green}{True}& 0&\textcolor{red}{False}& 0&N/A& 0&N/A \\[0.5ex]
+\textbf{69\_xor}& 0&\textcolor{red}{False}& 0&N/A& 0&N/A& 0&N/A \\[0.5ex]
+\textbf{70\_xor\_eq}& 0&\textcolor{red}{False}& 0&N/A& 0&N/A& 0&N/A \\[0.5ex]
+\bottomrule
+\end{xltabular}
+\newpage
+\section{C++11}
+\begin{xltabular}{\textwidth}{lcccccccc}
+\toprule
+\multicolumn{1}{Y}{}
+& \multicolumn{2}{Y}{\textbf{Parsing}}& \multicolumn{2}{Y}{\textbf{Code Generation}}& \multicolumn{2}{Y}{\textbf{Idempotency}}& \multicolumn{2}{Y}{\textbf{Correctness}}\\
+\cmidrule{2-9}&Time&Success&Time&Success&Tries&Success&Time&Success\\
+\midrule
+\endhead\textbf{00\_alignas}& 0&\textcolor{red}{False}& 0&N/A& 0&N/A& 0&N/A \\[0.5ex]
+\textbf{01\_alignof}& 0&\textcolor{red}{False}& 0&N/A& 0&N/A& 0&N/A \\[0.5ex]
+\textbf{02\_auto}& 130&\textcolor{green}{True}& 0&\textcolor{red}{False}& 0&N/A& 0&N/A \\[0.5ex]
+\textbf{03\_char16\_t}& 0&\textcolor{red}{False}& 0&N/A& 0&N/A& 0&N/A \\[0.5ex]
+\textbf{04\_char32\_t}& 0&\textcolor{red}{False}& 0&N/A& 0&N/A& 0&N/A \\[0.5ex]
+\textbf{05\_constexpr}& 0&\textcolor{red}{False}& 0&N/A& 0&N/A& 0&N/A \\[0.5ex]
+\textbf{06\_decltype}& 0&\textcolor{red}{False}& 0&N/A& 0&N/A& 0&N/A \\[0.5ex]
+\textbf{07\_noexcept}& 0&\textcolor{red}{False}& 0&N/A& 0&N/A& 0&N/A \\[0.5ex]
+\textbf{08\_nullptr}& 0&\textcolor{red}{False}& 0&N/A& 0&N/A& 0&N/A \\[0.5ex]
+\textbf{09\_static\_assert}& 0&\textcolor{red}{False}& 0&N/A& 0&N/A& 0&N/A \\[0.5ex]
+\textbf{10\_thread\_local}& 0&\textcolor{red}{False}& 0&N/A& 0&N/A& 0&N/A \\[0.5ex]
+\bottomrule
+\end{xltabular}
+\newpage
+\section{C++20}
+\begin{xltabular}{\textwidth}{lcccccccc}
+\toprule
+\multicolumn{1}{Y}{}
+& \multicolumn{2}{Y}{\textbf{Parsing}}& \multicolumn{2}{Y}{\textbf{Code Generation}}& \multicolumn{2}{Y}{\textbf{Idempotency}}& \multicolumn{2}{Y}{\textbf{Correctness}}\\
+\cmidrule{2-9}&Time&Success&Time&Success&Tries&Success&Time&Success\\
+\midrule
+\endhead\textbf{00\_char8\_t}& 0&\textcolor{red}{False}& 0&N/A& 0&N/A& 0&N/A \\[0.5ex]
+\textbf{01\_concept}& 0&\textcolor{red}{False}& 0&N/A& 0&N/A& 0&N/A \\[0.5ex]
+\textbf{02\_consteval}& 0&\textcolor{red}{False}& 0&N/A& 0&N/A& 0&N/A \\[0.5ex]
+\textbf{03\_constinit}& 0&\textcolor{red}{False}& 0&N/A& 0&N/A& 0&N/A \\[0.5ex]
+\textbf{04\_co\_await\_nf}& 0&\textcolor{red}{False}& 0&N/A& 0&N/A& 0&N/A \\[0.5ex]
+\textbf{05\_co\_return\_nf}& 0&\textcolor{red}{False}& 0&N/A& 0&N/A& 0&N/A \\[0.5ex]
+\textbf{06\_co\_yield}& 0&\textcolor{red}{False}& 0&N/A& 0&N/A& 0&N/A \\[0.5ex]
+\textbf{07\_export}& 0&\textcolor{red}{False}& 0&N/A& 0&N/A& 0&N/A \\[0.5ex]
+\textbf{08\_requires}& 0&\textcolor{red}{False}& 0&N/A& 0&N/A& 0&N/A \\[0.5ex]
+\bottomrule
+\end{xltabular}
+\newpage
+\section{Percentages}Percentage of passed tests:
+2.75 \%\end{document}

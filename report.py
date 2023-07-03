@@ -8,6 +8,10 @@ class standards(Enum):
     stand_20 = 3
     stand_98 = 4
     extensions = 5
+    cstand89 = 6
+    cstand99 = 7
+    cstand11 = 8
+    cstand23 = 9
 
 true_counter = 0
 false_counter = 0
@@ -58,6 +62,14 @@ def getStand(stand):
         return 3
     elif stand.name == "C++20":
         return 4
+    elif stand.name == "c89":
+        return 5
+    elif stand.name == "c99":
+        return 6
+    elif stand.name == "c11":
+        return 7
+    elif stand.name == "c23":
+        return 8
 
 class Standard:
     def __init__(self, name, result):

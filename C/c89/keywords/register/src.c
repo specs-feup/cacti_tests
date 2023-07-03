@@ -3,8 +3,8 @@
 int main()
 {
     register int counter;
-    for (counter = 0; counter < 5; counter++) {
-        printf("Counter value: %d\n", counter);
-    }
-    return 0;
+    counter = 1;
+    counter = 2;
+    counter = 3;
+    counter = -1;
 }

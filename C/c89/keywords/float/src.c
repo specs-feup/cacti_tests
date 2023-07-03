@@ -1,1 +1,3 @@
-const float pi = 3.14f;
+int main(void) {
+    const float pi = 3.14f;
+}

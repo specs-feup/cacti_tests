@@ -1,1 +1,5 @@
-typedef int int_t; // declares int_t to be an alias for the type int
+typedef int int_t;
+
+int main() {
+    int_t a = 0;
+}

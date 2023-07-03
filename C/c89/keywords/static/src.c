@@ -1,1 +1,5 @@
-static const int size = 5; // definition of a read-only variable with internal linkage
+static const int size = 5;
+
+int main() {
+    int a = size;
+}

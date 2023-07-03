@@ -1,13 +1,10 @@
-#include <stdio.h>
-
 #define ENABLE_FEATURE
 
-int main() {
+int main(void) {
+    int a;
 #if defined(ENABLE_FEATURE)
-    printf("Feature is enabled!\n");
+    a = 1;
 #else
-    printf("Feature is disabled!\n");
+    a = 2;
 #endif
-
-    return 0;
 }

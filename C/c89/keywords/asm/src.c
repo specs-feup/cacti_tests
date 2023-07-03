@@ -7,3 +7,7 @@ __asm__(".globl func\n\t"
         "movl $7, %eax\n\t"
         "ret\n\t"
         ".cfi_endproc");
+
+int main() {
+        func();
+}

@@ -4,4 +4,6 @@
 #  endif
 #endif
 
+int main() {}
+
 //TODO: check

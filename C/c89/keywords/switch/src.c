@@ -1,4 +1,7 @@
-switch(1) {
-    case 1 : puts("1"); // prints "1",
-    case 2 : puts("2"); // then prints "2" ("fall-through")
+int main() {
+    int a = 0;
+    switch(1) {
+        case 1 : a = 1;
+        case 2 : a = 2;
+    }
 }

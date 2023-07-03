@@ -1,9 +1,7 @@
-#include <stdio.h>
+extern double pi;
 
-extern const double pi;
-
-int main() {
-    printf("The value of pi is: %lf\n", pi);
-    return 0;
+int main(void) {
+    double x = pi;
 }
-const double pi = 3.14159;
+
+double pi = 3.14;

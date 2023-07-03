@@ -1,18 +1,33 @@
-#include <math.h>
 #include <stdio.h>
- 
-// Possible implementation of the tgmath.h macro cbrt
-#define cbrt(X) _Generic((X), \
-              long double: cbrtl, \
-                  default: cbrt,  \
-                    float: cbrtf  \
-              )(X)
- 
-int main(void)
-{
-    double x = 8.0;
-    const float y = 3.375;
-    printf("cbrt(8.0) = %f\n", cbrt(x)); // selects the default cbrt
-    printf("cbrtf(3.375) = %f\n", cbrt(y)); // converts const float to float,
-                                            // then selects cbrtf
+
+#define Square(X) _Generic((X), \
+                int: square_int, \
+                float: square_float, \
+                default: square_default \
+                )(X)
+
+void square_int(int x) {
+    int result = x * x;
+    printf("Square of %d is %d\n", x, result);
+}
+
+void square_float(float x) {
+    float result = x * x;
+    printf("Square of %f is %f\n", x, result);
+}
+
+void square_default() {
+    printf("Unsupported type for squaring.\n");
+}
+
+int main(void) {
+    int num_int = 5;
+    float num_float = 3.14;
+    char num_char = 'A';
+
+    Square(num_int);
+    Square(num_float);
+    Square(num_char);
+
+    return 0;
 }

@@ -1,5 +1,7 @@
-void f(char *s);                    // return type is void
+void f() {};
+
 int main(void)
 {
+    f();
     return 0;
 }

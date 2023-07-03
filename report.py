@@ -1,6 +1,18 @@
 import json
 import os
+import argparse
 from enum import Enum
+
+standard_name_to_index = {
+    "C++98": 1,
+    "C++11": 2,
+    "C++17": 3,
+    "C++20": 4,
+    "c89": 5,
+    "c99": 6,
+    "c11": 7,
+    "c23": 8
+}
 
 class standards(Enum):
     stand_11 = 1
@@ -54,22 +66,7 @@ def latexBool(bool):
         return latexBool
 
 def getStand(stand):
-    if stand.name == "C++98":
-        return 1
-    elif stand.name == "C++11":
-        return 2
-    elif stand.name == "C++17":
-        return 3
-    elif stand.name == "C++20":
-        return 4
-    elif stand.name == "c89":
-        return 5
-    elif stand.name == "c99":
-        return 6
-    elif stand.name == "c11":
-        return 7
-    elif stand.name == "c23":
-        return 8
+    return standard_name_to_index[stand.name]
 
 class Standard:
     def __init__(self, name, result):
@@ -89,15 +86,22 @@ class Test:
         self.tries= tries
 
 if __name__ == '__main__':
-    root_dir = './'
-    transpiler = os.sys.argv[1]
+    
+    parser = argparse.ArgumentParser(description="Script to generate a LaTeX report based on CACTI's output")
+
+    parser.add_argument('-S', '--source', dest="src_path", required=True, help='path to the output directory created by CACTI')
+    parser.add_argument('-T', '--transpiler', dest="transpiler", required=True, help="name of the desired transpiler. inside the output directory there must be a directory with the transpiler's name")
+
+    args = parser.parse_args()
+
+    transpiler = args.transpiler
 
     # creates path to generate the latex file
     # latex_path = os.path.join(root_dir, "report.tex")
     f = open(transpiler+".tex", "w")
 
     # different test types folders
-    general_path = os.path.join(root_dir, "output/"+transpiler+"/")
+    general_path = os.path.join(args.src_path, transpiler)
 
     # write usepackages and title to the tex file
     f.write(r"\documentclass{article}"+"\n"+r"\usepackage{booktabs}"+"\n"+r"\usepackage{xltabular}"+"\n")
@@ -145,7 +149,8 @@ if __name__ == '__main__':
         stand = Standard(standard_spec, results)
         results=[]
         standards.append(stand)
-        general_path = os.path.join(root_dir, "output/"+transpiler+"/")
+        general_path = os.path.join(args.src_path, transpiler)
+
     
     standards.sort(key=lambda x: getStand(x))
 

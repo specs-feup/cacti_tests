@@ -1,0 +1,1 @@
+short temperature = -10;

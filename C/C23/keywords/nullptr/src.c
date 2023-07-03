@@ -8,5 +8,5 @@ void g(int*)
 
 int main(){
     g(nullptr);
-    auto cloned_nullptr = nullptr;
+    void* cloned_nullptr = nullptr;
 }

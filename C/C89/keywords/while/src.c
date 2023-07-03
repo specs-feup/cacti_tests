@@ -1,10 +1,10 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-enum { SIZE = 8 };
 int main(void)
 {
-    // trivial example
-    int array[SIZE], n = 0;
-    while(n < SIZE) array[n++] = rand() % 2;
+    int a = 0;
+    int b = 10;
+    int i = 0;
+    while (i < b) {
+        a = a + 1;
+        i = i + 1;
+    }
 }

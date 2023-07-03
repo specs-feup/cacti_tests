@@ -1,13 +1,8 @@
-#include <stdio.h>
-#include <stdlib.h>
-enum { SIZE = 8 };
 int main(void)
 {
-    int array[SIZE];
-    for(size_t i = 0 ; i < SIZE; ++i)
-        array [i] = rand() % 2;
-    printf("Array filled!\n");
-    for (size_t i = 0; i < SIZE; ++i)
-        printf("%d ", array[i]);
-    putchar('\n');
+    int x = 10;
+    int a = 0;
+    for (int i = 0; i < x; i = i + 1) {
+        a = a + 1;
+    }
 }

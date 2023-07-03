@@ -1,11 +1,10 @@
-#include <stdio.h>
- 
 int main(void)
 {
     int i = 2;
+    int a;
     if (i > 2) {
-        printf("first is true\n");
+        a = -1;
     } else {
-        printf("first is false\n");
+        a = 1;
     }
 }

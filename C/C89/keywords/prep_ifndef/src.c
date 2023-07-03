@@ -1,12 +1,11 @@
 #define ABCD 2
-#include <stdio.h>
  
 int main(void)
 {
- 
+    int a;
 #ifndef ABCD
-    printf("1: no\n");
+    a = 1;
 #else
-    printf("1: yes\n");
+    a = -1;
 #endif
 }

@@ -1,3 +1,4 @@
-typeof(int) a, b;
-typeof(a+b) c;
-
+int main() {
+    typeof(int) a, b;
+    typeof(a+b) c;
+}

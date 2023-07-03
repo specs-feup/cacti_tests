@@ -8,4 +8,6 @@ struct v
    int m;
 } v1;
  
-v1.i = 2;   // valid
+int main() {
+    v1.i = 2;    
+}

@@ -1,12 +1,10 @@
-#include <stdio.h>
-
 #define FEATURE_LEVEL 1
 
 int main() {
+    int a;
 #if FEATURE_LEVEL == 1
-    printf("Feature level 1\n");
+    a = 1;
 #else
-    printf("Unknown feature level\n");
+    a = -1;
 #endif
-    return 0;
 }

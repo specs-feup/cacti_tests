@@ -1,1 +1,3 @@
-volatile int n = 1; // object of volatile-qualified type
+int main() {
+    volatile int n = 1;
+}

@@ -29,3 +29,5 @@ int main(void)
     printf("4: no2\n");
 #endif
 }
+
+int main() {}

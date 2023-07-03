@@ -1,10 +1,7 @@
-inline const char *saddr(void) // the inline definition for use in this file
-{
-    static const char name[] = "saddr";
-    return name;
+static inline int foo(int x) {
+    return x + 1;
 }
-int compare_name(void)
-{
-    return saddr() == saddr(); // unspecified behavior, one call could be external
+
+int main() {
+    int a = foo(0);
 }
-extern const char *saddr(void); // an external definition is generated, too

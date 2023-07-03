@@ -1,1 +1,3 @@
-short temperature = -10;
+int main() {
+    short temperature = -10;
+}

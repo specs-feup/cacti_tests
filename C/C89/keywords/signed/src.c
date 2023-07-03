@@ -1,1 +1,3 @@
-signed int n = -42;
+int main() {
+    signed int n = -42;
+}

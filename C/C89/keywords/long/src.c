@@ -1,1 +1,3 @@
-const long largeNumber = 1234567890L;
+int main() {
+    long largeNumber = 1234567890L;
+}

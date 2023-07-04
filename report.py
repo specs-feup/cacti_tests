@@ -108,11 +108,51 @@ if __name__ == '__main__':
     f.write(r"\usepackage{xcolor}"+"\n")
     f.write(r"\usepackage[top=1.5cm,bottom=3cm,left=1.5cm,right=1cm,marginparwidth=1.75cm]{geometry}"+"\n"+r"\begin{document}"+"\n")
     f.write(r"\title{" + transpiler.capitalize() + r" Testing Results}"+"\n"+r"\maketitle"+"\n"+r"\newcolumntype{Y}{>{\centering\arraybackslash}X}"+"\n")
-   
-   
+    
     standards= []
     results= []
     
+    def processDirectory(general_path):
+        results = []
+        for item in os.listdir(general_path):
+            item_path = os.path.join(general_path, item)
+            if os.path.isdir(item_path):
+                if item in standard_name_to_index:  # checks if item corresponds to a standard
+                    results.sort(key=lambda x: x.name)
+                    stand = Standard(item, results)
+                    results = []
+                    standards.append(stand)
+                    processDirectory(item_path, results, standards)
+            elif os.path.isfile(item_path) and item.endswith('.json'):
+                processFile(item_path, results)
+
+    def processFile(file_path, results):
+        with open(file_path) as json_file:  # reads the JSON file
+            parsed_json = json.load(json_file)
+            name = ""
+            time = ""
+            tests = []
+            for key, value in parsed_json.items():
+                if key == "name":
+                    name = parsed_json[key]
+                elif key == "test_idempotency":
+                    test = Test(key, parsed_json[key]["success"], tries=len(parsed_json[key]["results"]))
+                    tests.append(test)
+                else:
+                    if parsed_json[key]["success"]:
+                        test = Test(key, parsed_json[key]["success"], parsed_json[key]["time"])
+                    else:
+                        test = Test(key, parsed_json[key]["success"])
+                    tests.append(test)
+
+            result = Result(name, tests)
+            results.append(result)
+            return results
+
+
+    processDirectory(general_path)
+    '''
+    print("1st Gen Path: ", general_path)     
     for standard_spec in os.listdir(general_path):              # standard folders
         general_path = os.path.join(general_path, standard_spec)   
         for general_type in os.listdir(general_path):           # cpp reference categories
@@ -144,16 +184,16 @@ if __name__ == '__main__':
 
                                 result = Result(name, tests)
                                 results.append(result)
-        # sort tests since they are not granted to be in order
+        #sort tests since they are not granted to be in order
         results.sort(key=lambda x:x.name)
         stand = Standard(standard_spec, results)
         results=[]
         standards.append(stand)
         general_path = os.path.join(args.src_path, transpiler)
-
-    
+        print("2nd Gen Path: ", general_path)
+    '''
     standards.sort(key=lambda x: getStand(x))
-
+    print("Standards: ", standards)
     for standard in standards:
         f.write(r"\section{"+ standard.name + r"}"+"\n")
         # start table with a column for source file's name and 2 columns per test  

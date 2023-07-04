@@ -109,24 +109,30 @@ if __name__ == '__main__':
     f.write(r"\usepackage[top=1.5cm,bottom=3cm,left=1.5cm,right=1cm,marginparwidth=1.75cm]{geometry}"+"\n"+r"\begin{document}"+"\n")
     f.write(r"\title{" + transpiler.capitalize() + r" Testing Results}"+"\n"+r"\maketitle"+"\n"+r"\newcolumntype{Y}{>{\centering\arraybackslash}X}"+"\n")
     
-    standards= []
-    results= []
+
     
     def processDirectory(general_path):
         results = []
+        standards = []
         for item in os.listdir(general_path):
             item_path = os.path.join(general_path, item)
             if os.path.isdir(item_path):
                 if item in standard_name_to_index:  # checks if item corresponds to a standard
+                    results.extend(processDirectory(item_path)[0])
                     results.sort(key=lambda x: x.name)
+                    print("Results: ", results)
                     stand = Standard(item, results)
                     results = []
                     standards.append(stand)
-                    processDirectory(item_path, results, standards)
+                else:
+                    results.extend(processDirectory(item_path)[0])
             elif os.path.isfile(item_path) and item.endswith('.json'):
-                processFile(item_path, results)
+                result = processFile(item_path)
+                results.append(result)
+        return [results,standards]
+            
 
-    def processFile(file_path, results):
+    def processFile(file_path):
         with open(file_path) as json_file:  # reads the JSON file
             parsed_json = json.load(json_file)
             name = ""
@@ -146,12 +152,15 @@ if __name__ == '__main__':
                     tests.append(test)
 
             result = Result(name, tests)
-            results.append(result)
-            return results
+            return result
 
 
-    processDirectory(general_path)
+    standards = processDirectory(general_path)[1]
+    
     '''
+
+    standards= []
+    results= []
     print("1st Gen Path: ", general_path)     
     for standard_spec in os.listdir(general_path):              # standard folders
         general_path = os.path.join(general_path, standard_spec)   
@@ -193,7 +202,6 @@ if __name__ == '__main__':
         print("2nd Gen Path: ", general_path)
     '''
     standards.sort(key=lambda x: getStand(x))
-    print("Standards: ", standards)
     for standard in standards:
         f.write(r"\section{"+ standard.name + r"}"+"\n")
         # start table with a column for source file's name and 2 columns per test  

@@ -8,36 +8,74 @@
 \maketitle
 \newcolumntype{Y}{>{\centering\arraybackslash}X}
 \section{c89}
-\begin{xltabular}{\textwidth}{lcc}
+\begin{xltabular}{\textwidth}{lcccccccc}
 \toprule
 \multicolumn{1}{Y}{}
-& \multicolumn{2}{Y}{\textbf{Parsing}}\\
-\cmidrule{2-3}&Time&Success\\
+& \multicolumn{2}{Y}{\textbf{Parsing}}& \multicolumn{2}{Y}{\textbf{Code Generation}}& \multicolumn{2}{Y}{\textbf{Idempotency}}& \multicolumn{2}{Y}{\textbf{Correctness}}\\
+\cmidrule{2-9}&Time&Success&Time&Success&Tries&Success&Time&Success\\
 \midrule
 \endhead\textbf{Asm}& 0&\textcolor{red}{False} \\[0.5ex]
-\textbf{Auto}& 0.334&\textcolor{green}{True}& 0.064&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.047&\textcolor{green}{True} \\[0.5ex]
-\textbf{Break}& 0.396&\textcolor{green}{True}& 0.108&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.046&\textcolor{green}{True} \\[0.5ex]
-\textbf{Case}& 0.37&\textcolor{green}{True}& 0.074&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.046&\textcolor{green}{True} \\[0.5ex]
-\textbf{Char}& 0.338&\textcolor{green}{True}& 0.062&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.038&\textcolor{green}{True} \\[0.5ex]
-\textbf{Const}& 0&\textcolor{red}{False} \\[0.5ex]
-\textbf{Continue}& 0.402&\textcolor{green}{True}& 0.11&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.048&\textcolor{green}{True} \\[0.5ex]
-\textbf{Default}& 0&\textcolor{red}{False} \\[0.5ex]
-\textbf{Do}& 0.389&\textcolor{green}{True}& 0.112&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.074&\textcolor{green}{True} \\[0.5ex]
-\textbf{Double}& 0.33&\textcolor{green}{True}& 0.062&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.042&\textcolor{green}{True} \\[0.5ex]
-\textbf{Else}& 0.339&\textcolor{green}{True}& 0.085&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.049&\textcolor{green}{True} \\[0.5ex]
-\textbf{Enum}& 0.368&\textcolor{green}{True}& 0.077&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.046&\textcolor{green}{True} \\[0.5ex]
-\textbf{Extern}& 0.346&\textcolor{green}{True}& 0.089&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.047&\textcolor{green}{True} \\[0.5ex]
-\textbf{Float}& 0.319&\textcolor{green}{True}& 0.063&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.039&\textcolor{green}{True} \\[0.5ex]
-\textbf{For}& 0.374&\textcolor{green}{True}& 0.122&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.066&\textcolor{green}{True} \\[0.5ex]
-\textbf{Fortran}& 0.279&\textcolor{green}{True}& 0.041&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.039&\textcolor{green}{True} \\[0.5ex]
-\textbf{Goto}& 0.331&\textcolor{green}{True}& 0.1&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.05&\textcolor{green}{True} \\[0.5ex]
-\textbf{If}& 0.363&\textcolor{green}{True}& 0.077&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.048&\textcolor{green}{True} \\[0.5ex]
-\textbf{Int}& 0.313&\textcolor{green}{True}& 0.059&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.04&\textcolor{green}{True} \\[0.5ex]
-\textbf{Long}& 0.296&\textcolor{green}{True}& 0.064&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.039&\textcolor{green}{True} \\[0.5ex]
-\textbf{Prep\_define}& 0.343&\textcolor{green}{True}& 0.092&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.042&\textcolor{green}{True} \\[0.5ex]
-\textbf{Prep\_defined}& 0.345&\textcolor{green}{True}& 0.074&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.053&\textcolor{green}{True} \\[0.5ex]
-\textbf{Prep\_elif}& 0.32&\textcolor{green}{True}& 0.074&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.048&\textcolor{green}{True} \\[0.5ex]
-\textbf{Prep\_else}& 0.311&\textcolor{green}{True}& 0.085&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.047&\textcolor{green}{True} \\[0.5ex]
+\textbf{Auto}& 0.378&\textcolor{green}{True}& 0.091&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.042&\textcolor{green}{True} \\[0.5ex]
+\textbf{Break}& 0.442&\textcolor{green}{True}& 0.092&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.04&\textcolor{green}{True} \\[0.5ex]
+\textbf{Case}& 0.338&\textcolor{green}{True}& 0.085&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.041&\textcolor{green}{True} \\[0.5ex]
+\textbf{Char}& 0.343&\textcolor{green}{True}& 0.06&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.04&\textcolor{green}{True} \\[0.5ex]
+\textbf{Const}& 0.331&\textcolor{green}{True}& 0.067&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.046&\textcolor{green}{True} \\[0.5ex]
+\textbf{Continue}& 0.329&\textcolor{green}{True}& 0.087&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.047&\textcolor{green}{True} \\[0.5ex]
+\textbf{Default}& 0.336&\textcolor{green}{True}& 0.09&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.044&\textcolor{green}{True} \\[0.5ex]
+\textbf{Do}& 0.32&\textcolor{green}{True}& 0.085&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.042&\textcolor{green}{True} \\[0.5ex]
+\textbf{Double}& 0.327&\textcolor{green}{True}& 0.065&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.04&\textcolor{green}{True} \\[0.5ex]
+\textbf{Else}& 0.3&\textcolor{green}{True}& 0.088&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.042&\textcolor{green}{True} \\[0.5ex]
+\textbf{Enum}& 0.318&\textcolor{green}{True}& 0.074&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.048&\textcolor{green}{True} \\[0.5ex]
+\textbf{Extern}& 0.308&\textcolor{green}{True}& 0.075&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.041&\textcolor{green}{True} \\[0.5ex]
+\textbf{Float}& 0.364&\textcolor{green}{True}& 0.079&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.04&\textcolor{green}{True} \\[0.5ex]
+\textbf{For}& 0.323&\textcolor{green}{True}& 0.065&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.047&\textcolor{green}{True} \\[0.5ex]
+\textbf{Goto}& 0.342&\textcolor{green}{True}& 0.1&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.046&\textcolor{green}{True} \\[0.5ex]
+\textbf{If}& 0.339&\textcolor{green}{True}& 0.072&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.041&\textcolor{green}{True} \\[0.5ex]
+\textbf{Int}& 0.327&\textcolor{green}{True}& 0.066&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.041&\textcolor{green}{True} \\[0.5ex]
+\textbf{Long}& 0.307&\textcolor{green}{True}& 0.065&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.042&\textcolor{green}{True} \\[0.5ex]
+\textbf{Prep\_define}& 0.328&\textcolor{green}{True}& 0.085&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.041&\textcolor{green}{True} \\[0.5ex]
+\textbf{Prep\_defined}& 0.313&\textcolor{green}{True}& 0.07&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.041&\textcolor{green}{True} \\[0.5ex]
+\textbf{Prep\_elif}& 0.308&\textcolor{green}{True}& 0.075&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.041&\textcolor{green}{True} \\[0.5ex]
+\textbf{Prep\_else}& 0.335&\textcolor{green}{True}& 0.06&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.04&\textcolor{green}{True} \\[0.5ex]
+\textbf{Prep\_endif}& 0.379&\textcolor{green}{True}& 0.101&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.043&\textcolor{green}{True} \\[0.5ex]
+\textbf{Prep\_error}& 0.334&\textcolor{green}{True}& 0.073&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.04&\textcolor{green}{True} \\[0.5ex]
+\textbf{Prep\_if}& 0.316&\textcolor{green}{True}& 0.061&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.04&\textcolor{green}{True} \\[0.5ex]
+\textbf{Prep\_ifdef}& 0.345&\textcolor{green}{True}& 0.078&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.041&\textcolor{green}{True} \\[0.5ex]
+\textbf{Prep\_ifndef}& 0.327&\textcolor{green}{True}& 0.063&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.041&\textcolor{green}{True} \\[0.5ex]
+\textbf{Prep\_include}& 0.324&\textcolor{green}{True}& 0.06&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.048&\textcolor{green}{True} \\[0.5ex]
+\textbf{Prep\_line}& 0.374&\textcolor{green}{True}& 0.093&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.043&\textcolor{green}{True} \\[0.5ex]
+\textbf{Prep\_pragma}& 0.352&\textcolor{green}{True}& 0.087&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.043&\textcolor{green}{True} \\[0.5ex]
+\textbf{Prep\_undef}& 0.306&\textcolor{green}{True}& 0.085&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.042&\textcolor{green}{True} \\[0.5ex]
+\textbf{Register}& 0.396&\textcolor{green}{True}& 0.081&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.065&\textcolor{green}{True} \\[0.5ex]
+\textbf{Return}& 0.301&\textcolor{green}{True}& 0.08&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.04&\textcolor{green}{True} \\[0.5ex]
+\textbf{Short}& 0.321&\textcolor{green}{True}& 0.06&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.041&\textcolor{green}{True} \\[0.5ex]
+\textbf{Signed}& 0.301&\textcolor{green}{True}& 0.071&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.04&\textcolor{green}{True} \\[0.5ex]
+\textbf{Sizeof}& 0.371&\textcolor{green}{True}& 0.083&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.048&\textcolor{green}{True} \\[0.5ex]
+\textbf{Static}& 0.35&\textcolor{green}{True}& 0.069&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.039&\textcolor{green}{True} \\[0.5ex]
+\textbf{Struct}& 0.331&\textcolor{green}{True}& 0.103&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.042&\textcolor{green}{True} \\[0.5ex]
+\textbf{Switch}& 0.382&\textcolor{green}{True}& 0.109&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.041&\textcolor{green}{True} \\[0.5ex]
+\textbf{Typedef}& 0.368&\textcolor{green}{True}& 0.083&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.04&\textcolor{green}{True} \\[0.5ex]
+\textbf{Union}& 0.329&\textcolor{green}{True}& 0.083&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0&\textcolor{red}{False} \\[0.5ex]
+\textbf{Unsigned}& 0.343&\textcolor{green}{True}& 0.075&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.043&\textcolor{green}{True} \\[0.5ex]
+\textbf{Void}& 0.325&\textcolor{green}{True}& 0.07&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.04&\textcolor{green}{True} \\[0.5ex]
+\textbf{Volatile}& 0.317&\textcolor{green}{True}& 0.062&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.04&\textcolor{green}{True} \\[0.5ex]
+\textbf{While}& 0.351&\textcolor{green}{True}& 0.079&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.041&\textcolor{green}{True} \\[0.5ex]
+\bottomrule
+\end{xltabular}
+\newpage
+\section{c99}
+\begin{xltabular}{\textwidth}{lcccccccc}
+\toprule
+\multicolumn{1}{Y}{}
+& \multicolumn{2}{Y}{\textbf{Parsing}}& \multicolumn{2}{Y}{\textbf{Code Generation}}& \multicolumn{2}{Y}{\textbf{Idempotency}}& \multicolumn{2}{Y}{\textbf{Correctness}}\\
+\cmidrule{2-9}&Time&Success&Time&Success&Tries&Success&Time&Success\\
+\midrule
+\endhead\textbf{\_bool}& 0&\textcolor{red}{False} \\[0.5ex]
+\textbf{\_complex}& 0&\textcolor{red}{False} \\[0.5ex]
+\textbf{\_imaginary}& 0&\textcolor{red}{False} \\[0.5ex]
+\textbf{\_pragma}& 0.333&\textcolor{green}{True}& 0.055&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.04&\textcolor{green}{True} \\[0.5ex]
+\textbf{Inline}& 0.324&\textcolor{green}{True}& 0.083&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.042&\textcolor{green}{True} \\[0.5ex]
+\textbf{Restrict}& 0&\textcolor{red}{False} \\[0.5ex]
 \bottomrule
 \end{xltabular}
 \newpage
@@ -48,47 +86,47 @@
 & \multicolumn{2}{Y}{\textbf{Parsing}}& \multicolumn{2}{Y}{\textbf{Code Generation}}& \multicolumn{2}{Y}{\textbf{Idempotency}}& \multicolumn{2}{Y}{\textbf{Correctness}}\\
 \cmidrule{2-9}&Time&Success&Time&Success&Tries&Success&Time&Success\\
 \midrule
-\endhead\textbf{\_alignas}& 0.321&\textcolor{green}{True}& 0.066&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.046&\textcolor{green}{True} \\[0.5ex]
+\endhead\textbf{\_alignas}& 0.371&\textcolor{green}{True}& 0.074&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.042&\textcolor{green}{True} \\[0.5ex]
 \textbf{\_alignof}& 0&\textcolor{red}{False} \\[0.5ex]
-\textbf{\_atomic}& 0&\textcolor{red}{False} \\[0.5ex]
+\textbf{\_atomic}& 0.305&\textcolor{green}{True}& 0.072&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.041&\textcolor{green}{True} \\[0.5ex]
 \textbf{\_generic}& 0&\textcolor{red}{False} \\[0.5ex]
-\textbf{\_noreturn}& 0.4&\textcolor{green}{True}& 0.095&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.056&\textcolor{green}{True} \\[0.5ex]
-\textbf{\_static\_assert}& 0&\textcolor{red}{False} \\[0.5ex]
-\textbf{\_thread\_local}& 0.282&\textcolor{green}{True}& 0.033&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.038&\textcolor{green}{True} \\[0.5ex]
+\textbf{\_noreturn}& 0.383&\textcolor{green}{True}& 0.089&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.079&\textcolor{green}{True} \\[0.5ex]
+\textbf{\_static\_assert}& 0.317&\textcolor{green}{True}& 0.066&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.042&\textcolor{green}{True} \\[0.5ex]
+\textbf{\_thread\_local}& 0.37&\textcolor{green}{True}& 0.11&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.062&\textcolor{green}{True} \\[0.5ex]
 \bottomrule
 \end{xltabular}
 \newpage
 \section{c23}
-\begin{xltabular}{\textwidth}{lcc}
+\begin{xltabular}{\textwidth}{lcccccccc}
 \toprule
 \multicolumn{1}{Y}{}
-& \multicolumn{2}{Y}{\textbf{Parsing}}\\
-\cmidrule{2-3}&Time&Success\\
+& \multicolumn{2}{Y}{\textbf{Parsing}}& \multicolumn{2}{Y}{\textbf{Code Generation}}& \multicolumn{2}{Y}{\textbf{Idempotency}}& \multicolumn{2}{Y}{\textbf{Correctness}}\\
+\cmidrule{2-9}&Time&Success&Time&Success&Tries&Success&Time&Success\\
 \midrule
 \endhead\textbf{\_bitint}& 0&\textcolor{red}{False} \\[0.5ex]
 \textbf{\_decimal128}& 0&\textcolor{red}{False} \\[0.5ex]
 \textbf{\_decimal32}& 0&\textcolor{red}{False} \\[0.5ex]
 \textbf{\_decimal64}& 0&\textcolor{red}{False} \\[0.5ex]
-\textbf{Alignas}& 0.322&\textcolor{green}{True}& 0.051&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.046&\textcolor{green}{True} \\[0.5ex]
+\textbf{Alignas}& 0.444&\textcolor{green}{True}& 0.069&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.043&\textcolor{green}{True} \\[0.5ex]
 \textbf{Alignof}& 0&\textcolor{red}{False} \\[0.5ex]
-\textbf{Bool}& 0.35&\textcolor{green}{True}& 0.088&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.047&\textcolor{green}{True} \\[0.5ex]
-\textbf{Constexpr}& 0.338&\textcolor{green}{True}& 0.056&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0&\textcolor{red}{False} \\[0.5ex]
-\textbf{False}& 0.331&\textcolor{green}{True}& 0.078&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.047&\textcolor{green}{True} \\[0.5ex]
-\textbf{Nullptr}& 0.343&\textcolor{green}{True}& 0.093&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0&\textcolor{red}{False} \\[0.5ex]
-\textbf{Prep \_\_has\_include}& 0.324&\textcolor{green}{True}& 0.05&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.044&\textcolor{green}{True} \\[0.5ex]
-\textbf{Prep\_\_\_has\_c\_attribute}& 0.294&\textcolor{green}{True}& 0.044&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.038&\textcolor{green}{True} \\[0.5ex]
-\textbf{Prep\_\_\_has\_embed}& 0.289&\textcolor{green}{True}& 0.04&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.039&\textcolor{green}{True} \\[0.5ex]
-\textbf{Prep\_elifdef}& 0.364&\textcolor{green}{True}& 0.078&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.047&\textcolor{green}{True} \\[0.5ex]
-\textbf{Prep\_elifndef}& 0.345&\textcolor{green}{True}& 0.078&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.051&\textcolor{green}{True} \\[0.5ex]
+\textbf{Bool}& 0.413&\textcolor{green}{True}& 0.075&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0&\textcolor{red}{False} \\[0.5ex]
+\textbf{Constexpr}& 0.371&\textcolor{green}{True}& 0.073&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0&\textcolor{red}{False} \\[0.5ex]
+\textbf{False}& 0.426&\textcolor{green}{True}& 0.073&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0&\textcolor{red}{False} \\[0.5ex]
+\textbf{Nullptr}& 0.341&\textcolor{green}{True}& 0.087&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0&\textcolor{red}{False} \\[0.5ex]
+\textbf{Prep \_\_has\_include}& 0.346&\textcolor{green}{True}& 0.052&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.054&\textcolor{green}{True} \\[0.5ex]
+\textbf{Prep\_\_\_has\_c\_attribute}& 0.354&\textcolor{green}{True}& 0.05&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.04&\textcolor{green}{True} \\[0.5ex]
+\textbf{Prep\_\_\_has\_embed}& 0.374&\textcolor{green}{True}& 0.094&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0&\textcolor{red}{False} \\[0.5ex]
+\textbf{Prep\_elifdef}& 0&\textcolor{red}{False} \\[0.5ex]
+\textbf{Prep\_elifndef}& 0.434&\textcolor{green}{True}& 0.089&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.048&\textcolor{green}{True} \\[0.5ex]
 \textbf{Prep\_embed}& 0&\textcolor{red}{False} \\[0.5ex]
-\textbf{Prep\_warning}& 0.348&\textcolor{green}{True}& 0.073&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.047&\textcolor{green}{True} \\[0.5ex]
-\textbf{Static\_assert}& 0&\textcolor{red}{False} \\[0.5ex]
-\textbf{Thread\_local}& 0.291&\textcolor{green}{True}& 0.032&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.038&\textcolor{green}{True} \\[0.5ex]
-\textbf{True}& 0.317&\textcolor{green}{True}& 0.058&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.047&\textcolor{green}{True} \\[0.5ex]
+\textbf{Prep\_warning}& 0.363&\textcolor{green}{True}& 0.072&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.055&\textcolor{green}{True} \\[0.5ex]
+\textbf{Static\_assert}& 0.413&\textcolor{green}{True}& 0.09&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.043&\textcolor{green}{True} \\[0.5ex]
+\textbf{Thread\_local}& 0.366&\textcolor{green}{True}& 0.041&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.039&\textcolor{green}{True} \\[0.5ex]
+\textbf{True}& 0.351&\textcolor{green}{True}& 0.071&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0&\textcolor{red}{False} \\[0.5ex]
 \textbf{Typeof}& 0&\textcolor{red}{False} \\[0.5ex]
 \textbf{Typeof\_unqual}& 0&\textcolor{red}{False} \\[0.5ex]
 \bottomrule
 \end{xltabular}
 \newpage
 \section{Percentages}Percentage of passed tests:
-89.02 \%\end{document}
+91.67 \%\end{document}

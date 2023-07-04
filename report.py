@@ -68,6 +68,48 @@ def latexBool(bool):
 def getStand(stand):
     return standard_name_to_index[stand.name]
 
+def processDirectory(general_path):
+    results = []
+    standards = []
+    for item in os.listdir(general_path):
+        item_path = os.path.join(general_path, item)
+        if os.path.isdir(item_path):
+            if item in standard_name_to_index:  # checks if item corresponds to a standard
+                results.extend(processDirectory(item_path)[0])
+                results.sort(key=lambda x: x.name)
+                stand = Standard(item, results)
+                results = []
+                standards.append(stand)
+            else:
+                results.extend(processDirectory(item_path)[0])
+        elif os.path.isfile(item_path) and item.endswith('.json'):
+            result = processFile(item_path)
+            results.append(result)
+    return [results,standards]
+        
+
+def processFile(file_path):
+    with open(file_path) as json_file:  # reads the JSON file
+        parsed_json = json.load(json_file)
+        name = ""
+        time = ""
+        tests = []
+        for key, value in parsed_json.items():
+            if key == "name":
+                name = parsed_json[key]
+            elif key == "test_idempotency":
+                test = Test(key, parsed_json[key]["success"], tries=len(parsed_json[key]["results"]))
+                tests.append(test)
+            else:
+                if parsed_json[key]["success"]:
+                    test = Test(key, parsed_json[key]["success"], parsed_json[key]["time"])
+                else:
+                    test = Test(key, parsed_json[key]["success"])
+                tests.append(test)
+
+        result = Result(name, tests)
+        return result
+
 class Standard:
     def __init__(self, name, result):
         self.name = name
@@ -111,115 +153,45 @@ if __name__ == '__main__':
     
 
     
-    def processDirectory(general_path):
-        results = []
-        standards = []
-        for item in os.listdir(general_path):
-            item_path = os.path.join(general_path, item)
-            if os.path.isdir(item_path):
-                if item in standard_name_to_index:  # checks if item corresponds to a standard
-                    results.extend(processDirectory(item_path)[0])
-                    results.sort(key=lambda x: x.name)
-                    print("Results: ", results)
-                    stand = Standard(item, results)
-                    results = []
-                    standards.append(stand)
-                else:
-                    results.extend(processDirectory(item_path)[0])
-            elif os.path.isfile(item_path) and item.endswith('.json'):
-                result = processFile(item_path)
-                results.append(result)
-        return [results,standards]
-            
-
-    def processFile(file_path):
-        with open(file_path) as json_file:  # reads the JSON file
-            parsed_json = json.load(json_file)
-            name = ""
-            time = ""
-            tests = []
-            for key, value in parsed_json.items():
-                if key == "name":
-                    name = parsed_json[key]
-                elif key == "test_idempotency":
-                    test = Test(key, parsed_json[key]["success"], tries=len(parsed_json[key]["results"]))
-                    tests.append(test)
-                else:
-                    if parsed_json[key]["success"]:
-                        test = Test(key, parsed_json[key]["success"], parsed_json[key]["time"])
-                    else:
-                        test = Test(key, parsed_json[key]["success"])
-                    tests.append(test)
-
-            result = Result(name, tests)
-            return result
 
 
     standards = processDirectory(general_path)[1]
     
-    '''
-
-    standards= []
-    results= []
-    print("1st Gen Path: ", general_path)     
-    for standard_spec in os.listdir(general_path):              # standard folders
-        general_path = os.path.join(general_path, standard_spec)   
-        for general_type in os.listdir(general_path):           # cpp reference categories
-            general_path = os.path.join(general_path, general_type)
-            for type_tests in os.listdir(general_path):         # cpp reference subcategories
-                type_path = os.path.join(general_path, type_tests)
-                for indiv_tests in os.listdir(type_path):       # multiple source files
-                    indiv_path = os.path.join(type_path, indiv_tests)
-                    for filename in os.listdir(indiv_path):
-                        if filename.endswith('.json'):          # loops over files to find JSON files
-                            json_path = os.path.join(indiv_path, filename)    
-                            with open(json_path) as json_file:  # reads the JSON file
-                                parsed_json= json.load(json_file)
-                                name = ""
-                                time = ""
-                                tests= []
-                                for key,value in parsed_json.items():
-                                    if key == "name":
-                                        name = parsed_json[key]
-                                    elif key == "test_idempotency":
-                                        test = Test(key, parsed_json[key]["success"], tries=len(parsed_json[key]["results"]))
-                                        tests.append(test)
-                                    else:
-                                        if (parsed_json[key]["success"]):
-                                            test = Test(key, parsed_json[key]["success"], parsed_json[key]["time"]) 
-                                        else:
-                                            test = Test(key, parsed_json[key]["success"])
-                                        tests.append(test)
-
-                                result = Result(name, tests)
-                                results.append(result)
-        #sort tests since they are not granted to be in order
-        results.sort(key=lambda x:x.name)
-        stand = Standard(standard_spec, results)
-        results=[]
-        standards.append(stand)
-        general_path = os.path.join(args.src_path, transpiler)
-        print("2nd Gen Path: ", general_path)
-    '''
     standards.sort(key=lambda x: getStand(x))
+
+    #since the first group of tests in some standards
+    #fails on the Parsing, we need to retrieve all the possible tests
+    #so the table is correctly formed
+
+    exampleResult = []
+    maxNumOfTests = 0
+    for i in standards:
+
+        for j in range(0, len(i.result)):
+            if(len(i.result[j].tests) > maxNumOfTests):
+                maxNumOfTests = len(i.result[j].tests)
+                exampleResult = i.result[j]
+
     for standard in standards:
         f.write(r"\section{"+ standard.name + r"}"+"\n")
         # start table with a column for source file's name and 2 columns per test  
         f.write(r"\begin{xltabular}{\textwidth}{l")
-        for x in range(len(standard.result[0].tests)):
+
+
+        for x in range(1, maxNumOfTests + 1):
             f.write("cc")
         f.write(r"}"+ "\n"+(r"\toprule")+"\n")
 
         #column with source file's name
         f.write(r"\multicolumn{1}{Y}{}"+"\n")
 
-        for test in standard.result[0].tests:
+        for test in exampleResult.tests:
             f.write(r"& \multicolumn{2}{Y}{\textbf{"+ "{0}".format(latexCamelCase(latexTest(test.name)))+ r"}}")
 
         f.write(r"\\"+"\n")
-        f.write(r"\cmidrule{2-"+str(2*len(standard.result[0].tests)+1)+r"}")
+        f.write(r"\cmidrule{2-"+str(2*len(exampleResult.tests)+1)+r"}")
 
-        for test in standard.result[0].tests:
+        for test in exampleResult.tests:
             if (test.tries == -1):
                 f.write(r"&Time&Success")
             else:

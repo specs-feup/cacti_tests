@@ -1,5 +1,7 @@
 template<class T>
 concept C = requires
 {
-    new int[-(int)sizeof(T)]; // invalid for every T: ill-formed, no diagnostic required
+    new int[-(int)sizeof(T)];
 };
+
+int main() {}

@@ -2,6 +2,5 @@
  
 int main(void)
 {
-    short x;
-    printf("sizeof(float)          = %zu\n", sizeof(float));
+    int x = sizeof(int);
 }

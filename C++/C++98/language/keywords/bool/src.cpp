@@ -1,2 +1,3 @@
-bool b = true;
-bool d = false;
+int main(){
+    bool b = true;
+}

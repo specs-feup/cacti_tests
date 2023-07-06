@@ -15,9 +15,6 @@ auto switch_to_new_thread(std::jthread& out)
             if (out.joinable())
                 throw std::runtime_error("Output jthread parameter not empty");
             out = std::jthread([h] { h.resume(); });
-            // Potential undefined behavior: accessing potentially destroyed *this
-            // std::cout << "New thread ID: " << p_out->get_id() << '\n';
-            std::cout << "New thread ID: " << out.get_id() << '\n'; // this is OK
         }
         void await_resume() {}
     };
@@ -38,12 +35,7 @@ struct task
  
 task resuming_on_new_thread(std::jthread& out)
 {
-    std::cout << "Coroutine started on thread: " << std::this_thread::get_id() << '\n';
-    co_await switch_to_new_thread(out);
-    // awaiter destroyed here
-    std::cout << "Coroutine resumed on thread: " << std::this_thread::get_id() << '\n';
-}
- 
+    co_await switch_to_new_thread(out);}
 int main()
 {
     std::jthread out;

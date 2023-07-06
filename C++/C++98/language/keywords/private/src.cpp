@@ -1,5 +1,6 @@
 class A {
   private:
-    int n = 0;
+    int n;
 };
 
+int main() {}

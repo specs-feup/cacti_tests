@@ -1,3 +1,5 @@
+#include <atomic>
+
 int a;
 
 void thread_func() {

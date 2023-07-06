@@ -1,6 +1,6 @@
 int main() {
-    label:
-
-        if (true)
-            goto label;
+    int x = 0;
+    goto label;
+    x = 1;
+    label:;
 }

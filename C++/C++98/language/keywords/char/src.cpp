@@ -1,1 +1,3 @@
-char a = 'a';
+int main(){
+    char a = 'a';
+}

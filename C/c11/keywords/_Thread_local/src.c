@@ -10,28 +10,26 @@ void increment_counter() {
 
 int main() {
     increment_counter();
-    printf("Counter in main thread: %d\n", counter);
 
     int num_forks = 4;
-    for (int i = 0; i < num_forks; i++) {
+    int j;
+    for (j = 0; j < num_forks; j++) {
         pid_t pid = fork();
         
         if (pid == 0) {
             increment_counter();
-            printf("Counter in child process %d: %d\n", i, counter);
             return 0;
         } else if (pid > 0) {
         } else {
-            fprintf(stderr, "Fork failed.\n");
             return 1;
         }
     }
-
-    for (int i = 0; i < num_forks; i++) {
+    
+    int i = 0;
+    for (i = 0; i < num_forks; i++) {
         wait(NULL);
     }
 
-    printf("Counter in main process after forks: %d\n", counter);
 
     return 0;
 }

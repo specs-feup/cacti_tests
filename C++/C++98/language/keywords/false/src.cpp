@@ -1,3 +1,3 @@
-bool foo() {
-    return false;
+int main() {
+    bool a = false;
 }

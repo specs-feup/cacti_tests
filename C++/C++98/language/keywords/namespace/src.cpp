@@ -1,3 +1,3 @@
- namespace A {
+namespace A {
     int x;
 }

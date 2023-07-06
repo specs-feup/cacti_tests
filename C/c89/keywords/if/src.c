@@ -4,7 +4,5 @@ int main(void)
     int a = 0;
     if (i > 2) {
         a = 1;
-    } else {
-        a = 2;
     }
 }

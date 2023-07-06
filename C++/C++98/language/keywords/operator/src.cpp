@@ -3,3 +3,5 @@ struct Linear {
 
   double operator()(double x) const { return a * x + b; }
 };
+
+int main() {}

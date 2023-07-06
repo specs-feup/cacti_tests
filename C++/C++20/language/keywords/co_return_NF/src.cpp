@@ -30,38 +30,36 @@ struct S
 void bad1()
 {
     coroutine h = S{0}.f();
-    // S{0} destroyed
-    h.resume(); // resumed coroutine executes std::cout << i, uses S::i after free
+    h.resume();
     h.destroy();
 }
  
 coroutine bad2()
 {
     S s{0};
-    return s.f(); // returned coroutine can't be resumed without committing use after free
+    return s.f();
 }
  
 void bad3()
 {
-    coroutine h = [i = 0]() -> coroutine // a lambda that's also a coroutine
+    coroutine h = [i = 0]() -> coroutine
     {
         std::cout << i;
         co_return;
-    }(); // immediately invoked
-    // lambda destroyed
-    h.resume(); // uses (anonymous lambda type)::i after free
+    }();
+    h.resume();
     h.destroy();
 }
  
 void good()
 {
-    coroutine h = [](int i) -> coroutine // make i a coroutine parameter
+    coroutine h = [](int i) -> coroutine
     {
         std::cout << i;
         co_return;
     }(0);
-    // lambda destroyed
-    h.resume(); // no problem, i has been copied to the coroutine
-                // frame as a by-value parameter
+    h.resume();
     h.destroy();
 }
+
+int main() {}

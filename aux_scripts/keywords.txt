@@ -1,11 +1,23 @@
 [
-    "CallExpr",
+    "BinaryOperator",
+    "CXXConstructExpr",
+    "CXXConstructorDecl",
+    "CXXDestructorDecl",
+    "CXXMethodDecl",
+    "CXXRecordDecl",
+    "CXXStaticCastExpr",
     "CompoundStmt",
     "DeclRefExpr",
+    "DeclStmt",
+    "ExprWithCleanups",
+    "FieldDecl",
     "FunctionDecl",
     "ImplicitCastExpr",
     "IntegerLiteral",
-    "NamespaceDecl",
+    "LambdaExpr",
+    "MaterializeTemporaryExpr",
+    "MemberExpr",
+    "ParmVarDecl",
     "ReturnStmt",
-    "UnresolvedLookupExpr"
+    "VarDecl"
 ]

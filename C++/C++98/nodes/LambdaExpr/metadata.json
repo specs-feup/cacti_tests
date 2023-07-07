@@ -1,0 +1,24 @@
+{
+    "extraNodes" : [
+        "BinaryOperator",
+        "CXXConstructExpr",
+        "CXXConstructorDecl",
+        "CXXDestructorDecl",
+        "CXXMethodDecl",
+        "CXXRecordDecl",
+        "CXXStaticCastExpr",
+        "CompoundStmt",
+        "DeclRefExpr",
+        "DeclStmt",
+        "ExprWithCleanups",
+        "FieldDecl",
+        "FunctionDecl",
+        "ImplicitCastExpr",
+        "IntegerLiteral",
+        "MaterializeTemporaryExpr",
+        "MemberExpr",
+        "ParmVarDecl",
+        "ReturnStmt",
+        "VarDecl"
+    ]
+}

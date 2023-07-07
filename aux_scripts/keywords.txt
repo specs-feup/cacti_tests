@@ -1,0 +1,12 @@
+[
+    "CXXConstructExpr",
+    "CompoundStmt",
+    "DeclRefExpr",
+    "DeclStmt",
+    "FunctionDecl",
+    "ImplicitCastExpr",
+    "IntegerLiteral",
+    "ReturnStmt",
+    "VAArgExpr",
+    "VarDecl"
+]

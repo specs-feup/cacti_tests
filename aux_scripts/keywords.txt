@@ -1,11 +1,11 @@
 [
-    "BinaryOperator",
+    "CallExpr",
     "CompoundStmt",
-    "DeclStmt",
+    "DeclRefExpr",
     "FunctionDecl",
+    "ImplicitCastExpr",
     "IntegerLiteral",
-    "ParenExpr",
-    "ParenListExpr",
+    "NamespaceDecl",
     "ReturnStmt",
-    "VarDecl"
+    "UnresolvedLookupExpr"
 ]

@@ -1,12 +1,11 @@
 [
-    "CXXConstructExpr",
+    "BinaryOperator",
     "CompoundStmt",
-    "DeclRefExpr",
     "DeclStmt",
     "FunctionDecl",
-    "ImplicitCastExpr",
     "IntegerLiteral",
+    "ParenExpr",
+    "ParenListExpr",
     "ReturnStmt",
-    "VAArgExpr",
     "VarDecl"
 ]

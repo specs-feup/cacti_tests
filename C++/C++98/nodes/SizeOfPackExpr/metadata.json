@@ -1,0 +1,9 @@
+{
+    "extraNodes" : [
+        "CXXRecordDecl",
+        "ClassTemplateDecl",
+        "ImplicitCastExpr",
+        "TemplateTypeParmDecl",
+        "VarDecl"
+    ]
+}

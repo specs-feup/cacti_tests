@@ -1,0 +1,11 @@
+{
+    "extraNodes" : [
+        "CStyleCastExpr",
+        "CXXNewExpr",
+        "ConceptDecl",
+        "ImplicitCastExpr",
+        "TemplateTypeParmDecl",
+        "UnaryExprOrTypeTraitExpr",
+        "UnaryOperator"
+    ]
+}

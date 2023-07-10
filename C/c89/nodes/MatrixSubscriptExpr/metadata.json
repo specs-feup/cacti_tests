@@ -1,0 +1,11 @@
+{
+    "extraNodes" : [
+        "CompoundStmt",
+        "DeclStmt",
+        "FunctionDecl",
+        "InitListExpr",
+        "IntegerLiteral",
+        "ReturnStmt",
+        "VarDecl"
+    ]
+}

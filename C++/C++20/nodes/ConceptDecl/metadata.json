@@ -1,0 +1,12 @@
+{
+    "extraNodes" : [
+        "CompoundStmt",
+        "ConceptSpecializationExpr",
+        "DeclRefExpr",
+        "FunctionDecl",
+        "ParmVarDecl",
+        "RequiresExpr",
+        "TemplateTypeParmDecl",
+        "UnaryOperator"
+    ]
+}

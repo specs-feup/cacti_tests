@@ -1,0 +1,9 @@
+{
+    "extraNodes" : [
+        "CompoundStmt",
+        "EmptyDecl",
+        "FunctionDecl",
+        "ParmVarDecl",
+        "TemplateTypeParmDecl"
+    ]
+}

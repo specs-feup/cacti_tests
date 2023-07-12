@@ -1,0 +1,16 @@
+{
+    "extraNodes" : [
+        "CXXConstructorDecl",
+        "CXXRecordDecl",
+        "CallExpr",
+        "ClassTemplateDecl",
+        "CompoundStmt",
+        "DeclRefExpr",
+        "DeclStmt",
+        "FunctionDecl",
+        "IntegerLiteral",
+        "ReturnStmt",
+        "TemplateTypeParmDecl",
+        "VarDecl"
+    ]
+}

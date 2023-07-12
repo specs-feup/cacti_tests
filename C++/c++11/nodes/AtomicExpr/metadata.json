@@ -1,0 +1,11 @@
+{
+    "extraNodes" : [
+        "CXXConstructExpr",
+        "CompoundStmt",
+        "DeclStmt",
+        "FunctionDecl",
+        "IntegerLiteral",
+        "ReturnStmt",
+        "VarDecl"
+    ]
+}

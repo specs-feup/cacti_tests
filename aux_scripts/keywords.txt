@@ -1,12 +1,13 @@
 [
-    "CXXAddrspaceCastExpr",
-    "CXXNullPtrLiteralExpr",
     "CompoundStmt",
     "DeclRefExpr",
     "DeclStmt",
+    "FloatingLiteral",
     "FunctionDecl",
     "ImplicitCastExpr",
     "IntegerLiteral",
+    "ParmVarDecl",
     "ReturnStmt",
+    "UserDefinedLiteral",
     "VarDecl"
 ]

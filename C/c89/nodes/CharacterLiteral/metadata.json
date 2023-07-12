@@ -1,11 +1,11 @@
 {
     "extraNodes" : [
-        "BinaryOperator",
-        "CXXBoolLiteralExpr",
         "CompoundStmt",
+        "DeclStmt",
         "FunctionDecl",
         "ImplicitCastExpr",
         "IntegerLiteral",
-        "ReturnStmt"    
+        "ReturnStmt",
+        "VarDecl"
     ]
 }

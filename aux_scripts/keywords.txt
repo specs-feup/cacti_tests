@@ -1,13 +1,13 @@
 [
+    "BinaryOperator",
     "CompoundStmt",
+    "ConditionalOperator",
     "DeclRefExpr",
     "DeclStmt",
-    "FloatingLiteral",
     "FunctionDecl",
     "ImplicitCastExpr",
     "IntegerLiteral",
-    "ParmVarDecl",
+    "ParenExpr",
     "ReturnStmt",
-    "UserDefinedLiteral",
     "VarDecl"
 ]

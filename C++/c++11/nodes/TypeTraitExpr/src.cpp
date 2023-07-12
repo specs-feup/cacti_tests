@@ -1,6 +1,6 @@
 #include <type_traits>
 
-int main(){
-    bool result = std::is_integral<int>::value;
+int main() {
+    __is_pod(int) == true;
     return 0;
 }

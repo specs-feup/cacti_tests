@@ -1,11 +1,14 @@
 {
     "extraNodes" : [
+        "ArraySubscriptExpr",
         "BinaryOperator",
-        "CXXBoolLiteralExpr",
         "CompoundStmt",
+        "DeclRefExpr",
+        "DeclStmt",
         "FunctionDecl",
         "ImplicitCastExpr",
         "IntegerLiteral",
-        "ReturnStmt"    
+        "ReturnStmt",
+        "VarDecl"
     ]
 }

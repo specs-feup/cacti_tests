@@ -1,7 +1,0 @@
-{
-    "extraNodes" : [
-        "BinaryOperator",
-        "IntegerLiteral",
-        "VarDecl"
-    ]
-}

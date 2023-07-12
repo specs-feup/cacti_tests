@@ -1,0 +1,25 @@
+{
+    "extraNodes" : [
+        "ArrayInitLoopExpr",
+        "ArraySubscriptExpr",
+        "CXXConstructExpr",
+        "CXXConstructorDecl",
+        "CXXDestructorDecl",
+        "CXXMethodDecl",
+        "CXXRecordDecl",
+        "CXXStaticCastExpr",
+        "CompoundStmt",
+        "DeclRefExpr",
+        "DeclStmt",
+        "ExprWithCleanups",
+        "FieldDecl",
+        "FunctionDecl",
+        "ImplicitCastExpr",
+        "LambdaExpr",
+        "MaterializeTemporaryExpr",
+        "MemberExpr",
+        "OpaqueValueExpr",
+        "ParmVarDecl",
+        "VarDecl"
+    ]
+}

@@ -1,0 +1,17 @@
+{
+    "extraNodes" : [
+        "CStyleCastExpr",
+        "CallExpr",
+        "CompoundStmt",
+        "ConstantExpr",
+        "DeclRefExpr",
+        "DeclStmt",
+        "FunctionDecl",
+        "FunctionTemplateDecl",
+        "ImplicitCastExpr",
+        "IntegerLiteral",
+        "LinkageSpecDecl",
+        "NonTypeTemplateParmDecl",
+        "VarDecl"
+    ]
+}

@@ -1,0 +1,15 @@
+{
+    "extraNodes" : [
+        "CompoundStmt",
+        "DeclRefExpr",
+        "FloatingLiteral",
+        "FunctionDecl",
+        "ImplicitCastExpr",
+        "IntegerLiteral",
+        "NonTypeTemplateParmDecl",
+        "UnaryOperator",
+        "VarDecl",
+        "VarTemplateDecl",
+        "VarTemplateSpecializationDecl"
+    ]
+}

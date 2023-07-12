@@ -1,0 +1,14 @@
+{
+    "extraNodes" : [
+        "ArraySubscriptExpr",
+        "BindingDecl",
+        "CompoundStmt",
+        "DeclRefExpr",
+        "DeclStmt",
+        "FunctionDecl",
+        "ImplicitCastExpr",
+        "InitListExpr",
+        "IntegerLiteral",
+        "VarDecl"
+    ]
+}

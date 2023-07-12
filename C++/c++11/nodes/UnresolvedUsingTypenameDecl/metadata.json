@@ -1,0 +1,11 @@
+{
+    "extraNodes" : [
+        "AccessSpecDecl",
+        "CXXRecordDecl",
+        "ClassTemplateDecl",
+        "CompoundStmt",
+        "FunctionDecl",
+        "TemplateTypeParmDecl",
+        "TypeAliasDecl"
+    ]
+}

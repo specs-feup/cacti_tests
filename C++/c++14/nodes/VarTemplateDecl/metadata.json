@@ -1,0 +1,10 @@
+{
+    "extraNodes" : [
+        "CXXUnresolvedConstructExpr",
+        "CompoundStmt",
+        "FloatingLiteral",
+        "FunctionDecl",
+        "TemplateTypeParmDecl",
+        "VarDecl"
+    ]
+}

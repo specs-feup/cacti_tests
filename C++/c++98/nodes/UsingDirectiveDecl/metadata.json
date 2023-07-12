@@ -1,0 +1,6 @@
+{
+    "extraNodes" : [
+        "CompoundStmt",
+        "FunctionDecl"
+    ]
+}

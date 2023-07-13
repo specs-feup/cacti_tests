@@ -1,0 +1,10 @@
+{
+    "extraNodes" : 
+    [
+        "CompoundStmt",
+        "DeclRefExpr",
+        "EmptyDecl",
+        "FunctionDecl",
+        "ImplicitCastExpr"
+    ]
+}

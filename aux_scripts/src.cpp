@@ -1,15 +1,18 @@
+#include <iostream>
 
-struct Vector {
-    double x, y;
+struct MyClass {
+    void myFunction(int x) {
+        std::cout << "myFunction(int): " << x << std::endl;
+    }
 
-    Vector operator+(const Vector& other) const {
-        return {x + other.x, y + other.y};
+    void myFunction(double x) {
+        std::cout << "myFunction(double): " << x << std::endl;
     }
 };
 
-int main(){
-    Vector v{1.0,2.0};
-    Vector v1{1.0, 2.0};
-    Vector r = v + v1;
+int main() {
+    MyClass obj;
+    obj.myFunction(42); // Member access expression with overloaded functions
+    obj.myFunction(3.14);
     return 0;
 }

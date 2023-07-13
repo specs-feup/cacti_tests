@@ -1,0 +1,9 @@
+{
+    "extraNodes" : [
+        "FieldDecl",
+        "FloatingLiteral",
+        "InitListExpr",
+        "RecordDecl",
+        "VarDecl"
+    ]
+}

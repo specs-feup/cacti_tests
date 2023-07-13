@@ -1,0 +1,12 @@
+{
+    "extraNodes" : [
+        "CXXStaticCastExpr",
+        "CallExpr",
+        "CompoundStmt",
+        "DeclRefExpr",
+        "FunctionDecl",
+        "FunctionTemplateDecl",
+        "ParmVarDecl",
+        "TemplateTypeParmDecl"
+    ]
+}

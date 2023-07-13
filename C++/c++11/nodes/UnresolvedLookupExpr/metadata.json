@@ -1,0 +1,12 @@
+{
+    "extraNodes" : [
+        "CallExpr",
+        "CompoundStmt",
+        "DeclRefExpr",
+        "FunctionDecl",
+        "FunctionTemplateDecl",
+        "PackExpansionExpr",
+        "ParmVarDecl",
+        "TemplateTypeParmDecl"    
+    ]
+}

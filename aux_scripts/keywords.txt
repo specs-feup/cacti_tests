@@ -1,0 +1,13 @@
+[
+    "CXXConstructExpr",
+    "CXXConstructorDecl",
+    "CXXRecordDecl",
+    "CompoundStmt",
+    "DeclStmt",
+    "FieldDecl",
+    "FunctionDecl",
+    "IntegerLiteral",
+    "ParmVarDecl",
+    "ReturnStmt",
+    "VarDecl"
+]

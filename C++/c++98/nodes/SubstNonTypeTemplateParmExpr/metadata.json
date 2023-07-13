@@ -10,6 +10,6 @@
         "IntegerLiteral",
         "NonTypeTemplateParmDecl",
         "ReturnStmt",
-        "StringLiteral",
+        "StringLiteral"
     ]
 }

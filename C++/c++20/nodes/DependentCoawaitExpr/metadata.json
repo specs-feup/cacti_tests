@@ -1,0 +1,18 @@
+{
+    "extraNodes" : [
+        "CXXDependentScopeMemberExpr",
+        "CallExpr",
+        "CoawaitExpr",
+        "CompoundStmt",
+        "CoroutineBodyStmt",
+        "DeclRefExpr",
+        "DeclStmt",
+        "FunctionDecl",
+        "FunctionTemplateDecl",
+        "ParmVarDecl",
+        "TemplateTypeParmDecl",
+        "UnaryOperator",
+        "UnresolvedLookupExpr",
+        "VarDecl"
+    ]
+}

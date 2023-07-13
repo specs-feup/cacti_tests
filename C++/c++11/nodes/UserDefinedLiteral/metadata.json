@@ -1,14 +1,14 @@
 {
     "extraNodes" : [
+        "CXXBindTemporaryExpr",
         "CompoundStmt",
         "DeclRefExpr",
-        "DeclStmt",
+        "ExprWithCleanups",
         "FloatingLiteral",
         "FunctionDecl",
         "ImplicitCastExpr",
         "IntegerLiteral",
         "ParmVarDecl",
-        "ReturnStmt",
-        "VarDecl"
+        "StringLiteral"
     ]
 }

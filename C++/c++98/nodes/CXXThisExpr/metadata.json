@@ -1,0 +1,12 @@
+{
+    "extraNodes" : [
+        "AccessSpecDecl",
+        "CXXMemberCallExpr",
+        "CXXMethodDecl",
+        "CXXRecordDecl",
+        "CompoundStmt",
+        "IntegerLiteral",
+        "MemberExpr",
+        "ParmVarDecl"
+    ]
+}

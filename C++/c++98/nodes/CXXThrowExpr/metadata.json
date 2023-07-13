@@ -1,0 +1,12 @@
+{
+    "extraNodes" : [
+        "CXXCatchStmt",
+        "CXXConstructExpr",
+        "CXXTryStmt",
+        "CompoundStmt",
+        "FunctionDecl",
+        "ImplicitCastExpr",
+        "OpaqueValueExpr",
+        "VarDecl"
+    ]
+}

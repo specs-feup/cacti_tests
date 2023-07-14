@@ -1,0 +1,19 @@
+{
+    "extraNodes" : [
+        "AccessSpecDecl",
+        "CXXConstructExpr",
+        "CXXConstructorDecl",
+        "CXXMethodDecl",
+        "CXXRecordDecl",
+        "CompoundStmt",
+        "DeclRefExpr",
+        "DeclStmt",
+        "FunctionDecl",
+        "ImplicitCastExpr",
+        "IntegerLiteral",
+        "ParmVarDecl",
+        "ReturnStmt",
+        "StringLiteral",
+        "VarDecl"
+    ]
+}

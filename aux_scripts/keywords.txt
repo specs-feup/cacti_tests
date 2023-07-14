@@ -1,18 +1,15 @@
 [
-    "AccessSpecDecl",
     "BinaryOperator",
-    "CXXConstructExpr",
-    "CXXConstructorDecl",
-    "CXXRecordDecl",
-    "CXXThisExpr",
     "CompoundStmt",
     "DeclRefExpr",
     "DeclStmt",
     "FieldDecl",
     "FunctionDecl",
+    "ImplicitCastExpr",
     "IntegerLiteral",
     "MemberExpr",
-    "ParmVarDecl",
+    "RecordDecl",
     "ReturnStmt",
+    "UnaryOperator",
     "VarDecl"
 ]

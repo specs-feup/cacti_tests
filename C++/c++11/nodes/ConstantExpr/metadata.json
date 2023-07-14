@@ -1,0 +1,14 @@
+{
+    "extraNodes" : [
+        "CallExpr",
+        "CompoundStmt",
+        "DeclRefExpr",
+        "DeclStmt",
+        "FunctionDecl",
+        "FunctionTemplateDecl",
+        "ImplicitCastExpr",
+        "IntegerLiteral",
+        "NonTypeTemplateParmDecl",
+        "VarDecl"
+    ]
+}

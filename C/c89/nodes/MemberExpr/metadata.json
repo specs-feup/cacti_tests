@@ -1,0 +1,16 @@
+{
+    "extraNodes" : [
+        "BinaryOperator",
+        "CompoundStmt",
+        "DeclRefExpr",
+        "DeclStmt",
+        "FieldDecl",
+        "FunctionDecl",
+        "ImplicitCastExpr",
+        "IntegerLiteral",
+        "RecordDecl",
+        "ReturnStmt",
+        "UnaryOperator",
+        "VarDecl"
+    ]
+}

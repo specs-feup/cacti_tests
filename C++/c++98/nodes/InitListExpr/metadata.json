@@ -1,0 +1,12 @@
+{
+    "extraNodes" : [
+        "CXXRecordDecl",
+        "CompoundStmt",
+        "DeclStmt",
+        "FieldDecl",
+        "FunctionDecl",
+        "IntegerLiteral",
+        "ReturnStmt",
+        "VarDecl"
+    ]
+}

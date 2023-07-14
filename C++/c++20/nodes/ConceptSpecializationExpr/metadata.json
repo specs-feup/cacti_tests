@@ -1,0 +1,13 @@
+{
+    "extraNodes" : [
+        "CompoundStmt",
+        "ConceptDecl",
+        "DeclStmt",
+        "FunctionDecl",
+        "IntegerLiteral",
+        "ReturnStmt",
+        "TemplateTypeParmDecl",
+        "UnresolvedLookupExpr",
+        "VarDecl"
+    ]
+}

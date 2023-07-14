@@ -1,0 +1,12 @@
+{
+    "extraNodes" : [
+        "BinaryOperator",
+        "CompoundStmt",
+        "FunctionDecl",
+        "ImplicitCastExpr",
+        "InitListExpr",
+        "IntegerLiteral",
+        "ReturnStmt",
+        "StringLiteral"
+    ]
+}

@@ -1,0 +1,12 @@
+{
+    "extraNodes" : [
+        "CXXRecordDecl",
+        "CallExpr",
+        "CompoundStmt",
+        "DeclRefExpr",
+        "DeclStmt",
+        "FunctionDecl",
+        "ParmVarDecl",
+        "VarDecl"
+    ]
+}

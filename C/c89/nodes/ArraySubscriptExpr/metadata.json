@@ -1,0 +1,18 @@
+{
+    "extraNodes" : [
+        "BinaryOperator",
+        "CStyleCastExpr",
+        "CompoundStmt",
+        "DeclRefExpr",
+        "DeclStmt",
+        "FunctionDecl",
+        "ImplicitCastExpr",
+        "IntegerLiteral",
+        "ParenExpr",
+        "ParmVarDecl",
+        "ReturnStmt",
+        "UnaryOperator",
+        "VarDecl",
+        "testRValueArraySubscriptExpr"
+    ]
+}

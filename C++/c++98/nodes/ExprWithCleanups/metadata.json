@@ -1,0 +1,17 @@
+{
+    "extraNodes" : [
+        "CXXConstructExpr",
+        "CXXConstructorDecl",
+        "CXXDestructorDecl",
+        "CXXRecordDecl",
+        "CXXTemporaryObjectExpr",
+        "CallExpr",
+        "CompoundStmt",
+        "DeclRefExpr",
+        "FunctionDecl",
+        "ImplicitCastExpr",
+        "MaterializeTemporaryExpr",
+        "ParmVarDecl",
+        "ReturnStmt"
+    ]
+}

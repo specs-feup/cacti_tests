@@ -1,15 +1,16 @@
 [
-    "BinaryOperator",
+    "CXXConstructExpr",
+    "CXXConstructorDecl",
+    "CXXDestructorDecl",
+    "CXXRecordDecl",
+    "CXXTemporaryObjectExpr",
+    "CallExpr",
     "CompoundStmt",
     "DeclRefExpr",
-    "DeclStmt",
-    "FieldDecl",
+    "ExprWithCleanups",
     "FunctionDecl",
     "ImplicitCastExpr",
-    "IntegerLiteral",
-    "MemberExpr",
-    "RecordDecl",
-    "ReturnStmt",
-    "UnaryOperator",
-    "VarDecl"
+    "MaterializeTemporaryExpr",
+    "ParmVarDecl",
+    "ReturnStmt"
 ]

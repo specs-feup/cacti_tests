@@ -1,15 +1,10 @@
-struct Foo {
-    int x;
-    int y;
-};
+struct MyStruct{};
 
-int main() {
-    struct Foo foo;
-    foo.x = 10;  // MemberExpr: X.F
+struct MyStruct foo(){
+    struct MyStruct obj;
+    return obj;
+}
 
-    struct Foo* ptr = &foo;
-    ptr->y = 20;  // MemberExpr: X->F
-
-
-    return 0;
+int main(){
+    foo();
 }

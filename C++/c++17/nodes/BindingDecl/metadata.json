@@ -1,7 +1,6 @@
 {
     "extraNodes" : [
         "ArraySubscriptExpr",
-        "BindingDecl",
         "CompoundStmt",
         "DeclRefExpr",
         "DeclStmt",

@@ -5,7 +5,6 @@
         "EnumDecl",
         "FunctionDecl",
         "IntegerLiteral",
-        "ReturnStmt",
-        "UsingEnumDecl"
+        "ReturnStmt"
     ]
 }

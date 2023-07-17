@@ -5,7 +5,6 @@
         "DeclStmt",
         "FunctionDecl",
         "IntegerLiteral",
-        "ParenExpr",
         "ReturnStmt",
         "VarDecl"
     ]

@@ -1,10 +1,9 @@
-struct MyStruct{};
 
-struct MyStruct foo(){
-    struct MyStruct obj;
-    return obj;
+int addNumbers(int a, int b) {
+    return a + b;
 }
 
 int main(){
-    foo();
+    int sum = addNumbers((2 + 3), (4 + 5));
+
 }

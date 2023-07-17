@@ -1,16 +1,12 @@
 [
-    "CXXConstructExpr",
     "CXXConstructorDecl",
-    "CXXDestructorDecl",
     "CXXRecordDecl",
-    "CXXTemporaryObjectExpr",
-    "CallExpr",
+    "ClassTemplateDecl",
     "CompoundStmt",
     "DeclRefExpr",
-    "ExprWithCleanups",
+    "FieldDecl",
     "FunctionDecl",
-    "ImplicitCastExpr",
-    "MaterializeTemporaryExpr",
+    "ParenListExpr",
     "ParmVarDecl",
-    "ReturnStmt"
+    "TemplateTypeParmDecl"
 ]

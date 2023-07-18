@@ -99,7 +99,6 @@ def printCycles(graph: nx.DiGraph) -> None:
     if (len(cycles) == 0):
         print(Fore.YELLOW + Style.BRIGHT + "There are no cycles in the graph." + Style.RESET_ALL)
         return
-    for cycle in cycles: cycle.sort()
     cycles.sort(key= lambda x: x[0])
 
     print(f"There are {len(cycles)} cycles:")

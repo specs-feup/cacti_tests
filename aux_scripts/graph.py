@@ -1,10 +1,11 @@
-import networkx as nx  # dependency
+import networkx as nx  ## dependency
 import os
 from os import path
 import argparse
 import json
-from matplotlib import pyplot as plt  # dependency
-from colorama import Fore, Style
+from matplotlib import pyplot as plt  ## dependency
+from pyvis.network import Network ## dependency
+from colorama import Fore, Style ## dependency
 
 # Note: The output graph may not be readable for very dense or very large graphs
 
@@ -138,9 +139,10 @@ def printLeaves(graph: nx.DiGraph) -> None:
 
 def showGraph(graph: nx.DiGraph) -> None:
     """Opens a pyplot pop-up window showing a visual representation of the graph."""
-    plt.tight_layout()
-    nx.draw_networkx(dependencyGraph, arrows=True)
-    plt.show()
+    net = Network(notebook=True)
+    net.from_nx(graph)
+    net.toggle_physics(False)
+    net.show("example.html")
 
 
 def saveGraph(graph: nx.DiGraph, outputPath: str, format: str) -> None:

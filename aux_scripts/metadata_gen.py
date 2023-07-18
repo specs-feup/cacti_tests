@@ -3,6 +3,82 @@ import subprocess
 import re
 import json
 import os
+from os import path
+import argparse
+from colorama import Fore, Style ## dependency
+
+lookForExtensions = ["c", "cpp"]
+standards = ["c89", "c95", "c99", "c11", "c17", "c++98", "c++11", "c++14", "c++17", "c++20"]
+commonSrcFilePart = "src.c"
+
+KEY_CHANGES: str = "changes"
+
+def getClangCommand(standard: str | None, filePath: str) -> list[str]:
+    if standard == None:
+        return ['clang', '-Xclang', '-ast-dump', '-S', filePath]
+    else:
+        return ['clang', f'--std={standard}', '-Xclang', '-ast-dump', '-S', filePath]
+
+def getFileExtension(fileName: str) -> str:
+    """Returns the file's extension without the dot (.)"""
+    return os.path.splitext(fileName)[1][1:]
+
+def printError(message: str) -> None:
+    print(Fore.RED + Style.BRIGHT + message + Style.RESET_ALL)
+
+def handleArgumentParsing() ->  argparse.Namespace:
+    parser: argparse.ArgumentParser = argparse.ArgumentParser()
+    
+    parser.add_argument('-s', '--source', dest="srcPath", required=True, help="path to the tests directory. The directory's structure should abide by cacti's test folder convention.")
+    
+    return parser.parse_args()
+
+def getUsedStandard(filepath: str):
+    filepathSections = reversed(filepath.split(path.sep))
+    for section in filepathSections:
+        if section.lower() in standards:
+            return section
+    return None
+
+
+
+def updateMetadataFile(srcFilePath: str, jsonContent: dict[str, any], f) -> None:
+    clangCommand = getClangCommand(getUsedStandard(srcFilePath), srcFilePath)
+    rawAstText = subprocess.check_output(clangCommand).decode('utf-8')
+    currentKeywords = extract_keywords(rawAstText)
+    # TODO remove test name from current keywords
+    previousKeywords = jsonContent
+    # TODO finish function
+
+    return
+
+def createNewMetadataFile(srcFilePath: str, f) -> None:
+    # TODO
+    return
+
+def generateMetadatas(baseDirectoryPath: str) -> None:
+    for dirpath, _, files in os.walk(baseDirectoryPath):
+        for fileName in files:
+            if getFileExtension(fileName) not in lookForExtensions: continue
+            srcFilePath = path.join(dirpath, fileName)
+            metadataFilePath = path.join(dirpath, "metadata.json")
+            
+            try:
+                f = open(metadataFilePath)
+            except:
+                printError(f"Error while opening {metadataFilePath}!")
+                f.close()
+                continue
+            
+            try:
+                jsonContent: dict[str, any] = json.loads(f.read())
+                updateMetadataFile(srcFilePath, jsonContent, f)
+            except:
+                createNewMetadataFile(srcFilePath, f)
+            finally:
+                f.close()
+
+
 
 def extract_indentation_block(lines, search_string):
     extracted_lines = []
@@ -16,11 +92,15 @@ def extract_indentation_block(lines, search_string):
     print("\n".join(extracted_lines))
     return extracted_lines
 
+def extract_keywords(output: str):
+    file_translation_unit = "\n".join(extract_indentation_block(output.split("\n"), commonSrcFilePart))
+    keywords = re.findall(r'\b\w+(?:Expr|Decl|Operator|Literal|Cleanups|Stmt)\b', file_translation_unit)
+    return set((keyword[3:] if keyword.find("3") != -1 else keyword) for keyword in keywords)
 
 
 # directory -> either C or C++
 def execute_clang(directory):
-    language = "C++" if directory == "C++" else "C"
+    language = directory.lower()
     standard_list = os.listdir(directory)
     standard_list = [standard for standard in standard_list if "extensions" not in standard.lower() and "23" not in standard]
         
@@ -65,10 +145,12 @@ def execute_clang(directory):
                         file.write(sorted_keywords)
 
 if __name__ == '__main__':
-    if len(sys.argv) != 2:
-        print('Usage: python script.py <directory>')
-        sys.exit(1)
 
-    directory = sys.argv[1]
-
-    execute_clang(directory)
+    args = handleArgumentParsing()
+    baseDirectoryPath = path.abspath(path.join(os.getcwd(), args.srcPath()))
+    
+    if (not os.path.isdir(baseDirectoryPath)):
+        printError("Specified path is not a directory!")
+        exit()
+    
+    generateMetadatas(baseDirectoryPath)

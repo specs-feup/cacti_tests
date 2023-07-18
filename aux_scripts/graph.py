@@ -12,6 +12,7 @@ JSON_NODE_LIST_KEY = "extraNodes"
 
 
 def handleParsing() -> argparse.Namespace:
+    """Adds the arguments necessary to run the program to the argparser, checks for arguments that need others in order to function properly and returns the Namespace object with the arguments."""
     parser = argparse.ArgumentParser(
         description="Script that generates a dependency graph between the tests.")
 
@@ -38,6 +39,14 @@ def handleParsing() -> argparse.Namespace:
 
 
 def constructGraph(sourcePath: str) -> nx.DiGraph:
+    """Constructs a dependency graph of the tests in the specified directory. The tests must abide by cacti's test directory specification.
+
+    Attributes:
+        sourcePath (str): path to the tests directory.
+
+    Returns:
+        nx.DiGraph: networkx's Directed Graph representation of the dependencies between tests.
+    """
     dependencyGraph: nx.DiGraph = nx.DiGraph()
 
     for root, _, files in os.walk(path.abspath(sourcePath)):
@@ -67,6 +76,7 @@ def constructGraph(sourcePath: str) -> nx.DiGraph:
 
 
 def isEligibile(filePath: str) -> bool:
+    """Checks if a file is a valid to be parsed into relevant information for the dependency graph."""
     if not path.basename(filePath) == "metadata.json":
         return False
     try:
@@ -84,9 +94,10 @@ def isEligibile(filePath: str) -> bool:
 
 
 def printCycles(graph: nx.DiGraph) -> None:
+    """Finds cycles in the given graph and prints it to standard output."""
     cycles: list[list[str]] = list(nx.simple_cycles(graph))
     if (len(cycles) == 0):
-        print("There are no cycles in the graph.")
+        print(Fore.YELLOW + Style.BRIGHT + "There are no cycles in the graph." + Style.RESET_ALL)
         return
     for cycle in cycles: cycle.sort()
     cycles.sort(key= lambda x: x[0])
@@ -105,6 +116,7 @@ def printCycles(graph: nx.DiGraph) -> None:
 
 
 def findLeaves(graph: nx.DiGraph) -> list[str]:
+    """Finds the leaf nodes of the given graph and returns them as a list."""
     leafNodes: list[str] = list()
     for node in graph.nodes:
         if len(list(graph.adj[node])) == 0:
@@ -113,7 +125,12 @@ def findLeaves(graph: nx.DiGraph) -> list[str]:
 
 
 def printLeaves(graph: nx.DiGraph) -> None:
+    """Finds the leaf nodes of the graph and prints them to standard output."""
     leafNodes = findLeaves(graph)
+
+    if (len(leafNodes) == 0):
+        print(Fore.YELLOW + Style.BRIGHT + "There are no leaf nodes." + Style.RESET_ALL)
+
     print(f"There are {len(leafNodes)} ({(len(leafNodes) / len(graph.nodes) * 100):.2f}%) leaves:")
     for node in leafNodes:
         print(node)
@@ -121,12 +138,14 @@ def printLeaves(graph: nx.DiGraph) -> None:
 
 
 def showGraph(graph: nx.DiGraph) -> None:
+    """Opens a pyplot pop-up window showing a visual representation of the graph."""
     plt.tight_layout()
     nx.draw_networkx(dependencyGraph, arrows=True)
     plt.show()
 
 
 def saveGraph(graph: nx.DiGraph, outputPath: str, format: str) -> None:
+    """Saves a visual representation of the graph in a given directory and in a given format, as long as pyplot.savefig supports it."""
     plt.tight_layout()
     nx.draw_networkx(dependencyGraph, arrows=True)
     plt.savefig(path.join(outputPath, "dependencyGraph." +

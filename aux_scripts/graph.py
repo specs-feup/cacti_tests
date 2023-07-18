@@ -147,8 +147,9 @@ def saveGraph(graph: nx.DiGraph, outputPath: str, format: str) -> None:
     """Saves a visual representation of the graph in a given directory and in a given format, as long as pyplot.savefig supports it."""
     plt.tight_layout()
     nx.draw_networkx(dependencyGraph, arrows=True)
-    plt.savefig(path.join(outputPath, "dependencyGraph." +
-                format.lower()), format=format)
+    savePath = path.abspath(path.join(outputPath, "dependencyGraph." + format.lower()))
+    plt.savefig(savePath, format=format)
+    print(Fore.GREEN + Style.BRIGHT + "File saved to " + savePath + Style.RESET_ALL)
 
 
 if __name__ == "__main__":

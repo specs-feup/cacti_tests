@@ -27,12 +27,32 @@ BUILD_ID_FORMAT = "%Y%m%d-%H-%M"
 # If this missing build id starts with 0 it will always be sorted chronologically to be the first
 MISSING_BUILD_ID: str = "0NOID"
 
+JSON_DUMP_INDENTATION = 2
+
+
+def openForReadingOrCreate(filePath: str):
+    """The fact that I have to write this function is just another nail in the coffin of python for me"""
+    try:
+        f = open(filePath, "r")
+    except:
+        try:
+            f = open(filePath, "x")
+        except Exception as e:
+            printError(
+                f"Couldn't open {filePath} for reading AND couldn't create it")
+            raise e
+    return f
+
 
 def getClangCommand(standard: str | None, filePath: str) -> list[str]:
     if standard == None:
-        return ['clang', '-Xclang', '-ast-dump', '-S', filePath]
+        printWarning(f"file: {filePath}:  " +
+                     " ".join(['clang', '-Xclang', '-ast-dump', '-w', '-S', filePath]))
+        return ['clang', '-Xclang', '-ast-dump', '-w', '-S', filePath]
     else:
-        return ['clang', f'--std={standard}', '-Xclang', '-ast-dump', '-S', filePath]
+        printWarning(f"file: {filePath}:  " + " ".join(
+            ['clang', f'--std={standard}', '-Xclang', '-ast-dump', '-w', '-S', filePath]))
+        return ['clang', f'--std={standard}', '-Xclang', '-ast-dump', '-w', '-S', filePath]
 
 
 def getFileExtension(fileName: str) -> str:
@@ -42,6 +62,10 @@ def getFileExtension(fileName: str) -> str:
 
 def printError(message: str) -> None:
     print(Fore.RED + Style.BRIGHT + message + Style.RESET_ALL)
+
+
+def printWarning(message: str) -> None:
+    print(Fore.YELLOW + Style.BRIGHT + message + Style.RESET_ALL)
 
 
 def handleArgumentParsing() -> argparse.Namespace:
@@ -94,23 +118,27 @@ def handleChangesSection(jsonObject: dict[str, any], currentKeywords: set[str], 
 
     previousBuildId = getPreviousBuildId(jsonObject)
 
-    previousKeywords: set[str] = getPreviousKeywords()
+    previousKeywords: set[str] = getPreviousKeywords(jsonObject)
 
     newNodes: set[str] = currentKeywords.difference(previousKeywords)
     removedNodes: set[str] = previousKeywords.difference(currentKeywords)
     keptNodes: set[str] = currentKeywords.intersection(previousKeywords)
 
     newChangeEntry = dict()
-    newChangeEntry[KEY_CHANGE_PREVIOUS_ID] = previousBuildId
     newChangeEntry[KEY_CHANGE_NEXT_ID] = newBuildId
+    newChangeEntry[KEY_CHANGE_PREVIOUS_ID] = previousBuildId
     newChangeEntry[KEY_CHANGE_KEPT] = list(keptNodes)
     newChangeEntry[KEY_CHANGE_NEW] = list(newNodes)
     newChangeEntry[KEY_CHANGE_REMOVED] = list(removedNodes)
 
+    jsonObject[KEY_CHANGES].append(newChangeEntry)
+    jsonObject[KEY_CHANGES].sort(key=lambda x: x[KEY_CHANGE_NEXT_ID])
+    jsonObject[KEY_CHANGES].reverse()
+
 
 def handleTestName(srcFilePath: str, jsonObject: dict[str, any]) -> str:
     if KEY_TEST_NAME not in jsonObject:
-        jsonObject[KEY_TEST_NAME] = path.dirname(srcFilePath)
+        jsonObject[KEY_TEST_NAME] = path.basename(path.dirname(srcFilePath))
     return jsonObject[KEY_TEST_NAME]
 
 
@@ -127,30 +155,44 @@ def getNodes(srcFilePath):
     return newNodes
 
 
-def updateMetadataFile(srcFilePath: str, jsonContent: dict[str, any], newNodes: set[str], f) -> None:
-    testName: str = path.dirname(srcFilePath)
+def updateMetadataFile(metadataFilePath: str, jsonContent: dict[str, any], newNodes: set[str], f) -> None:
+    testName: str = path.basename(path.dirname(metadataFilePath))
 
     # When test names aren't node names then they won't be in the generated node keywords
     if testName in newNodes:
         newNodes.remove(testName)
-
     newBuildId = generateNewBuildId()
     handleChangesSection(jsonContent, newNodes, newBuildId)
     jsonContent[KEY_NODE_LIST] = list(newNodes)
     jsonContent[KEY_BUILD_ID] = newBuildId
-    json.dump(jsonContent, f)
+    f.close()
+    try:
+        f = open(metadataFilePath, mode="w")
+        json.dump(jsonContent, f, indent=JSON_DUMP_INDENTATION)
+    except:
+        printError(f"Couldn't open {metadataFilePath} for writing.")
+        return
+    finally:
+        f.close()
 
 
-def createNewMetadataFile(srcFilePath: str, newNodes: set[str], f) -> None:
+def createNewMetadataFile(metadataFilePath: str, newNodes: set[str], f) -> None:
     jsonContent = dict()
-    handleTestName(srcFilePath, jsonContent)
+    handleTestName(metadataFilePath, jsonContent)
 
     buildId = generateNewBuildId()
     handleChangesSection(jsonContent, newNodes, buildId)
     jsonContent[KEY_BUILD_ID] = buildId
     jsonContent[KEY_NODE_LIST] = list(newNodes)
 
-    json.dump(jsonContent, f)
+    try:
+        f = open(metadataFilePath, mode="w")
+        json.dump(jsonContent, f, indent=JSON_DUMP_INDENTATION)
+    except:
+        printError(f"Couldn't open {metadataFilePath} for writing.")
+        return
+    finally:
+        f.close()
 
 
 def generateMetadatas(baseDirectoryPath: str) -> None:
@@ -169,17 +211,20 @@ def generateMetadatas(baseDirectoryPath: str) -> None:
                 continue
 
             try:
-                f = open(metadataFilePath)
-            except:
-                printError(f"Error while opening {metadataFilePath}!")
+                f = openForReadingOrCreate(metadataFilePath)
+            except Exception as e:
+                printError(
+                    f"Error while opening {metadataFilePath} for reading: {e}!")
                 f.close()
                 continue
 
             try:
                 jsonContent: dict[str, any] = json.loads(f.read())
-                updateMetadataFile(srcFilePath, jsonContent, newNodes, f)
-            except:
-                createNewMetadataFile(srcFilePath, newNodes, f)
+                updateMetadataFile(metadataFilePath, jsonContent, newNodes, f)
+
+            except Exception as e:
+                createNewMetadataFile(metadataFilePath, newNodes, f)
+
             finally:
                 f.close()
 
@@ -193,7 +238,6 @@ def extractIndentationBlock(lines: list[str], search_string: str) -> list[str]:
             found_start = True
         if (found_start):
             extracted_lines.append(line)
-    print("\n".join(extracted_lines))
     return extracted_lines
 
 
@@ -205,62 +249,10 @@ def extractKeywords(output: str) -> set[str]:
     return set((keyword[3:] if keyword.find("3") != -1 else keyword) for keyword in keywords)
 
 
-# directory -> either C or C++
-def executeClang(directory):
-    language = directory.lower()
-    standard_list = os.listdir(directory)
-    standard_list = [standard for standard in standard_list if "extensions" not in standard.lower(
-    ) and "23" not in standard]
-
-    # Iterate over all standards
-    for standard in standard_list:
-        standard_path = os.path.join(directory, standard)
-        print("standard_path: " + standard_path)
-        # Getting the standard name
-        standard_match = re.search(r'([^\\/]+)$', standard_path)
-        standard_name = standard_match.group(1)
-
-        # List of keywords and nodes folders
-        folder_list = os.listdir(standard_path)
-
-        # Iterate over all folders
-        for folder in folder_list:
-            folder_path = os.path.join(standard_path, folder)
-            print("folder_path: " + folder_path)
-            keyNodes = os.listdir(folder_path)
-
-            for keyNode in keyNodes:
-                keyNode_path = os.path.join(folder_path, keyNode)
-                print("keyNode_path: " + keyNode_path)
-                # List of files
-                src_file_list = os.listdir(keyNode_path)
-
-                # Iterate over all files
-                for src_file in src_file_list:
-                    src_file_path = os.path.join(keyNode_path, src_file)
-                    print("file_path: " + src_file_path)
-                    command = [
-                        'clang', f'--std={standard_name}', '-Xclang', '-ast-dump', '-S', src_file_path]
-                    output = subprocess.check_output(command).decode('utf-8')
-                    source_string = "src.c" if language == "C" else "src.cpp"
-                    print("source " + source_string)
-                    file_translation_unit = "\n".join(
-                        extractIndentationBlock(output.split("\n"), source_string))
-                    keywords = re.findall(
-                        r'\b\w+(?:Expr|Decl|Operator|Literal|Cleanups|Stmt)\b', file_translation_unit)
-                    keywords = set((keyword[3:] if keyword.find(
-                        "3") != -1 else keyword) for keyword in keywords)
-                    sorted_keywords = json.dumps(sorted(keywords), indent=4)
-
-                    # Save keywords to "keywords.txt" file
-                    with open(os.path.join(keyNode_path, "keywords.txt"), "w") as file:
-                        file.write(sorted_keywords)
-
-
 if __name__ == '__main__':
 
     args = handleArgumentParsing()
-    baseDirectoryPath = path.abspath(path.join(os.getcwd(), args.srcPath()))
+    baseDirectoryPath = path.abspath(path.join(os.getcwd(), args.srcPath))
 
     if (not os.path.isdir(baseDirectoryPath)):
         printError("Specified path is not a directory!")

@@ -305,6 +305,9 @@ def updateMetadataFile(metadataFilePath: str, jsonContent: dict[str, any], newNo
     # When test names aren't node names then they won't be in the generated node keywords
     if testName in newNodes:
         newNodes.remove(testName)
+
+    handleTestName(metadataFilePath, jsonContent)
+    
     newBuildId = generateNewBuildId()
     handleChangesSection(jsonContent, newNodes, newBuildId)
     jsonContent[KEY_NODE_LIST] = list(newNodes)

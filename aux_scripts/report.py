@@ -2,6 +2,8 @@ import json
 import os
 import argparse
 from enum import Enum
+import matplotlib.pyplot as plt
+import numpy as np
 
 standard_name_to_index = {
     "c++98": 1,
@@ -54,6 +56,7 @@ def latexBool(bool):
         latexBool= r"\textcolor{green}{True}"
         global true_counter
         true_counter+=1
+
         return latexBool
     elif bool is False:
         latexBool= r"\textcolor{red}{False}"
@@ -88,6 +91,10 @@ def processDirectory(general_path):
             results.append(result)
     return [results,standards]
         
+def calculatePercentage(test_name, results):
+    total_count = len(results)
+    success_count = sum(1 for result in results if any(test.name == test_name and test.success for test in result.tests))
+    return success_count / total_count * 100 if total_count > 0 else 0
 
 def processFile(file_path):
     with open(file_path) as json_file:  # reads the JSON file
@@ -128,6 +135,9 @@ class Test:
         self.time = time
         self.tries= tries
 
+
+
+
 if __name__ == '__main__':
     
     parser = argparse.ArgumentParser(description="Script to generate a LaTeX report based on CACTI's output")
@@ -152,9 +162,6 @@ if __name__ == '__main__':
     f.write(r"\usepackage[top=1.5cm,bottom=3cm,left=1.5cm,right=1cm,marginparwidth=1.75cm]{geometry}"+"\n"+r"\begin{document}"+"\n")
     f.write(r"\title{" + transpiler.capitalize() + r" Testing Results}"+"\n"+r"\maketitle"+"\n"+r"\newcolumntype{Y}{>{\centering\arraybackslash}X}"+"\n")
     
-
-    
-
 
     standards = processDirectory(general_path)[1]
     
@@ -207,6 +214,7 @@ if __name__ == '__main__':
             for test in result.tests:
                 if (test.tries == -1):
                     row+= r'& {0}&{1}'.format(test.time, latexBool(test.success))
+                
                 else: 
                     row+= r'& {0}&{1}'.format(test.tries, latexBool(test.success))
             row += r' \\[0.5ex]'
@@ -217,5 +225,8 @@ if __name__ == '__main__':
     f.write(r"\section{Percentages}")
     f.write("Percentage of passed tests:\n")
     f.write(str(round(true_counter/(false_counter+true_counter)*100,2))+r" \%")
+
+
+
     f.write(r"\end{document}")
-  
+

@@ -4,6 +4,7 @@ import argparse
 from enum import Enum
 import matplotlib.pyplot as plt
 import numpy as np
+from statistics import mean
 
 standard_name_to_index = {
     "c++98": 1,
@@ -118,6 +119,18 @@ def processFile(file_path):
         result = Result(name, tests)
         return result
 
+def getPercentagesFromStandard(standard):
+    success_results = []
+    failed_results = []
+    success_results.append(calculatePercentage("test_parsing", standard.result))
+    success_results.append(calculatePercentage("test_code_generation", standard.result))
+    success_results.append(calculatePercentage("test_idempotency", standard.result))
+    success_results.append(calculatePercentage("test_correctness", standard.result))
+    for result in success_results:
+        failed_results.append(100-result)
+    return success_results, failed_results
+
+
 class Standard:
     def __init__(self, name, result):
         self.name = name
@@ -134,6 +147,7 @@ class Test:
         self.success = success
         self.time = time
         self.tries= tries
+
 
 
 
@@ -170,15 +184,9 @@ if __name__ == '__main__':
     success_percentages = []
     failure_percentages = []
     for standard in standards:
-        success_percentage_corr = calculatePercentage("test_correctness", standard.result)
-        # TODO: execute the calculatePercentage for every test
-        success_percentage_idemp = calculatePercentage("test_idempotency", standard.result)
-        success_percentage_par = calculatePercentage("test_parsing", standard.result)
-        success_percentage_gen = calculatePercentage("test_code_generation", standard.result)
-        global_success = (success_percentage_corr + success_percentage_idemp + success_percentage_par + success_percentage_gen) / 4
-        global_failure = 100 - global_success
-        success_percentages.append(global_success)
-        failure_percentages.append(global_failure)     
+        success, failure = getPercentagesFromStandard(standard)
+        success_percentages.append(mean(success))
+        failure_percentages.append(mean(failure))
 
 
 
@@ -223,6 +231,8 @@ if __name__ == '__main__':
         f.write(r"\midrule"+"\n")
         f.write(r"\endhead")
 
+
+
         # writing result rows
         for result in standard.result:
             row = r"\textbf{{\fontsize{10}{12}\selectfont " + latexSource(result.name) + r"}}"
@@ -236,7 +246,37 @@ if __name__ == '__main__':
             f.write(row+"\n")
         f.write(r"\bottomrule"+"\n")
         f.write(r"\end{xltabular}"+"\n")
+
         f.write(r"\newpage" + "\n")
+
+        success, failure = getPercentagesFromStandard(standard)
+
+        plt.figure(figsize=(10, 5))
+        x_labels = [test.name.capitalize() for test in exampleResult.tests]
+        x_pos = np.arange(len(x_labels))
+        width = 0.35
+
+        plt.bar(x_pos - width/2, success, width, label="Success")
+        plt.bar(x_pos + width/2, failure, width, label="Failure")
+
+        plt.xlabel("Tests")
+        plt.ylabel("Percentage")
+        plt.title("Percentage of passed tests in " + standard.name + " per category")
+        plt.xticks(x_pos, x_labels, rotation=45, ha='right')
+        plt.legend()
+
+        plt.tight_layout()
+        plt.savefig(standard.name +"_percentage.png")
+
+        f.write(r"\begin{figure}[h!]"+"\n")
+        f.write(r"\centering"+"\n")
+        f.write(r"\includegraphics[width=0.8\textwidth]{" + standard.name + "_percentage.png}"+"\n")
+        f.write(r"\caption{Percentage of passed tests in " +  standard.name + "}"+"\n")
+        f.write(r"\label{fig:" + standard.name + "_percentage}"+"\n")
+        f.write(r"\end{figure}"+"\n")
+
+        f.write(r"\newpage" + "\n")
+
     f.write(r"\section{Percentages}")
     f.write("Percentage of passed tests:\n")
     f.write(str(round(true_counter/(false_counter+true_counter)*100,2))+r" \%")

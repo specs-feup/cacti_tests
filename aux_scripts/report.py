@@ -131,6 +131,44 @@ def getPercentagesFromStandard(standard):
     return success_results, failed_results
 
 
+def graphCreator(x_labels, x_meaning, y_meaning, list1, list2 ,standard = ""):
+        plt.figure(figsize=(10, 5))
+        x_pos = np.arange(len(x_labels))
+        width = 0.35
+
+        plt.bar(x_pos - width/2, list1, width, label="Success")
+        plt.bar(x_pos + width/2, list2, width, label="Failure")
+
+        plt.xlabel(x_meaning)
+        plt.ylabel(y_meaning)
+        if standard != "":
+            plt.title("Percentage of passed tests in " + standard.name + " per category")
+        else:
+            plt.title("Percentage of passed tests per standard")
+        plt.xticks(x_pos, x_labels, rotation=45, ha='right')
+        plt.legend()
+
+        plt.tight_layout()
+        if standard != "":
+            plt.savefig(standard.name +"_percentage.png")
+        else:
+            plt.savefig("global_percentage.png")
+
+        f.write(r"\begin{figure}[h!]"+"\n")
+        f.write(r"\centering"+"\n")
+        if standard != "":
+            f.write(r"\includegraphics[width=0.8\textwidth]{" + standard.name + "_percentage.png}"+"\n")
+            f.write(r"\caption{Percentage of passed tests in " +  standard.name + "}"+"\n")
+            f.write(r"\label{fig:" + standard.name + "_percentage}"+"\n")
+        else:
+            f.write(r"\includegraphics[width=0.8\textwidth]{global_percentage.png}"+"\n")
+            f.write(r"\caption{Percentage of passed tests per standard}"+"\n")
+            f.write(r"\label{fig:global_percentage}"+"\n")
+        f.write(r"\end{figure}"+"\n")
+
+
+
+
 class Standard:
     def __init__(self, name, result):
         self.name = name
@@ -247,63 +285,21 @@ if __name__ == '__main__':
         f.write(r"\bottomrule"+"\n")
         f.write(r"\end{xltabular}"+"\n")
 
+
         f.write(r"\newpage" + "\n")
 
         success, failure = getPercentagesFromStandard(standard)
 
-        plt.figure(figsize=(10, 5))
-        x_labels = [test.name.capitalize() for test in exampleResult.tests]
-        x_pos = np.arange(len(x_labels))
-        width = 0.35
-
-        plt.bar(x_pos - width/2, success, width, label="Success")
-        plt.bar(x_pos + width/2, failure, width, label="Failure")
-
-        plt.xlabel("Tests")
-        plt.ylabel("Percentage")
-        plt.title("Percentage of passed tests in " + standard.name + " per category")
-        plt.xticks(x_pos, x_labels, rotation=45, ha='right')
-        plt.legend()
-
-        plt.tight_layout()
-        plt.savefig(standard.name +"_percentage.png")
-
-        f.write(r"\begin{figure}[h!]"+"\n")
-        f.write(r"\centering"+"\n")
-        f.write(r"\includegraphics[width=0.8\textwidth]{" + standard.name + "_percentage.png}"+"\n")
-        f.write(r"\caption{Percentage of passed tests in " +  standard.name + "}"+"\n")
-        f.write(r"\label{fig:" + standard.name + "_percentage}"+"\n")
-        f.write(r"\end{figure}"+"\n")
-
+        graphCreator([latexTest("test_parsing"), latexTest("test_code_generation"), latexTest("test_idempotency"), latexTest("test_correctness")], "Test", "Percentage", success, failure, standard)
+ 
         f.write(r"\newpage" + "\n")
 
     f.write(r"\section{Percentages}")
     f.write("Percentage of passed tests:\n")
     f.write(str(round(true_counter/(false_counter+true_counter)*100,2))+r" \%")
 
-    plt.figure(figsize=(10, 5))
     x_labels = [standard.name.capitalize() for standard in standards]
-    x_pos = np.arange(len(x_labels))
-    width = 0.35
 
-    plt.bar(x_pos - width/2, success_percentages, width, label="Success")
-    plt.bar(x_pos + width/2, failure_percentages, width, label="Failure")
-
-    plt.xlabel("Standard")
-    plt.ylabel("Percentage")
-    plt.title("Percentage of passed tests per standard")
-    plt.xticks(x_pos, x_labels, rotation=45, ha='right')
-    plt.legend()
-
-    plt.tight_layout()
-    plt.savefig("global_percentage.png")
-
-    f.write(r"\begin{figure}[h!]"+"\n")
-    f.write(r"\centering"+"\n")
-    f.write(r"\includegraphics[width=0.8\textwidth]{global_percentage.png}"+"\n")
-    f.write(r"\caption{Percentage of passed tests per standard}"+"\n")
-    f.write(r"\label{fig:global_percentage}"+"\n")
-    f.write(r"\end{figure}"+"\n")
-
+    graphCreator(x_labels, "Standard", "Percentage", success_percentages, failure_percentages)
     f.write(r"\end{document}")
 

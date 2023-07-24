@@ -49,7 +49,8 @@ def extract_keywords(file_path, cpp_standard):
     file_translation_unit = "\n".join(extract_indentation_block(output.split("\n"), "keywords/") + 
                                     extract_indentation_block(output.split("\n"), "nodes/"))    
     keywords = re.findall(r'\b\w+(?:Expr|Decl|Operator|Literal|Cleanups|Stmt)\b', file_translation_unit)
-    return set(keyword[3:] + " " + cpp_standard + " " + file_path for keyword in keywords)
+
+    return set((keyword if not keyword[:2].isdigit() else keyword[3:]) + " " + cpp_standard + " " + file_path for keyword in keywords)
 
 def process_directory(directory_path):
     cpp_standard = os.path.basename(directory_path.lower())
@@ -139,6 +140,8 @@ if __name__ == '__main__':
     with open("keywords.txt", "w") as file:
         file.write("\n".join(sorted_keywords))
 
+    file.close()
+    
     exclusiveKeywords = set()
     filePath = "keywords.txt"
     keyword_nodes = getKeywordNodes(filePath)

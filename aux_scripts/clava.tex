@@ -1,0 +1,398 @@
+\documentclass{article}
+\usepackage{booktabs}
+\usepackage{xltabular}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage[top=1.5cm,bottom=3cm,left=1.5cm,right=1cm,marginparwidth=1.75cm]{geometry}
+\begin{document}
+\title{Clava Testing Results}
+\maketitle
+\newcolumntype{Y}{>{\centering\arraybackslash}X}
+\section{C++98}
+\begin{xltabular}{\textwidth}{lcccccccc}
+\toprule
+\multicolumn{1}{Y}{}
+& \multicolumn{2}{@{}c}{\textbf{Parsing}}& \multicolumn{2}{@{}c}{\textbf{Code Generation}}& \multicolumn{2}{@{}c}{\textbf{Idempotency}}& \multicolumn{2}{@{}c}{\textbf{Correctness}}\\
+\cmidrule{2-9}&\multicolumn{1}{@{}c}{Time}&\multicolumn{1}{@{}c}{Success}&\multicolumn{1}{@{}c}{Time}&\multicolumn{1}{@{}c}{Success}&\multicolumn{1}{@{}c}{Tries}&\multicolumn{1}{@{}c}{Success}&\multicolumn{1}{@{}c}{Time}&\multicolumn{1}{@{}c}{Success}\\
+\midrule
+\endhead\textbf{{\fontsize{10}{12}\selectfont Arraytypetraitexpr}}& 0&\textcolor{red}{False} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Cxxbindtemporaryexpr}}& 0.317&\textcolor{green}{True}& 0.083&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.05&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Cxxboolliteralexpr}}& 0.348&\textcolor{green}{True}& 0.061&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.045&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Cxxconstcastexpr}}& 0.393&\textcolor{green}{True}& 0.131&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.047&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Cxxconstructexpr}}& 0.337&\textcolor{green}{True}& 0.095&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.051&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Cxxconversiondecl}}& 0.322&\textcolor{green}{True}& 0.064&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.056&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Cxxdefaultargexpr}}& 0.437&\textcolor{green}{True}& 0.065&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.049&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Cxxdependentscopememberexpr}}& 0.328&\textcolor{green}{True}& 0.086&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.044&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Cxxdestructordecl}}& 0.368&\textcolor{green}{True}& 0.06&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.047&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Cxxdynamiccastexpr}}& 0.335&\textcolor{green}{True}& 0.072&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.046&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Cxxfoldexpr}}& 0&\textcolor{red}{False} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Cxxfunctionalcastexpr}}& 0.348&\textcolor{green}{True}& 0.084&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.047&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Cxxmembercallexpr}}& 0.334&\textcolor{green}{True}& 0.089&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.05&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Cxxnewexpr}}& 0.318&\textcolor{green}{True}& 0.073&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.052&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Cxxoperatorcallexpr}}& 0.337&\textcolor{green}{True}& 0.087&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.046&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Cxxpseudodestructorexpr}}& 0.355&\textcolor{green}{True}& 0.087&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.048&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Cxxreinterpretcastexpr}}& 0.312&\textcolor{green}{True}& 0.083&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.048&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Cxxscalarvalueinitexpr}}& 0.321&\textcolor{green}{True}& 0.066&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0&\textcolor{red}{False} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Cxxstaticcastexpr}}& 0.433&\textcolor{green}{True}& 0.087&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.047&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Cxxthisexpr}}& 0.301&\textcolor{green}{True}& 0.095&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.047&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Cxxthrowexpr}}& 0.554&\textcolor{green}{True}& 0&\textcolor{red}{False} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Cxxtypeidexpr}}& 0.594&\textcolor{green}{True}& 0&\textcolor{red}{False} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Cxxunresolvedconstructexpr}}& 0.33&\textcolor{green}{True}& 0.072&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.054&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Classscopefunctionspecializationdecl}}& 0&\textcolor{red}{False} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Classtemplatepartialspecializationdecl}}& 0.376&\textcolor{green}{True}& 0.08&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0&\textcolor{red}{False} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Classtemplatespecializationdecl}}& 0.375&\textcolor{green}{True}& 0.077&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.058&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Dependentscopedeclrefexpr}}& 0.344&\textcolor{green}{True}& 0.066&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.048&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Exprwithcleanups}}& 0.387&\textcolor{green}{True}& 0.072&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.054&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Filescopeasmdecl}}& 0&\textcolor{red}{False} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Frienddecl}}& 0.306&\textcolor{green}{True}& 0.081&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.044&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Functiontemplatedecl}}& 0.323&\textcolor{green}{True}& 0.065&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.044&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Gnunullexpr}}& 0.31&\textcolor{green}{True}& 0.081&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.047&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Implicitcastexpr}}& 0.339&\textcolor{green}{True}& 0.068&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.044&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Initlistexpr}}& 0.334&\textcolor{green}{True}& 0.076&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.049&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Linkagespecdecl}}& 0.325&\textcolor{green}{True}& 0.068&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.047&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Materializetemporaryexpr}}& 0.362&\textcolor{green}{True}& 0.085&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.045&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Namespacealiasdecl}}& 0.313&\textcolor{green}{True}& 0.079&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.048&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Namespacedecl}}& 0.317&\textcolor{green}{True}& 0.07&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.044&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Nontypetemplateparmdecl}}& 0.334&\textcolor{green}{True}& 0.06&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.047&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Opaquevalueexpr}}& 0.334&\textcolor{green}{True}& 0.089&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.048&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Parenlistexpr}}& 0.367&\textcolor{green}{True}& 0.084&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.045&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Sizeofpackexpr}}& 0.333&\textcolor{green}{True}& 0.051&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.044&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Substnontypetemplateparmexpr}}& 0.669&\textcolor{green}{True}& 0.091&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.788&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Templatetypeparmdecl}}& 0.314&\textcolor{green}{True}& 0.051&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.043&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Unresolvedusingvaluedecl}}& 0.35&\textcolor{green}{True}& 0.09&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0&\textcolor{red}{False} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Usingdirectivedecl}}& 0.316&\textcolor{green}{True}& 0.073&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.044&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Vaargexpr}}& 0.319&\textcolor{green}{True}& 0.075&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.051&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont And}}& 0.305&\textcolor{green}{True}& 0.06&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.044&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont And\_eq}}& 0.316&\textcolor{green}{True}& 0.087&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.048&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Bitand}}& 0.306&\textcolor{green}{True}& 0.079&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.049&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Bitor}}& 0.328&\textcolor{green}{True}& 0.067&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.05&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Bool}}& 0.281&\textcolor{green}{True}& 0.065&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.044&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Break\_do}}& 0.289&\textcolor{green}{True}& 0.067&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.043&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Break\_for}}& 0.304&\textcolor{green}{True}& 0.057&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.044&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Break\_switch}}& 0.328&\textcolor{green}{True}& 0.07&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.044&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Break\_while}}& 0.329&\textcolor{green}{True}& 0.072&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.047&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Case}}& 0.318&\textcolor{green}{True}& 0.098&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.05&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Catch}}& 0.357&\textcolor{green}{True}& 0.085&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.069&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Char}}& 0.391&\textcolor{green}{True}& 0.077&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.055&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Class}}& 0.358&\textcolor{green}{True}& 0.058&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.051&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Class\_public}}& 0.337&\textcolor{green}{True}& 0.068&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.065&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Compl}}& 0.383&\textcolor{green}{True}& 0.097&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.048&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Const}}& 0.356&\textcolor{green}{True}& 0.071&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.047&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Const\_cast}}& 0.326&\textcolor{green}{True}& 0.069&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.045&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Continue\_do\_while\_loop}}& 0.401&\textcolor{green}{True}& 0.099&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.048&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Continue\_for\_loop}}& 0.336&\textcolor{green}{True}& 0.1&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.054&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Continue\_while\_loop}}& 0.349&\textcolor{green}{True}& 0.072&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.049&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Default}}& 0.324&\textcolor{green}{True}& 0.088&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.051&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Delete\_ptr}}& 0.384&\textcolor{green}{True}& 0.064&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.051&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Do\_while}}& 0.391&\textcolor{green}{True}& 0.096&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.051&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Double\_var\_decl}}& 0.386&\textcolor{green}{True}& 0.078&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.052&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Dynamic\_cast}}& 0.378&\textcolor{green}{True}& 0.083&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.048&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Enum\_decl}}& 0.327&\textcolor{green}{True}& 0.073&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.048&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Explicit\_struct\_member\_decl}}& 0.324&\textcolor{green}{True}& 0.069&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.051&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Extern\_language\_func\_decl}}& 0.363&\textcolor{green}{True}& 0.065&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.056&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont False}}& 0.335&\textcolor{green}{True}& 0.059&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.048&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Float\_var\_decl}}& 0.319&\textcolor{green}{True}& 0.073&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.051&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont For\_loop}}& 0.374&\textcolor{green}{True}& 0.083&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.051&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Friend\_member\_decl}}& 0.294&\textcolor{green}{True}& 0.064&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.049&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Goto}}& 0.351&\textcolor{green}{True}& 0.092&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.044&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont If}}& 0.369&\textcolor{green}{True}& 0.058&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.046&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont If\_else}}& 0.316&\textcolor{green}{True}& 0.069&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.045&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Inline\_func\_decl}}& 0.362&\textcolor{green}{True}& 0.058&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.049&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Int\_var\_decl}}& 0.363&\textcolor{green}{True}& 0.07&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.063&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Long\_var\_decl}}& 0.344&\textcolor{green}{True}& 0.075&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.045&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Mutable\_struct\_member\_decl}}& 0.33&\textcolor{green}{True}& 0.088&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.082&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Named\_union\_decl}}& 0.314&\textcolor{green}{True}& 0.058&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.043&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Namespace}}& 0.345&\textcolor{green}{True}& 0.071&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.047&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont New}}& 0.371&\textcolor{green}{True}& 0.077&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.048&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Not}}& 0.385&\textcolor{green}{True}& 0.084&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.05&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Not\_eq}}& 0.322&\textcolor{green}{True}& 0.067&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.046&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Operator}}& 0.4&\textcolor{green}{True}& 0.119&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.054&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Or}}& 0.298&\textcolor{green}{True}& 0.091&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.051&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Or\_eq}}& 0.465&\textcolor{green}{True}& 0.082&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.048&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Private}}& 0.341&\textcolor{green}{True}& 0.077&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.044&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Protected\_member\_decl}}& 0.324&\textcolor{green}{True}& 0.083&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.045&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Register}}& 0.281&\textcolor{green}{True}& 0.042&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.044&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Return}}& 0.308&\textcolor{green}{True}& 0.063&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.044&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Short\_val\_decl}}& 0.434&\textcolor{green}{True}& 0.112&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.049&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Signed\_var\_decl}}& 0.422&\textcolor{green}{True}& 0.085&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.052&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Sizeof}}& 0.324&\textcolor{green}{True}& 0.086&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.049&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Static\_cast}}& 0.301&\textcolor{green}{True}& 0.058&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.046&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Static\_var\_decl}}& 0.327&\textcolor{green}{True}& 0.07&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.059&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Struct\_decl}}& 0.319&\textcolor{green}{True}& 0.077&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.044&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Switch\_case}}& 0.325&\textcolor{green}{True}& 0.078&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.044&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Template\_decl}}& 0.377&\textcolor{green}{True}& 0.076&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.053&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Template\_typename}}& 0.331&\textcolor{green}{True}& 0.075&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.045&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont This}}& 0.318&\textcolor{green}{True}& 0.089&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.047&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Throw}}& 0.704&\textcolor{green}{True}& 0.076&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.598&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont True}}& 0.337&\textcolor{green}{True}& 0.066&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.048&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Try}}& 0.331&\textcolor{green}{True}& 0.088&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.093&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Typedef}}& 0.275&\textcolor{green}{True}& 0.061&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.044&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Typeid}}& 0.34&\textcolor{green}{True}& 0.069&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.054&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Unsigned\_var\_decl}}& 0.323&\textcolor{green}{True}& 0.061&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.048&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Using}}& 0.315&\textcolor{green}{True}& 0.054&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.055&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Using\_namespace}}& 0.338&\textcolor{green}{True}& 0.06&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.045&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Virtual\_struct\_member\_decl}}& 0.317&\textcolor{green}{True}& 0.057&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.042&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Void\_func\_decl}}& 0.332&\textcolor{green}{True}& 0.063&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.051&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Volatile\_var\_decl}}& 0.341&\textcolor{green}{True}& 0.06&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.071&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Wchar\_t\_var\_decl}}& 0.324&\textcolor{green}{True}& 0.057&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.045&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont While\_loop}}& 0.322&\textcolor{green}{True}& 0.086&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.046&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Xor}}& 0.393&\textcolor{green}{True}& 0.084&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.045&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Xor\_eq}}& 0.318&\textcolor{green}{True}& 0.071&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.044&\textcolor{green}{True} \\[0.5ex]
+\bottomrule
+\end{xltabular}
+\newpage
+\section{C++11}
+\begin{xltabular}{\textwidth}{lcccccccc}
+\toprule
+\multicolumn{1}{Y}{}
+& \multicolumn{2}{@{}c}{\textbf{Parsing}}& \multicolumn{2}{@{}c}{\textbf{Code Generation}}& \multicolumn{2}{@{}c}{\textbf{Idempotency}}& \multicolumn{2}{@{}c}{\textbf{Correctness}}\\
+\cmidrule{2-9}&\multicolumn{1}{@{}c}{Time}&\multicolumn{1}{@{}c}{Success}&\multicolumn{1}{@{}c}{Time}&\multicolumn{1}{@{}c}{Success}&\multicolumn{1}{@{}c}{Tries}&\multicolumn{1}{@{}c}{Success}&\multicolumn{1}{@{}c}{Time}&\multicolumn{1}{@{}c}{Success}\\
+\midrule
+\endhead\textbf{{\fontsize{10}{12}\selectfont Arrayinitindexexpr}}& 0.395&\textcolor{green}{True}& 0.081&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.047&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Arrayinitloopexpr}}& 0&\textcolor{red}{False} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Atomicexpr}}& 0.359&\textcolor{green}{True}& 0.09&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0&\textcolor{red}{False} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Cxxdefaultinitexpr}}& 0.346&\textcolor{green}{True}& 0.099&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.048&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Cxxdeleteexpr}}& 0.377&\textcolor{green}{True}& 0.092&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.046&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Cxxforrangestmt}}& 0.382&\textcolor{green}{True}& 0.086&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.053&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Cxxinheritedctorinitexpr}}& 0.34&\textcolor{green}{True}& 0&\textcolor{red}{False} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Cxxnoexceptexpr}}& 0.298&\textcolor{green}{True}& 0.08&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.044&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Cxxnullptrliteralexpr}}& 0.349&\textcolor{green}{True}& 0.079&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.043&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Cxxstdinitializerlistexpr}}& 0.348&\textcolor{green}{True}& 0.061&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.058&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Constantexpr}}& 0.352&\textcolor{green}{True}& 0.082&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.046&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Constructorusingshadowdecl}}& 0.308&\textcolor{green}{True}& 0&\textcolor{red}{False} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Lambdaexpr}}& 0.34&\textcolor{green}{True}& 0.082&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.051&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Packexpansionexpr}}& 0.359&\textcolor{green}{True}& 0.095&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.057&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Typealiasdecl}}& 0.317&\textcolor{green}{True}& 0.065&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.067&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Typetraitexpr}}& 0.315&\textcolor{green}{True}& 0.077&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0&\textcolor{red}{False} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Unresolvedlookupexpr}}& 0.367&\textcolor{green}{True}& 0.111&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.049&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Unresolvedusingtypenamedecl}}& 0.314&\textcolor{green}{True}& 0.084&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.046&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Userdefinedliteral}}& 0.626&\textcolor{green}{True}& 0.094&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.536&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Alignas}}& 0.304&\textcolor{green}{True}& 0.064&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0&\textcolor{red}{False} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Alignof}}& 0.976&\textcolor{green}{True}& 0.075&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.738&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Auto}}& 0.347&\textcolor{green}{True}& 0.084&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.049&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Char16\_t}}& 0.359&\textcolor{green}{True}& 0.072&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.051&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Char32\_t}}& 0.315&\textcolor{green}{True}& 0.075&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.048&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Constexpr}}& 0.368&\textcolor{green}{True}& 0.08&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.047&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Decltype}}& 0.359&\textcolor{green}{True}& 0.069&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.046&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Noexcept}}& 0.3&\textcolor{green}{True}& 0.055&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.045&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Nullptr}}& 0.294&\textcolor{green}{True}& 0.062&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.043&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Reinterpret\_cast}}& 0.429&\textcolor{green}{True}& 0.128&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.058&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Static\_assert}}& 0.362&\textcolor{green}{True}& 0.078&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.081&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Thread\_local}}& 0.459&\textcolor{green}{True}& 0.072&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.38&\textcolor{green}{True} \\[0.5ex]
+\bottomrule
+\end{xltabular}
+\newpage
+\section{C++14}
+\begin{xltabular}{\textwidth}{lcccccccc}
+\toprule
+\multicolumn{1}{Y}{}
+& \multicolumn{2}{@{}c}{\textbf{Parsing}}& \multicolumn{2}{@{}c}{\textbf{Code Generation}}& \multicolumn{2}{@{}c}{\textbf{Idempotency}}& \multicolumn{2}{@{}c}{\textbf{Correctness}}\\
+\cmidrule{2-9}&\multicolumn{1}{@{}c}{Time}&\multicolumn{1}{@{}c}{Success}&\multicolumn{1}{@{}c}{Time}&\multicolumn{1}{@{}c}{Success}&\multicolumn{1}{@{}c}{Tries}&\multicolumn{1}{@{}c}{Success}&\multicolumn{1}{@{}c}{Time}&\multicolumn{1}{@{}c}{Success}\\
+\midrule
+\endhead\textbf{{\fontsize{10}{12}\selectfont Vartemplatedecl}}& 0.36&\textcolor{green}{True}& 0.076&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0&\textcolor{red}{False} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Vartemplatepartialspecializationdecl}}& 0&\textcolor{red}{False} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Vartemplatespecializationdecl}}& 0.359&\textcolor{green}{True}& 0.082&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0&\textcolor{red}{False} \\[0.5ex]
+\bottomrule
+\end{xltabular}
+\newpage
+\section{C++17}
+\begin{xltabular}{\textwidth}{lcccccccc}
+\toprule
+\multicolumn{1}{Y}{}
+& \multicolumn{2}{@{}c}{\textbf{Parsing}}& \multicolumn{2}{@{}c}{\textbf{Code Generation}}& \multicolumn{2}{@{}c}{\textbf{Idempotency}}& \multicolumn{2}{@{}c}{\textbf{Correctness}}\\
+\cmidrule{2-9}&\multicolumn{1}{@{}c}{Time}&\multicolumn{1}{@{}c}{Success}&\multicolumn{1}{@{}c}{Time}&\multicolumn{1}{@{}c}{Success}&\multicolumn{1}{@{}c}{Tries}&\multicolumn{1}{@{}c}{Success}&\multicolumn{1}{@{}c}{Time}&\multicolumn{1}{@{}c}{Success}\\
+\midrule
+\endhead\textbf{{\fontsize{10}{12}\selectfont Bindingdecl}}& 0&\textcolor{red}{False} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Cxxdeductionguidedecl}}& 0&\textcolor{red}{False} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Decompositiondecl}}& 0&\textcolor{red}{False} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Usingpackdecl}}& 0.319&\textcolor{green}{True}& 0.092&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.051&\textcolor{green}{True} \\[0.5ex]
+\bottomrule
+\end{xltabular}
+\newpage
+\section{C++20}
+\begin{xltabular}{\textwidth}{lcccccccc}
+\toprule
+\multicolumn{1}{Y}{}
+& \multicolumn{2}{@{}c}{\textbf{Parsing}}& \multicolumn{2}{@{}c}{\textbf{Code Generation}}& \multicolumn{2}{@{}c}{\textbf{Idempotency}}& \multicolumn{2}{@{}c}{\textbf{Correctness}}\\
+\cmidrule{2-9}&\multicolumn{1}{@{}c}{Time}&\multicolumn{1}{@{}c}{Success}&\multicolumn{1}{@{}c}{Time}&\multicolumn{1}{@{}c}{Success}&\multicolumn{1}{@{}c}{Tries}&\multicolumn{1}{@{}c}{Success}&\multicolumn{1}{@{}c}{Time}&\multicolumn{1}{@{}c}{Success}\\
+\midrule
+\endhead\textbf{{\fontsize{10}{12}\selectfont Cxxrewrittenbinaryoperator}}& 0.385&\textcolor{green}{True}& 0.101&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.048&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Coawaitexpr}}& 0&\textcolor{red}{False} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Conceptdecl}}& 0&\textcolor{red}{False} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Conceptspecializationexpr}}& 0&\textcolor{red}{False} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Coroutinebodystmt}}& 0&\textcolor{red}{False} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Coroutinesuspendexpr}}& 0&\textcolor{red}{False} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Coyieldexpr}}& 0&\textcolor{red}{False} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Dependentcoawaitexpr}}& 0&\textcolor{red}{False} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Requiresexpr}}& 0&\textcolor{red}{False} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Usingenumdecl}}& 0&\textcolor{red}{False} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Char8\_t}}& 0&\textcolor{red}{False} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Co\_await\_nf}}& 0&\textcolor{red}{False} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Co\_return\_nf}}& 0&\textcolor{red}{False} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Co\_yield}}& 0&\textcolor{red}{False} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Concept}}& 0&\textcolor{red}{False} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Consteval}}& 0&\textcolor{red}{False} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Constinit}}& 0&\textcolor{red}{False} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Export}}& 0&\textcolor{red}{False} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Requires}}& 0&\textcolor{red}{False} \\[0.5ex]
+\bottomrule
+\end{xltabular}
+\newpage
+\section{C89}
+\begin{xltabular}{\textwidth}{lcccccccc}
+\toprule
+\multicolumn{1}{Y}{}
+& \multicolumn{2}{@{}c}{\textbf{Parsing}}& \multicolumn{2}{@{}c}{\textbf{Code Generation}}& \multicolumn{2}{@{}c}{\textbf{Idempotency}}& \multicolumn{2}{@{}c}{\textbf{Correctness}}\\
+\cmidrule{2-9}&\multicolumn{1}{@{}c}{Time}&\multicolumn{1}{@{}c}{Success}&\multicolumn{1}{@{}c}{Time}&\multicolumn{1}{@{}c}{Success}&\multicolumn{1}{@{}c}{Tries}&\multicolumn{1}{@{}c}{Success}&\multicolumn{1}{@{}c}{Time}&\multicolumn{1}{@{}c}{Success}\\
+\midrule
+\endhead\textbf{{\fontsize{10}{12}\selectfont Addrlabelexpr}}& 0&\textcolor{red}{False} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Arrayinitindexexpr}}& 0.335&\textcolor{green}{True}& 0.071&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.067&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Arraysubscriptexpr}}& 0&\textcolor{red}{False} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Binaryconditionaloperator}}& 0.332&\textcolor{green}{True}& 0.088&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.045&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Binaryoperator}}& 0.305&\textcolor{green}{True}& 0.086&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.049&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Cstylecastexpr}}& 0.376&\textcolor{green}{True}& 0.087&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.045&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Callexpr}}& 0.365&\textcolor{green}{True}& 0.087&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.047&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Characterliteral}}& 0.334&\textcolor{green}{True}& 0.075&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.05&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Compoundassignoperator}}& 0.335&\textcolor{green}{True}& 0.083&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.048&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Compoundliteralexpr}}& 0.319&\textcolor{green}{True}& 0.066&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.046&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Conditionaloperator}}& 0.312&\textcolor{green}{True}& 0.08&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.045&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Declrefexpr}}& 0.343&\textcolor{green}{True}& 0.068&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.049&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Enumconstantdecl}}& 0.323&\textcolor{green}{True}& 0.072&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.059&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Extvectorelementexpr}}& 0&\textcolor{red}{False} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Floatingliteral}}& 0.321&\textcolor{green}{True}& 0.065&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.045&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Imaginaryliteral}}& 0&\textcolor{red}{False} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Implicitvalueinitexpr}}& 0.372&\textcolor{green}{True}& 0.07&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.048&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Indirectfielddecl}}& 0.306&\textcolor{green}{True}& 0.068&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.047&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Indirectgotostmt}}& 0&\textcolor{red}{False} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Initlistexpr}}& 0.337&\textcolor{green}{True}& 0.069&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.052&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Integerliteral}}& 0.354&\textcolor{green}{True}& 0.078&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.045&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Matrixsubscriptexpr}}& 0.305&\textcolor{green}{True}& 0.086&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.047&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Memberexpr}}& 0.342&\textcolor{green}{True}& 0.086&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.051&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Noinitexpr}}& 0.35&\textcolor{green}{True}& 0.073&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.049&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Parenexpr}}& 0.316&\textcolor{green}{True}& 0.084&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.051&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Stringliteral}}& 0.379&\textcolor{green}{True}& 0.078&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.046&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Unaryexprortypetraitexpr}}& 0.352&\textcolor{green}{True}& 0.074&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.044&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Unaryoperator}}& 0.331&\textcolor{green}{True}& 0.075&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.044&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Asm\_func\_decl}}& 0&\textcolor{red}{False} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Auto\_var\_decl}}& 0.392&\textcolor{green}{True}& 0.13&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.098&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Char\_var\_decl}}& 0.362&\textcolor{green}{True}& 0.081&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.053&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Const\_var\_decl}}& 0.424&\textcolor{green}{True}& 0.08&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.054&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Do\_while}}& 0.353&\textcolor{green}{True}& 0.091&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.049&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Double\_var\_decl}}& 0.353&\textcolor{green}{True}& 0.083&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.054&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Enum\_decl}}& 0.398&\textcolor{green}{True}& 0.085&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.06&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Extern\_var\_decl}}& 0.327&\textcolor{green}{True}& 0.07&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.048&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Float\_var\_decl}}& 0.32&\textcolor{green}{True}& 0.073&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.046&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont For\_loop}}& 0.332&\textcolor{green}{True}& 0.094&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.047&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont For\_loop\_break}}& 0.325&\textcolor{green}{True}& 0.071&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.054&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont For\_loop\_continue}}& 0.367&\textcolor{green}{True}& 0.096&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.059&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Goto}}& 0&\textcolor{red}{False} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont If}}& 0.355&\textcolor{green}{True}& 0.089&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.048&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont If\_else}}& 0.327&\textcolor{green}{True}& 0.077&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.047&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Int\_var\_decl}}& 0.33&\textcolor{green}{True}& 0.058&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.044&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Long\_var\_decl}}& 0.314&\textcolor{green}{True}& 0.074&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.047&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Named\_union\_decl}}& 0.328&\textcolor{green}{True}& 0.071&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.048&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Prep\_define}}& 0.308&\textcolor{green}{True}& 0.08&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.049&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Prep\_defined}}& 0.328&\textcolor{green}{True}& 0.082&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.047&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Prep\_elif}}& 0.357&\textcolor{green}{True}& 0.086&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.046&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Prep\_else}}& 0.312&\textcolor{green}{True}& 0.089&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.045&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Prep\_endif}}& 0.314&\textcolor{green}{True}& 0.072&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.055&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Prep\_error}}& 0.298&\textcolor{green}{True}& 0.08&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.047&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Prep\_if}}& 0.305&\textcolor{green}{True}& 0.097&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.052&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Prep\_ifdef}}& 0.359&\textcolor{green}{True}& 0.086&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.046&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Prep\_ifndef}}& 0.295&\textcolor{green}{True}& 0.079&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.05&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Prep\_include}}& 0.323&\textcolor{green}{True}& 0.073&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.054&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Prep\_line}}& 0.331&\textcolor{green}{True}& 0.062&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.047&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Prep\_pragma}}& 0.314&\textcolor{green}{True}& 0.068&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.049&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Prep\_undef}}& 0.354&\textcolor{green}{True}& 0.099&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.051&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Register\_var\_decl}}& 0.306&\textcolor{green}{True}& 0.066&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.077&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Return\_stmt}}& 0.331&\textcolor{green}{True}& 0.078&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.048&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Short\_var\_decl}}& 0.322&\textcolor{green}{True}& 0.087&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.048&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Signed\_var\_decl}}& 0.329&\textcolor{green}{True}& 0.085&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.047&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Sizeof}}& 0.322&\textcolor{green}{True}& 0.069&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.052&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Static\_var\_decl}}& 0.318&\textcolor{green}{True}& 0.07&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.047&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Struct\_decl}}& 0.338&\textcolor{green}{True}& 0.074&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.048&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Switch\_case}}& 0.331&\textcolor{green}{True}& 0.066&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.055&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Switch\_default}}& 0.319&\textcolor{green}{True}& 0.087&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.044&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Typedef\_decl}}& 0.323&\textcolor{green}{True}& 0.085&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.051&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Unnamed\_union\_decl}}& 0&\textcolor{red}{False} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Unsigned\_var\_decl}}& 0.313&\textcolor{green}{True}& 0.075&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.051&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Void\_func\_decl}}& 0.33&\textcolor{green}{True}& 0.054&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.048&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Volatile\_var\_decl}}& 0.336&\textcolor{green}{True}& 0.059&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.049&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont While\_stmt}}& 0.324&\textcolor{green}{True}& 0.069&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.045&\textcolor{green}{True} \\[0.5ex]
+\bottomrule
+\end{xltabular}
+\newpage
+\section{C99}
+\begin{xltabular}{\textwidth}{lcccccccc}
+\toprule
+\multicolumn{1}{Y}{}
+& \multicolumn{2}{@{}c}{\textbf{Parsing}}& \multicolumn{2}{@{}c}{\textbf{Code Generation}}& \multicolumn{2}{@{}c}{\textbf{Idempotency}}& \multicolumn{2}{@{}c}{\textbf{Correctness}}\\
+\cmidrule{2-9}&\multicolumn{1}{@{}c}{Time}&\multicolumn{1}{@{}c}{Success}&\multicolumn{1}{@{}c}{Time}&\multicolumn{1}{@{}c}{Success}&\multicolumn{1}{@{}c}{Tries}&\multicolumn{1}{@{}c}{Success}&\multicolumn{1}{@{}c}{Time}&\multicolumn{1}{@{}c}{Success}\\
+\midrule
+\endhead\textbf{{\fontsize{10}{12}\selectfont \_bool\_var\_decl}}& 0&\textcolor{red}{False} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont \_complex\_var\_decl}}& 0&\textcolor{red}{False} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont \_imaginary}}& 0&\textcolor{red}{False} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont \_pragma}}& 0.342&\textcolor{green}{True}& 0.069&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.048&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Inline\_func\_decl}}& 0.308&\textcolor{green}{True}& 0.092&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.048&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Restrict}}& 0&\textcolor{red}{False} \\[0.5ex]
+\bottomrule
+\end{xltabular}
+\newpage
+\section{C11}
+\begin{xltabular}{\textwidth}{lcccccccc}
+\toprule
+\multicolumn{1}{Y}{}
+& \multicolumn{2}{@{}c}{\textbf{Parsing}}& \multicolumn{2}{@{}c}{\textbf{Code Generation}}& \multicolumn{2}{@{}c}{\textbf{Idempotency}}& \multicolumn{2}{@{}c}{\textbf{Correctness}}\\
+\cmidrule{2-9}&\multicolumn{1}{@{}c}{Time}&\multicolumn{1}{@{}c}{Success}&\multicolumn{1}{@{}c}{Time}&\multicolumn{1}{@{}c}{Success}&\multicolumn{1}{@{}c}{Tries}&\multicolumn{1}{@{}c}{Success}&\multicolumn{1}{@{}c}{Time}&\multicolumn{1}{@{}c}{Success}\\
+\midrule
+\endhead\textbf{{\fontsize{10}{12}\selectfont Genericselectionexpr}}& 0&\textcolor{red}{False} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont \_alignas}}& 0.464&\textcolor{green}{True}& 0.107&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.469&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont \_alignof}}& 0.468&\textcolor{green}{True}& 0.083&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.158&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont \_atomic}}& 0.35&\textcolor{green}{True}& 0.068&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.05&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont \_generic}}& 0&\textcolor{red}{False} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont \_noreturn}}& 0.44&\textcolor{green}{True}& 0.11&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.241&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont \_static\_assert}}& 0.356&\textcolor{green}{True}& 0.085&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.056&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont \_thread\_local}}& 0.482&\textcolor{green}{True}& 0.13&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.074&\textcolor{green}{True} \\[0.5ex]
+\bottomrule
+\end{xltabular}
+\newpage
+\section{C23}
+\begin{xltabular}{\textwidth}{lcccccccc}
+\toprule
+\multicolumn{1}{Y}{}
+& \multicolumn{2}{@{}c}{\textbf{Parsing}}& \multicolumn{2}{@{}c}{\textbf{Code Generation}}& \multicolumn{2}{@{}c}{\textbf{Idempotency}}& \multicolumn{2}{@{}c}{\textbf{Correctness}}\\
+\cmidrule{2-9}&\multicolumn{1}{@{}c}{Time}&\multicolumn{1}{@{}c}{Success}&\multicolumn{1}{@{}c}{Time}&\multicolumn{1}{@{}c}{Success}&\multicolumn{1}{@{}c}{Tries}&\multicolumn{1}{@{}c}{Success}&\multicolumn{1}{@{}c}{Time}&\multicolumn{1}{@{}c}{Success}\\
+\midrule
+\endhead\textbf{{\fontsize{10}{12}\selectfont \_bitint}}& 0&\textcolor{red}{False} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont \_decimal128}}& 0&\textcolor{red}{False} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont \_decimal32}}& 0&\textcolor{red}{False} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont \_decimal64}}& 0&\textcolor{red}{False} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Alignas}}& 0.4&\textcolor{green}{True}& 0.092&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.053&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Alignof}}& 0&\textcolor{red}{False} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Bool}}& 0.356&\textcolor{green}{True}& 0.076&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0&\textcolor{red}{False} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Constexpr}}& 0.5&\textcolor{green}{True}& 0.119&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0&\textcolor{red}{False} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont False}}& 0.354&\textcolor{green}{True}& 0.073&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0&\textcolor{red}{False} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Nullptr}}& 0.408&\textcolor{green}{True}& 0.099&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0&\textcolor{red}{False} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Prep \_\_has\_include}}& 0.36&\textcolor{green}{True}& 0.069&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.084&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Prep\_\_\_has\_c\_attribute}}& 0.438&\textcolor{green}{True}& 0.087&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.055&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Prep\_\_\_has\_embed}}& 0.462&\textcolor{green}{True}& 0.126&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0&\textcolor{red}{False} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Prep\_elifdef}}& 0&\textcolor{red}{False} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Prep\_elifndef}}& 0.491&\textcolor{green}{True}& 0.105&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.061&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Prep\_embed}}& 0&\textcolor{red}{False} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Prep\_warning}}& 0.372&\textcolor{green}{True}& 0.109&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.063&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Static\_assert}}& 0.388&\textcolor{green}{True}& 0.088&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.054&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Thread\_local}}& 0.387&\textcolor{green}{True}& 0.046&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0.046&\textcolor{green}{True} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont True}}& 0.419&\textcolor{green}{True}& 0.126&\textcolor{green}{True}& 1&\textcolor{green}{True}& 0&\textcolor{red}{False} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Typeof}}& 0&\textcolor{red}{False} \\[0.5ex]
+\textbf{{\fontsize{10}{12}\selectfont Typeof\_unqual}}& 0&\textcolor{red}{False} \\[0.5ex]
+\bottomrule
+\end{xltabular}
+\newpage
+\section{Percentages}Percentage of passed tests:
+93.21 \%\begin{figure}[h!]
+\centering
+\includegraphics[width=0.8\textwidth]{global_percentage.png}
+\caption{Percentage of passed tests per standard}
+\label{fig:global_percentage}
+\end{figure}
+\end{document}

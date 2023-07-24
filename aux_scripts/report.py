@@ -159,13 +159,28 @@ if __name__ == '__main__':
     # write usepackages and title to the tex file
     f.write(r"\documentclass{article}"+"\n"+r"\usepackage{booktabs}"+"\n"+r"\usepackage{xltabular}"+"\n")
     f.write(r"\usepackage{xcolor}"+"\n")
+    f.write(r"\usepackage{graphicx}"+"\n")
     f.write(r"\usepackage[top=1.5cm,bottom=3cm,left=1.5cm,right=1cm,marginparwidth=1.75cm]{geometry}"+"\n"+r"\begin{document}"+"\n")
     f.write(r"\title{" + transpiler.capitalize() + r" Testing Results}"+"\n"+r"\maketitle"+"\n"+r"\newcolumntype{Y}{>{\centering\arraybackslash}X}"+"\n")
     
 
     standards = processDirectory(general_path)[1]
-    
     standards.sort(key=lambda x: getStand(x))
+    
+    success_percentages = []
+    failure_percentages = []
+    for standard in standards:
+        success_percentage_corr = calculatePercentage("test_correctness", standard.result)
+        # TODO: execute the calculatePercentage for every test
+        success_percentage_idemp = calculatePercentage("test_idempotency", standard.result)
+        success_percentage_par = calculatePercentage("test_parsing", standard.result)
+        success_percentage_gen = calculatePercentage("test_code_generation", standard.result)
+        global_success = (success_percentage_corr + success_percentage_idemp + success_percentage_par + success_percentage_gen) / 4
+        global_failure = 100 - global_success
+        success_percentages.append(global_success)
+        failure_percentages.append(global_failure)     
+
+
 
     #since the first group of tests in some standards
     #fails on the Parsing, we need to retrieve all the possible tests
@@ -226,7 +241,29 @@ if __name__ == '__main__':
     f.write("Percentage of passed tests:\n")
     f.write(str(round(true_counter/(false_counter+true_counter)*100,2))+r" \%")
 
+    plt.figure(figsize=(10, 5))
+    x_labels = [standard.name.capitalize() for standard in standards]
+    x_pos = np.arange(len(x_labels))
+    width = 0.35
 
+    plt.bar(x_pos - width/2, success_percentages, width, label="Success")
+    plt.bar(x_pos + width/2, failure_percentages, width, label="Failure")
+
+    plt.xlabel("Standard")
+    plt.ylabel("Percentage")
+    plt.title("Percentage of passed tests per standard")
+    plt.xticks(x_pos, x_labels, rotation=45, ha='right')
+    plt.legend()
+
+    plt.tight_layout()
+    plt.savefig("global_percentage.png")
+
+    f.write(r"\begin{figure}[h!]"+"\n")
+    f.write(r"\centering"+"\n")
+    f.write(r"\includegraphics[width=0.8\textwidth]{global_percentage.png}"+"\n")
+    f.write(r"\caption{Percentage of passed tests per standard}"+"\n")
+    f.write(r"\label{fig:global_percentage}"+"\n")
+    f.write(r"\end{figure}"+"\n")
 
     f.write(r"\end{document}")
 

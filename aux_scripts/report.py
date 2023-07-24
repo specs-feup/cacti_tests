@@ -290,7 +290,7 @@ if __name__ == '__main__':
 
         success, failure = getPercentagesFromStandard(standard)
 
-        graphCreator([latexTest("test_parsing"), latexTest("test_code_generation"), latexTest("test_idempotency"), latexTest("test_correctness")], "Test", "Percentage", success, failure, standard)
+        graphCreator(["Parsing", "CodeGeneration", "Idempotency", "Correctness"], "Test", "Percentage", success, failure, standard)
  
         f.write(r"\newpage" + "\n")
 

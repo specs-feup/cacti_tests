@@ -92,10 +92,6 @@ def processDirectory(general_path):
             results.append(result)
     return [results,standards]
         
-def calculatePercentage(test_name, results):
-    total_count = len(results)
-    success_count = sum(1 for result in results if any(test.name == test_name and test.success for test in result.tests))
-    return success_count / total_count * 100 if total_count > 0 else 0
 
 def processFile(file_path):
     with open(file_path) as json_file:  # reads the JSON file
@@ -118,6 +114,11 @@ def processFile(file_path):
 
         result = Result(name, tests)
         return result
+    
+def calculatePercentage(test_name, results):
+    total_count = len(results)
+    success_count = sum(1 for result in results if any(test.name == test_name and test.success for test in result.tests))
+    return success_count / total_count * 100 if total_count > 0 else 0
 
 def getPercentagesFromStandard(standard):
     success_results = []
@@ -131,7 +132,7 @@ def getPercentagesFromStandard(standard):
     return success_results, failed_results
 
 
-def graphCreator(x_labels, x_meaning, y_meaning, list1, list2 ,standard = ""):
+def graphCreator(transpiler : str, x_labels : list, x_meaning: str, y_meaning: str, list1: list, list2:list ,standard = ""):
         plt.figure(figsize=(10, 5))
         x_pos = np.arange(len(x_labels))
         width = 0.35
@@ -149,19 +150,23 @@ def graphCreator(x_labels, x_meaning, y_meaning, list1, list2 ,standard = ""):
         plt.legend()
 
         plt.tight_layout()
+        images_folder = "../reports/"+ transpiler + "/images/"
+        if not os.path.exists(images_folder):
+            os.makedirs(os.path.dirname(images_folder), exist_ok=True)
         if standard != "":
-            plt.savefig(standard.name +"_percentage.png")
+            plt.savefig("../reports/"+ transpiler + "/images/" + standard.name +"_percentage.png")
         else:
-            plt.savefig("global_percentage.png")
+            plt.savefig("../reports/"+ transpiler + "/images/global_percentage.png")
 
         f.write(r"\begin{figure}[h!]"+"\n")
         f.write(r"\centering"+"\n")
         if standard != "":
-            f.write(r"\includegraphics[width=0.8\textwidth]{" + standard.name + "_percentage.png}"+"\n")
+            f.write(r"\includegraphics[width=0.8\textwidth]{" + "../reports/"+ transpiler + "/images/" + 
+                    standard.name + "_percentage.png}"+"\n")
             f.write(r"\caption{Percentage of passed tests in " +  standard.name + "}"+"\n")
             f.write(r"\label{fig:" + standard.name + "_percentage}"+"\n")
         else:
-            f.write(r"\includegraphics[width=0.8\textwidth]{global_percentage.png}"+"\n")
+            f.write(r"\includegraphics[width=0.8\textwidth]{" +"../reports/"+ transpiler + "/images/global_percentage.png}"+"\n")
             f.write(r"\caption{Percentage of passed tests per standard}"+"\n")
             f.write(r"\label{fig:global_percentage}"+"\n")
         f.write(r"\end{figure}"+"\n")
@@ -203,7 +208,10 @@ if __name__ == '__main__':
 
     # creates path to generate the latex file
     # latex_path = os.path.join(root_dir, "report.tex")
-    f = open(transpiler+".tex", "w")
+    report_path = "../reports/" + transpiler + "/"
+    if not os.path.exists(report_path):
+        os.makedirs(os.path.dirname(report_path), exist_ok=True)
+    f = open(report_path + transpiler +".tex", "w")
 
     # different test types folders
     general_path = os.path.join(args.src_path, transpiler)
@@ -290,7 +298,7 @@ if __name__ == '__main__':
 
         success, failure = getPercentagesFromStandard(standard)
 
-        graphCreator(["Parsing", "CodeGeneration", "Idempotency", "Correctness"], "Test", "Percentage", success, failure, standard)
+        graphCreator(transpiler, ["Parsing", "CodeGeneration", "Idempotency", "Correctness"], "Test", "Percentage", success, failure, standard)
  
         f.write(r"\newpage" + "\n")
 
@@ -300,6 +308,6 @@ if __name__ == '__main__':
 
     x_labels = [standard.name.capitalize() for standard in standards]
 
-    graphCreator(x_labels, "Standard", "Percentage", success_percentages, failure_percentages)
+    graphCreator(transpiler, x_labels, "Standard", "Percentage", success_percentages, failure_percentages)
     f.write(r"\end{document}")
 

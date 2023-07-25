@@ -14,8 +14,7 @@ standard_name_to_index = {
     "c++20": 5,
     "c89": 6,
     "c99": 7,
-    "c11": 8,
-    "c23": 9,
+    "c11": 8
 }
 
 class standards(Enum):
@@ -28,7 +27,6 @@ class standards(Enum):
     cstand89 = 7
     cstand99 = 8
     cstand11 = 9
-    cstand23 = 10
 
 true_counter = 0
 false_counter = 0

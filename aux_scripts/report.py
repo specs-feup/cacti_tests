@@ -190,9 +190,6 @@ class Test:
         self.tries= tries
 
 
-
-
-
 if __name__ == '__main__':
     
     parser = argparse.ArgumentParser(description="Script to generate a LaTeX report based on CACTI's output")
@@ -249,6 +246,7 @@ if __name__ == '__main__':
 
     for standard in standards:
         f.write(r"\section{"+ standard.name.capitalize() + r"}"+"\n")
+        f.write(r"\subsection{Tests}"+"\n")
         # start table with a column for source file's name and 2 columns per test  
         f.write(r"\begin{xltabular}{\textwidth}{l")
 
@@ -295,6 +293,8 @@ if __name__ == '__main__':
         f.write(r"\newpage" + "\n")
 
         success, failure = getPercentagesFromStandard(standard)
+
+        f.write(r"\subsection{Graphical Analysis}"+"\n")
 
         graphCreator(transpiler, ["Parsing", "CodeGeneration", "Idempotency", "Correctness"], "Test", "Percentage", success, failure, standard)
  

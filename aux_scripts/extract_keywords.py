@@ -46,15 +46,15 @@ def extract_indentation_block(lines, search_string):
 def extract_keywords(file_path, cpp_standard):
     command = ['clang', f'--std={cpp_standard}', '-Xclang', '-ast-dump', '-S', file_path]
     output = subprocess.check_output(command).decode('utf-8')
-    file_translation_unit = "\n".join(extract_indentation_block(output.split("\n"), "keywords/"))
+    file_translation_unit = "\n".join(extract_indentation_block(output.split("\n"), "keywords/") + 
+                                    extract_indentation_block(output.split("\n"), "nodes/"))    
     keywords = re.findall(r'\b\w+(?:Expr|Decl|Operator|Literal|Cleanups|Stmt)\b', file_translation_unit)
-    return set(keyword[3:] + " " + cpp_standard + " " + file_path for keyword in keywords)
+
+    return set((keyword if not keyword[:2].isdigit() else keyword[3:]) + " " + cpp_standard + " " + file_path for keyword in keywords)
 
 def process_directory(directory_path):
     cpp_standard = os.path.basename(directory_path.lower())
 
-    if cpp_standard.find("extension") != -1:
-        cpp_standard = "c++20"
 
     keywords_set = set()
     
@@ -80,12 +80,38 @@ def get_children_directories(directory_path):
 
     return directories
 
+
+def getKeywordNodes(filePath):
+    keyNodes = set()
+    f = open(filePath, "r")
+    lines = f.readlines()
+    f.close()
+    for line in lines:
+        if "keywords/" in line:
+            words = line.split()
+            keyNodes.add(words[0])
+    return keyNodes
+
+def getNodes(filePath):
+    nodes = set()
+    f = open(filePath, "r")
+    lines = f.readlines()
+    f.close()
+    for line in lines:
+        if "nodes/" in line:
+            words = line.split()
+            nodes.add(words[0])
+    return nodes
+
+
 if __name__ == '__main__':
     if len(sys.argv) != 2:
         print('Usage: python script.py <directory_path>')
         sys.exit(1)
 
     directory_path = sys.argv[1]
+
+
 
     children_directories = get_children_directories(directory_path)
 
@@ -94,8 +120,11 @@ if __name__ == '__main__':
     print("searching these directories: " + str(children_directories))
 
     for dir in children_directories:
-        keywords_set = process_directory(dir)
-        sets.append(keywords_set)
+        standards = get_children_directories(dir)
+        print("searching these standards: " + str(standards))
+        for standard in standards:
+            keywords_set = process_directory(standard)
+            sets.append(keywords_set)
     
     union_set = reduce(lambda s1, s2: s1 | s2, sets)
 
@@ -111,5 +140,17 @@ if __name__ == '__main__':
     with open("keywords.txt", "w") as file:
         file.write("\n".join(sorted_keywords))
 
+    file.close()
+    
+    exclusiveKeywords = set()
+    filePath = "keywords.txt"
+    keyword_nodes = getKeywordNodes(filePath)
+    nodes = getNodes(filePath)
+    exclusiveKeywords = keyword_nodes.difference(nodes)
+    f = open("exclusive_keywords.txt", "w+")
+    for keyword in exclusiveKeywords:
+        f.write(keyword + "\n")
+    f.close()
+    print(exclusiveKeywords)
 
     

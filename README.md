@@ -21,6 +21,52 @@ As the name suggests, CACTI wishes to study and compare the capabilities of diff
 - <a href="https://sigarra.up.pt/feup/pt/func_geral.formview?p_codigo=519965">João Bispo</a> - Faculty of Engineering, University of Porto, Portugal
 - <a href="https://sigarra.up.pt/feup/pt/func_geral.formview?p_codigo=662695">Luís Sousa</a> - Faculty of Engineering, University of Porto, Portugal
 
+## Important scripts
+
+Most of the scripts of this directory are inside the **aux_scripts** folder. Here is a compilation on how to run some of them:
+
+### Generate Report
+```
+$ python3 report.py [-h] -S SRC_PATH -T TRANSPILER
+```
+
+- `-S SRC_PATH` - specify the path to the directory where the generated outputs are
+- `-T TRANSPILER` - the name of the transpiler which is to be tested
+
+### Generate the metadata
+
+```
+$ python3 metadata_gen.py [-h] -s SRC_PATH
+```
+- `-s SRC_PATH` -  specify the path to the directory where the tests currently are
+
+### Extract keywords
+
+```
+$ python3 extract_keywords.py <directory_path>
+```
+- `<directory_path>` - define the directory to extract the keywords from
+
+### Extract the keywords from a single file
+
+```
+python3 extract_single_file_keywords.py <cpp_standard> <file_path>
+```
+- `<cpp_standard>` -  specify from which standard are the desired keywords
+- `<file_path>` - identify the path of the file from which the keywords should be extracted
+
+### Create graph with the generated nodes
+
+```
+$ python3 graph.py [-h] -s SRC_PATH [-c] [-l] [-v] [-S OUTPUT_PATH] [-f FORMAT]
+```
+- `-s SRC_PATH` - path to the directory with the test files.
+- `-c` - print all the cycles found to standard output.
+- `-l` - print all the leaf nodes, that is, nodes with no dependencies.
+- `-v` - open a pop-up window that allows for a visual analysis of the graph.
+- `-S OUTPUT_PATH` - save an svg of the visual representation of the graph to a given directory.
+- `-f FORMAT` - Specify a file format to save the visual representation in. Must be supported by pyplot's savefig. 
+
 ## Sources
 
 - [cppreference](https://en.cppreference.com) - 

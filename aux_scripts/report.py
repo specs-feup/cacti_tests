@@ -4,6 +4,8 @@ import argparse
 from enum import Enum
 import matplotlib.pyplot as plt
 import numpy as np
+from statistics import mean
+from functools import reduce
 
 standardNameToIndex = {
     "c++98": 1,
@@ -13,7 +15,8 @@ standardNameToIndex = {
     "c++20": 5,
     "c89": 6,
     "c99": 7,
-    "c11": 8
+    "c11": 8,
+    "c23": 9,
 }
 
 
@@ -27,6 +30,11 @@ class standards(Enum):
     cstand89 = 7
     cstand99 = 8
     cstand11 = 9
+    cstand23 = 10
+
+
+testPhasesNames: list[str] = ["test_parsing", "test_code_generation",
+                              "test_idempotency", "test_correctness"]
 
 
 class TestDetails:
@@ -95,64 +103,10 @@ trueCounter = 0
 falseCounter = 0
 unknownCounter = 0
 
-def calculatePercentage(test_name, results):
-    total_count = len(results)
-    success_count = sum(1 for test in results if any(detail.name == test_name and detail.success for detail in test.details))
-    return success_count / total_count * 100 if total_count > 0 else 0
-
-def getPercentagesFromStandard(standard):
-    test_names = ["test_parsing", "test_code_generation", "test_idempotency", "test_correctness"]
-    success_results = [calculatePercentage(name, standard.tests) for name in test_names]
-    failed_results = [100 - result for result in success_results]
-    return success_results, failed_results
-
-
-def graphCreator(transpiler : str, x_labels : list, x_meaning: str, y_meaning: str, list1: list, list2:list ,standard = ""):
-        plt.figure(figsize=(10, 5))
-        x_pos = np.arange(len(x_labels))
-        width = 0.35
-
-        plt.bar(x_pos - width/2, list1, width, label="Success")
-        plt.bar(x_pos + width/2, list2, width, label="Failure")
-
-        plt.xlabel(x_meaning)
-        plt.ylabel(y_meaning)
-        if standard != "":
-            plt.title("Percentage of passed tests in " + standard.name + " per category")
-        else:
-            plt.title("Percentage of passed tests per standard")
-        plt.xticks(x_pos, x_labels, rotation=45, ha='right')
-        plt.legend()
-
-        plt.tight_layout()
-        images_folder = "../reports/"+ transpiler + "/images/"
-        if not os.path.exists(images_folder):
-            os.makedirs(os.path.dirname(images_folder), exist_ok=True)
-        if standard != "":
-            plt.savefig("../reports/"+ transpiler + "/images/" + standard.name +"_percentage.png")
-        else:
-            plt.savefig("../reports/"+ transpiler + "/images/global_percentage.png")
-
-        f.write(r"\begin{figure}[h!]"+"\n")
-        f.write(r"\centering"+"\n")
-        if standard != "":
-            f.write(r"\includegraphics[width=0.8\textwidth]{" + "../reports/"+ transpiler + "/images/" + 
-                    standard.name + "_percentage.png}"+"\n")
-            f.write(r"\caption{Percentage of passed tests in " +  standard.name + "}"+"\n")
-            f.write(r"\label{fig:" + standard.name + "_percentage}"+"\n")
-        else:
-            f.write(r"\includegraphics[width=0.8\textwidth]{" +"../reports/"+ transpiler + "/images/global_percentage.png}"+"\n")
-            f.write(r"\caption{Percentage of passed tests per standard}"+"\n")
-            f.write(r"\label{fig:global_percentage}"+"\n")
-        f.write(r"\end{figure}"+"\n")
-
-
-
-
 
 def removeTestPrefix(string: str) -> str:
     """Removes test_ from the given string.
-    
+
     Attributes:
         string (str): the string to be transformed.
     """
@@ -175,20 +129,22 @@ def escapeBackslash(string: str) -> str:
 
 def snakeToCamelCase(string: str) -> str:
     """Splits the given string on underscores and returns the equivalent in Camel Case
-    
+
     Attributes:
         string (str): the string to be converted from snake_case to camelCase.
     """
+
     words = list(map(lambda x: x.capitalize(), string.split("\_")))
     return "".join(words)
 
 
 def latexBool(bool: bool) -> str:
     """Converts a boolean value to a String that can be used in LaTeX. The word is colored depending on the boolean value. Also updates global counters of tests passed/failed...
-    
+
     Attributes:
         bool (bool): the value to be converted.
     """
+
     if bool is True:
         latexBool = r"\textcolor{green}{True}"
         global trueCounter
@@ -212,6 +168,7 @@ def getStand(stand: Standard) -> int:
     Attributes:
         stand (Standard): the standard to be identified.
     """
+
     return standardNameToIndex[stand.name]
 
 
@@ -221,6 +178,7 @@ def processDirectory(generalPath: str) -> tuple[list[Test], list[Standard]]:
     Attributes:
         generalPath (str): the path to the source directory. This directory should have as direct children directories whose names are reflective of the C/C++ standard used in the tests inside it.
     """
+
     # Ensure general path is absolute and minimal
     generalPath = os.path.abspath(generalPath)
 
@@ -249,57 +207,29 @@ def processFile(filePath: str) -> Test:
     Attributes:
         filePath (str): the path to the results json file.
     """
-    with open(filePath) as json_file:  # reads the JSON file
+
+    with open(filePath) as json_file:
         parsedJson = json.load(json_file)
         name = ""
-        time = ""
-        tests = []
-        for key, value in parsedJson.items():
+        testPhases = []
+
+        for key, _ in parsedJson.items():
             if key == "name":
                 name = parsedJson[key]
             elif key == "test_idempotency":
                 test = TestDetails(key, parsedJson[key]["success"], tries=len(
                     parsedJson[key]["results"]))
-                tests.append(test)
+                testPhases.append(test)
             else:
                 if parsedJson[key]["success"]:
                     test = TestDetails(
                         key, parsedJson[key]["success"], parsedJson[key]["time"])
                 else:
                     test = TestDetails(key, parsedJson[key]["success"])
-                tests.append(test)
+                testPhases.append(test)
 
-        result = Test(name, tests)
+        result = Test(name, testPhases)
         return result
-
-
-def getAllTests(standards: list[Standard]) -> list[Test]:
-    """Iterates over all the standards and flattens all their tests into a single list.
-    
-    Attributes:
-        standards (list[Standard]): the list that will be iterated over.
-    """
-    tests = []
-    for standard in standards:
-        tests.extend(standard.tests)
-    return tests
-
-
-def findMostCompleteTestInfo(tests: list[Test]) -> tuple[Test, int]:
-    """Searches all tests in the list and returns a tuple with the test that includes the highest amount of test phases in its details and the corresponding number of test phases.
-
-    Attributes:
-        tests (list[Test]): the list that will be iterated over to search for the most complete test.
-    
-    Returns: A tuple with the most complete Test found and the number of test phases present in the test's details.
-    """
-    exampleTest = None
-    maxTestPhases = 0
-    for test in tests:
-        if (len(test.details) > maxTestPhases):
-            maxTestPhases = len(test.details)
-            exampleTest = test
-    return (exampleTest, maxTestPhases)
 
 
 def writeStandardTestResultRow(test: Test, f) -> None:
@@ -309,6 +239,7 @@ def writeStandardTestResultRow(test: Test, f) -> None:
         test (Test): the object that contains the information about the test result.
         f (file): the file to be written in.
     """
+
     row = r"\textbf{{\fontsize{10}{12}\selectfont " + \
         escapeBackslash(test.name) + r"}}"
     for details in test.details:
@@ -338,8 +269,6 @@ def writeStandards(standards: list[Standard], f) -> None:
 
     for standard in standards:
         f.write(r"\section{" + standard.name + r"}"+"\n")
-
-        f.write(r"\subsection{Table}"+"\n")
         # start table with a column for source file's name and 2 columns per test
         f.write(r"\begin{xltabular}{\textwidth}{l")
 
@@ -375,28 +304,59 @@ def writeStandards(standards: list[Standard], f) -> None:
 
         f.write(r"\bottomrule"+"\n")
         f.write(r"\end{xltabular}"+"\n")
-
-        success, failure = getPercentagesFromStandard(standard)
-
-        f.write(r"\newpage" + "\n")
-        f.write(r"\subsection{Graphical Analysis}"+"\n")
-
-
-        graphCreator(transpiler, ["Parsing", "Code Generation", "Idempotency", "Correctness"], "Test", "Percentage", success, failure, standard)
-
         f.write(r"\newpage" + "\n")
 
 
-def getAbsolutePercentageOfTestsPassed(tests: list[Test], maxTestPhases: int) -> float:
+def getAllTests(standards: list[Standard]) -> list[Test]:
+    """Iterates over all the standards and flattens all their tests into a single list.
+
+    Attributes:
+        standards (list[Standard]): the list that will be iterated over.
+    """
+
+    tests: list[Test] = []
+    for standard in standards:
+        tests.extend(standard.tests)
+    return tests
+
+
+def findMostCompleteTestInfo(tests: list[Test]) -> tuple[Test, int]:
+    """Searches all tests in the list and returns a tuple with the test that includes the highest amount of test phases in its details and the corresponding number of test phases.
+
+    Attributes:
+        tests (list[Test]): the list that will be iterated over to search for the most complete test.
+
+    Returns: A tuple with the most complete Test found and the number of test phases present in the test's details.
+    """
+
+    exampleTest = None
+    maxTestPhases = 0
+    for test in tests:
+        if (len(test.details) > maxTestPhases):
+            maxTestPhases = len(test.details)
+            exampleTest = test
+    return (exampleTest, maxTestPhases)
+
+
+def getPTNum(tests: list[Test]) -> float:
+
+    passedTestPhases: int = 0
+    for test in tests:
+        for details in test.details:
+            if details.success == True:
+                passedTestPhases += 1
+    return passedTestPhases
+
+
+def getAbsP(tests: list[Test]) -> float:
     """Calculates the theoretically maximum number of test phases that could be passed, then divides the number of actually passed test phases by that number.
     Counts test phases that weren't run as failed.
 
     Attributes:
         tests(list[Test]): list of tests to be used to calculate the absolute percentage of tests passed.
-        maxTestPhases (int): the maximum number of test phases that one test can run. E.g. Parsing, Code Generaiton, Idempotency and Correctness = 4.
     """
 
-    maxPossiblePassedTestPhases: int = len(tests) * maxTestPhases
+    maxPossiblePassedTestPhases: int = len(tests) * len(testPhasesNames)
     passedTestPhases: int = 0
     for test in tests:
         for details in test.details:
@@ -405,13 +365,14 @@ def getAbsolutePercentageOfTestsPassed(tests: list[Test], maxTestPhases: int) ->
     return (passedTestPhases / maxPossiblePassedTestPhases) * 100
 
 
-def getPercentageOfTestsPassed(tests: list[Test]) -> float:
+def getRelP(tests: list[Test]) -> float:
     """Checks how many test phases succeedeed, how many failed and calculates the percentage based on those two alone.
     Doesn't count with test phases that weren't run.
 
     Attributes:
         tests (list[Test]): list of tests to be used to calculate the percentage of tests passed.
     """
+
     passedTestPhases: int = 0
     failedTestPhases: int = 0
     for test in tests:
@@ -423,7 +384,139 @@ def getPercentageOfTestsPassed(tests: list[Test]) -> float:
     return (passedTestPhases / (passedTestPhases + failedTestPhases)) * 100
 
 
-def writePercentages(standards: list[Standard], maxTestPhases: int, f) -> None:
+def getTestPhaseTNum(tests: list[Test], testPhaseName: str):
+    numPassed: int = 0
+    for test in tests:
+        for details in test.details:
+            if details.name == testPhaseName:
+                if details.success:
+                    numPassed += 1
+                break
+    return numPassed
+
+
+def getTestPhaseRelP(tests: list[Test], testPhaseName: str):
+    actualNumTests: int = 0
+    numPassed: int = 0
+    for test in tests:
+        for details in test.details:
+            if details.name == testPhaseName:
+                actualNumTests += 1
+                if details.success:
+                    numPassed += 1
+                break
+    return 100 * numPassed / actualNumTests
+
+
+def getTestPhaseAbsP(tests: list[Test], testPhaseName: str):
+    maxNumTests: int = len(tests)
+    numPassed: int = 0
+    for test in tests:
+        for details in test.details:
+            if details.name == testPhaseName:
+                if details.success:
+                    numPassed += 1
+                break
+    return 100 * numPassed / maxNumTests
+
+
+def writeTableStart(f, numCols: int):
+    for _ in range(numCols):
+        f.write(r"c|")
+    f.write(r" }"+"\n")
+
+
+def getFirstLatexMultiColumnString(headerNameAndLen: tuple[str, int]):
+    return r"\multicolumn{" + str(headerNameAndLen[1]) + r"}{|c|}{" + headerNameAndLen[0] + r"}"
+
+
+def getLatexMultiColumnString(headerNameAndLen: tuple[str, int]):
+    return r"\multicolumn{" + str(headerNameAndLen[1]) + r"}{c|}{" + headerNameAndLen[0] + r"}"
+
+
+def writeHeaders(f, multiColHeadersAndLen: list[tuple[str, int]]):
+    f.write(" & ".join([getFirstLatexMultiColumnString(multiColHeadersAndLen[0])
+                        ] + (list(map(getLatexMultiColumnString, multiColHeadersAndLen[1:])))))
+    f.write(r" \\"+"\n")
+
+
+def getSubHeaderString(subHeaders: list[str], headerAndColLen: tuple[str, int]):
+    colLen: int = headerAndColLen[1]
+    if colLen == 1:
+        return " "
+    else:
+        return " & ".join(subHeaders[:colLen])
+
+
+def writeSubHeaders(f, multiColHeadersAndLen: list[tuple[str, int]], subHeaders: list[str]):
+    f.write(" & ".join(map(lambda x: getSubHeaderString(
+        subHeaders, x), multiColHeadersAndLen)))
+    f.write(r" \\" + "\n")
+
+
+def writeTableResults(f, results: list[list[str]]):
+    for row in results:
+        f.write(" & ".join(row))
+        f.write(r" \\" + "\n")
+
+
+def writeTable(headersAndLen: list[tuple[str, int]], subHeaders: list[str], results: list[list[str]], f, caption: str | None = None):
+    numCols: int = reduce(lambda x, y: x + y, [
+                          headerAndLen[1] for headerAndLen in headersAndLen], 0)
+
+    f.write(r"\begin{table}[h]" + "\n")
+    f.write(r"\begin{center}"+"\n")
+    f.write(r"\footnotesize"+"\n")
+    f.write(r"\begin{tabular}{ |")
+
+    writeTableStart(f, numCols)
+    writeHeaders(f, headersAndLen)
+    writeSubHeaders(f, headersAndLen, subHeaders)
+    f.write(r"\midrule" + "\n")
+    writeTableResults(f, results)
+
+    f.write(r"\end{tabular}"+"\n")
+    f.write(r"\end{center}"+"\n")
+    if caption != None:
+        f.write(r"\caption{" + caption + "}\n")
+    f.write(r"\end{table}")
+
+
+def writeStatisticsTables(standards: list[Standard], f) -> None:
+    headersAndLen: list[tuple[str, int]] = [("Standard", 1), ("Parsing", 2),
+                                            ("Code Gen", 2), ("Idempotency", 2), ("Correctness", 2), ("All", 2)]
+
+    firstSubHeaders: list[str] = ["PT", "Rel\\%"]
+
+    firstResults = []
+    for std in standards:
+        row = [std.name]
+        for testPhase in testPhasesNames:
+            row.append(str(getTestPhaseTNum(std.tests, testPhase)))
+            row.append(f"{getTestPhaseRelP(std.tests, testPhase):.2f}")
+        row.append(str(getPTNum(std.tests)))
+        row.append(f"{getRelP(std.tests):.2f}")
+        firstResults.append(row)
+
+    writeTable(headersAndLen, firstSubHeaders, firstResults, f,
+               caption="Relative percentage of tests passed")
+
+    secondSubHeaders: list[str] = ["PT", "Abs\\%"]
+    secondResults = []
+    for std in standards:
+        row = [std.name]
+        for testPhase in testPhasesNames:
+            row.append(str(getTestPhaseTNum(std.tests, testPhase)))
+            row.append(f"{getTestPhaseAbsP(std.tests, testPhase):.2f}")
+        row.append(str(getPTNum(std.tests)))
+        row.append(f"{getAbsP(std.tests):.2f}")
+        secondResults.append(row)
+
+    writeTable(headersAndLen, secondSubHeaders, secondResults,
+               f, caption="Absolute percentage of tests passed.")
+
+
+def writeStatistics(standards: list[Standard], maxTestPhases: int, f) -> None:
     """Writes the Statistics section of the LaTeX report.
 
     Attributes:
@@ -432,38 +525,15 @@ def writePercentages(standards: list[Standard], maxTestPhases: int, f) -> None:
         f (file): the file to write the section to.
     """
 
-    f.write(r"\section{Percentages}")
-    f.write(
-        "Note: In Absolute percentages test phases that were not run count as failed.\n\n")
+    f.write(r"\section{Statistics}")
+    f.write("\\begin{itemize}\n\
+            \\item PT: Denotes the number of passed tests / test phases\n\
+            \\item RelP: Denotes the percentage of passed tests / test phases. Phases that were not run are disregarded.\n\
+            \\item AbsP: Denotes the absolute percentage of passed tests / test phases. Phases that were not run are counted as failures.\n\
+            \\end{itemize}\n")
 
-    f.write(escapeBackslash("\\subsection{Total}"))
+    writeStatisticsTables(standards, f)
 
-    f.write(r"\begin{itemize}")
-    f.write(r"\item " + "Absolute percentage of passed tests: ")
-    f.write(str(round(getAbsolutePercentageOfTestsPassed(
-        getAllTests(standards), maxTestPhases), 2))+"\\%\n\n")
-    f.write(r"\item " + "Percentage of passed tests: \n")
-    f.write(str(round(getPercentageOfTestsPassed(getAllTests(standards)), 2))+r"\%")
-    f.write(r"\end{itemize}")
-
-    success_percentages = []
-    failure_percentages = []
-    for standard in standards:
-        f.write(escapeBackslash("\\subsection{" + standard.name + "}"))
-        f.write(r"\begin{itemize}")
-        f.write(r"\item " + "Absolute percentage of passed tests: ")
-        f.write(str(round(getAbsolutePercentageOfTestsPassed(
-            standard.tests, maxTestPhases), 2))+r"\%" + "\n\n")
-        f.write(r"\item " + "Percentage of passed tests: ")
-        f.write(str(round(getPercentageOfTestsPassed(standard.tests), 2))+r"\%")
-        success_percentages.append(getAbsolutePercentageOfTestsPassed(
-            standard.tests, maxTestPhases))
-        f.write(r"\end{itemize}")
-
-    failure_percentages = [100 - percentage for percentage in success_percentages]
-    x_labels = [standard.name.capitalize() for standard in standards]
-
-    graphCreator(transpiler, x_labels, "Standard", "Percentage", success_percentages, failure_percentages)
 
 if __name__ == '__main__':
 
@@ -474,20 +544,23 @@ if __name__ == '__main__':
                         help='path to the output directory created by CACTI')
     parser.add_argument('-T', '--transpiler', dest="transpiler", required=True,
                         help="name of the desired transpiler. inside the output directory there must be a directory with the transpiler's name")
+    parser.add_argument('-O', '--output-path', dest="outputPath", default=os.path.abspath(os.getcwd()),
+                        help="path to the directory where the output will be deposited in. A repository named 'reports' will be created.")
 
     args = parser.parse_args()
 
     transpiler = args.transpiler
+    outputPath = args.outputPath
 
     # creates path to generate the latex file
     # latex_path = os.path.join(root_dir, "report.tex")
-    report_path = "../reports/" + transpiler + "/"
-    if not os.path.exists(report_path):
-        os.makedirs(os.path.dirname(report_path), exist_ok=True)
-    f = open(report_path + transpiler +".tex", "w")
+    reportPath = os.path.join(outputPath, transpiler)
+    if not os.path.exists(reportPath):
+        os.makedirs(os.path.dirname(reportPath), exist_ok=True)
+    f = open(reportPath + transpiler + ".tex", "w")
 
     # different test types folders
-    general_path = os.path.join(args.src_path, transpiler)
+    generalPath = os.path.join(args.src_path, transpiler)
 
     # write usepackages and title to the tex file
     f.write(r"\documentclass{article}"+"\n" +
@@ -495,16 +568,16 @@ if __name__ == '__main__':
     f.write(r"\usepackage{xcolor}"+"\n")
     f.write(r"\usepackage{graphicx}"+"\n")
     f.write(
-        r"\usepackage[top=1.5cm,bottom=3cm,left=1.5cm,right=1cm,marginparwidth=1.75cm]{geometry}"+"\n"+r"\begin{document}"+"\n")
+        r"\usepackage[top=1.5cm,bottom=3cm,left=1cm,right=1cm,marginparwidth=1.75cm]{geometry}"+"\n"+r"\begin{document}"+"\n")
     f.write(r"\title{" + transpiler.capitalize() + r" Testing Results}"+"\n" +
             r"\maketitle"+"\n"+r"\newcolumntype{Y}{>{\centering\arraybackslash}X}"+"\n")
 
-    standards: list[Standard] = processDirectory(general_path)[1]
-
+    standards: list[Standard] = processDirectory(generalPath)[1]
     standards.sort(key=lambda x: getStand(x))
+
     _, maxTestPhases = findMostCompleteTestInfo(getAllTests(standards))
     writeStandards(standards, f)
-    writePercentages(standards, maxTestPhases, f)
 
-    f.write(r"\end{document}")
+    writeStatistics(standards, maxTestPhases, f)
+
     f.write(r"\end{document}")

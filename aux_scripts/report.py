@@ -4,8 +4,10 @@ import argparse
 from enum import Enum
 import matplotlib.pyplot as plt
 import numpy as np
-from statistics import mean
 from functools import reduce
+import matplotlib.pyplot as plt
+import numpy as np
+
 
 standardNameToIndex = {
     "c++98": 1,
@@ -253,7 +255,73 @@ def writeStandardTestResultRow(test: Test, f) -> None:
     f.write(row+"\n")
 
 
-def writeStandards(standards: list[Standard], f) -> None:
+def createChart(xLabels: list, sucessRate : list[float], failRate : list[float],
+              xMeaning: str, yMeaning: str, outputPath,standard = "") -> None:
+    """ Draws a chart with the results of the tests for the given standard.
+
+    Attributes:
+        xLabels (list): list of labels for the x axis.
+        sucessRate (list[float]): list of success rates for each test.
+        failRate (list[float]): list of fail rates for each test.
+        xMeaning (str): meaning of the x axis.
+        yMeaning (str): meaning of the y axis.
+        standard (str): name of the standard to be included in the title of the chart.
+    """
+    plt.figure(figsize=(10, 5))
+    x_pos = np.arange(len(xLabels))
+    width = 0.35
+    plt.bar(x_pos - width/2, sucessRate, width, label='Success Rate')
+    plt.bar(x_pos + width/2, failRate, width, label='Fail Rate')
+    plt.xlabel(xMeaning)
+    plt.ylabel(yMeaning)
+    if standard != "":
+        plt.title('Success and Fail Rate for each test in ' + standard)
+    else:
+        plt.title('Success and Fail Rate for each standard')
+    plt.xticks(x_pos, xLabels)
+    plt.legend()
+    plt.tight_layout()
+
+    imagesPath = os.path.join(outputPath, "images")
+    if not os.path.exists(imagesPath):
+        os.makedirs(imagesPath, exist_ok=True)
+    
+    if standard != "":
+        plt.savefig(os.path.join(imagesPath, standard + ".png"))
+    else:
+        plt.savefig(os.path.join(imagesPath, "standards.png"))
+
+    plt.close()
+
+    f.write(r"\begin{figure}[h!]"+"\n")
+    f.write(r"\centering"+"\n")
+    if standard != "":
+        f.write(r"\includegraphics[width=0.8\textwidth]{"+imagesPath +"/"+ standard+".png}"+"\n")
+        f.write(r"\caption{Success and Fail Rate for each test in " + standard + "}"+"\n")
+        f.write(r"\label{fig:"+standard+"}"+"\n")
+    else:
+        f.write(r"\includegraphics[width=0.8\textwidth]{"+imagesPath + "/" + "standards.png}"+"\n")
+        f.write(r"\caption{Success and Fail Rate for each standard}"+"\n")
+        f.write(r"\label{fig:standards}"+"\n")
+    f.write(r"\end{figure}"+"\n")
+
+def calculatePercentage(test_name, results):
+    total_count = len(results)
+    success_count = sum(1 for result in results if any(test.name == test_name and test.success for test in result.details))
+    return success_count / total_count * 100 if total_count > 0 else 0
+
+def getPercentagesFromStandard(standard):
+    success_results = []
+    failed_results = []
+    success_results.append(calculatePercentage("test_parsing", standard.tests))
+    success_results.append(calculatePercentage("test_code_generation", standard.tests))
+    success_results.append(calculatePercentage("test_idempotency", standard.tests))
+    success_results.append(calculatePercentage("test_correctness", standard.tests))
+    for result in success_results:
+        failed_results.append(100-result)
+    return success_results, failed_results
+
+def writeStandards(standards: list[Standard], f, outputFolder) -> None:
     """Writes the Standards section of the LaTeX report. This includes creating and filling the table with the test results for every standard.
 
     Attributes:
@@ -269,6 +337,7 @@ def writeStandards(standards: list[Standard], f) -> None:
 
     for standard in standards:
         f.write(r"\section{" + standard.name + r"}"+"\n")
+        f.write(r"\subsection{Tests table}"+"\n")
         # start table with a column for source file's name and 2 columns per test
         f.write(r"\begin{xltabular}{\textwidth}{l")
 
@@ -306,6 +375,12 @@ def writeStandards(standards: list[Standard], f) -> None:
         f.write(r"\end{xltabular}"+"\n")
         f.write(r"\newpage" + "\n")
 
+        f.write(r"\subsection{Success and Fail Rate chart}"+"\n")
+        success, failure = getPercentagesFromStandard(standard)
+        x_labels = ["Parsing", "CodeGeneration", "Idempotency", "Correctness"]
+        createChart(x_labels, success, failure, "Tests", "Percentage", outputFolder, standard.name)
+
+        f.write(r"\newpage" + "\n")
 
 def getAllTests(standards: list[Standard]) -> list[Test]:
     """Iterates over all the standards and flattens all their tests into a single list.
@@ -514,9 +589,10 @@ def writeStatisticsTables(standards: list[Standard], f) -> None:
 
     writeTable(headersAndLen, secondSubHeaders, secondResults,
                f, caption="Absolute percentage of tests passed.")
+    
 
 
-def writeStatistics(standards: list[Standard], maxTestPhases: int, f) -> None:
+def writeStatistics(standards: list[Standard], maxTestPhases: int, f, outputPath) -> None:
     """Writes the Statistics section of the LaTeX report.
 
     Attributes:
@@ -526,6 +602,7 @@ def writeStatistics(standards: list[Standard], maxTestPhases: int, f) -> None:
     """
 
     f.write(r"\section{Statistics}")
+    f.write(r"\subsection{Tables}"+"\n")
     f.write("\\begin{itemize}\n\
             \\item PT: Denotes the number of passed tests / test phases\n\
             \\item RelP: Denotes the percentage of passed tests / test phases. Phases that were not run are disregarded.\n\
@@ -533,6 +610,23 @@ def writeStatistics(standards: list[Standard], maxTestPhases: int, f) -> None:
             \\end{itemize}\n")
 
     writeStatisticsTables(standards, f)
+
+    f.write(r"\newpage"+"\n")
+    f.write(r"\subsection{Absolute Percentage of tests passed chart}"+"\n")
+    x_labels = [std.name.capitalize() for std in standards]
+    
+    success = [getAbsP(std.tests) for std in standards]
+    failure = [100 - getAbsP(std.tests) for std in standards]
+
+    createChart(x_labels, success, failure, "Percentage of tests passed", "Percentage", outputPath)
+
+    f.write(r"\subsection{Relative Percentage of tests passed chart}"+"\n")
+    x_labels = [std.name.capitalize() for std in standards]
+    
+    success = [getRelP(std.tests) for std in standards]
+    failure = [100 - getRelP(std.tests) for std in standards]
+
+    createChart(x_labels, success, failure, "Percentage of tests passed", "Percentage", outputPath)
 
 
 if __name__ == '__main__':
@@ -551,13 +645,14 @@ if __name__ == '__main__':
 
     transpiler = args.transpiler
     outputPath = args.outputPath
+    outputPath = os.path.join(outputPath, transpiler)
 
     # creates path to generate the latex file
     # latex_path = os.path.join(root_dir, "report.tex")
     reportPath = os.path.join(outputPath, transpiler)
     if not os.path.exists(reportPath):
         os.makedirs(os.path.dirname(reportPath), exist_ok=True)
-    f = open(reportPath + transpiler + ".tex", "w")
+    f = open(reportPath + ".tex", "w")
 
     # different test types folders
     generalPath = os.path.join(args.src_path, transpiler)
@@ -576,8 +671,8 @@ if __name__ == '__main__':
     standards.sort(key=lambda x: getStand(x))
 
     _, maxTestPhases = findMostCompleteTestInfo(getAllTests(standards))
-    writeStandards(standards, f)
+    writeStandards(standards, f, outputPath)
 
-    writeStatistics(standards, maxTestPhases, f)
+    writeStatistics(standards, maxTestPhases, f, outputPath)
 
     f.write(r"\end{document}")

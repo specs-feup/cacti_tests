@@ -653,6 +653,14 @@ def writeStatistics(standards: list[Standard], maxTestPhases: int, f, outputPath
     writeStatisticsTables(standards, f)
 
     f.write(r"\newpage"+"\n")
+    f.write(r"\subsection{Relative Percentage of tests passed chart}"+"\n")
+    x_labels = [std.name.capitalize() for std in standards]
+    
+    success_rel = [getRelP(std.tests) for std in standards]
+    failure_rel = [100 - getRelP(std.tests) for std in standards]
+
+    createChart(x_labels, success_rel, failure_rel, "Standards", "Percentage", outputPath)
+    
     f.write(r"\subsection{Absolute Percentage of tests passed chart}"+"\n")
     x_labels = [std.name.capitalize() for std in standards]
     
@@ -661,13 +669,6 @@ def writeStatistics(standards: list[Standard], maxTestPhases: int, f, outputPath
 
     createChart(x_labels, success_abs, failure_abs, "Standards", "Percentage", outputPath, "", True)
 
-    f.write(r"\subsection{Relative Percentage of tests passed chart}"+"\n")
-    x_labels = [std.name.capitalize() for std in standards]
-    
-    success_rel = [getRelP(std.tests) for std in standards]
-    failure_rel = [100 - getRelP(std.tests) for std in standards]
-
-    createChart(x_labels, success_rel, failure_rel, "Standards", "Percentage", outputPath)
 
 def createChart(xLabels: list[str], sucessRate : list[float], failRate : list[float],
               xMeaning: str, yMeaning: str, outputPath:str ,standard = "", abs = False) -> None:

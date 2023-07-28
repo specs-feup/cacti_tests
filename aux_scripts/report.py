@@ -478,6 +478,9 @@ def getRelP(tests: list[Test]) -> float:
 
     Attributes:
         tests (list[Test]): list of tests to be used to calculate the percentage of tests passed.
+
+    Returns:
+        float: percentage of tests passed.
     """
 
     passedTestPhases: int = 0
@@ -492,6 +495,15 @@ def getRelP(tests: list[Test]) -> float:
 
 
 def getTestPhaseTNum(tests: list[Test], testPhaseName: str):
+    """ Calculates the number of tests that passed a specific test phase.
+
+    Attributes:
+        tests (list[Test]): list of tests to be used to calculate the number of tests passed.
+        testPhaseName (str): name of the test phase to be checked.
+
+    Returns:
+        int: number of tests that passed the test phase.
+    """
     numPassed: int = 0
     for test in tests:
         for details in test.details:
@@ -503,6 +515,15 @@ def getTestPhaseTNum(tests: list[Test], testPhaseName: str):
 
 
 def getTestPhaseRelP(tests: list[Test], testPhaseName: str):
+    """Calculates the relative percentage of tests that passed a specific test phase.
+
+    Attributes:
+        tests (list[Test]): list of tests to be used to calculate the percentage of tests passed.
+        testPhaseName (str): name of the test phase to be checked.
+
+    Returns:
+        float: percentage of tests passed.
+    """
     actualNumTests: int = 0
     numPassed: int = 0
     for test in tests:
@@ -516,6 +537,15 @@ def getTestPhaseRelP(tests: list[Test], testPhaseName: str):
 
 
 def getTestPhaseAbsP(tests: list[Test], testPhaseName: str):
+    """Calculates the absolute percentage of tests that passed a specific test phase.
+
+    Attributes:
+        tests (list[Test]): list of tests to be used to calculate the percentage of tests passed.
+        testPhaseName (str): name of the test phase to be checked.
+
+    Returns:
+        float: percentage of tests passed.
+    """
     maxNumTests: int = len(tests)
     numPassed: int = 0
     for test in tests:
@@ -528,26 +558,66 @@ def getTestPhaseAbsP(tests: list[Test], testPhaseName: str):
 
 
 def writeTableStart(f, numCols: int):
+    """Writes the start of a LaTeX table.
+
+    Attributes:
+        f (file): file to be written to.
+        numCols (int): number of columns the table will have.
+    """
     for _ in range(numCols):
         f.write(r"c|")
     f.write(r" }"+"\n")
 
 
 def getFirstLatexMultiColumnString(headerNameAndLen: tuple[str, int]):
+    """Returns a string that can be used to write a LaTeX table header.
+
+    Attributes:
+        headerNameAndLen (tuple[str, int]): tuple containing the name of the header and the 
+                                            number of columns it will span.
+
+    Returns:
+        str: string that can be used to write a LaTeX table header.
+    """
     return r"\multicolumn{" + str(headerNameAndLen[1]) + r"}{|c|}{" + headerNameAndLen[0] + r"}"
 
 
 def getLatexMultiColumnString(headerNameAndLen: tuple[str, int]):
+    """Returns a string that can be used to write a LaTeX table header.
+
+    Attributes:
+        headerNameAndLen (tuple[str, int]): tuple containing the name of the header and the 
+                                            number of columns it will span.
+
+    Returns:
+        str: string that can be used to write a LaTeX table header.
+    """
     return r"\multicolumn{" + str(headerNameAndLen[1]) + r"}{c|}{" + headerNameAndLen[0] + r"}"
 
 
 def writeHeaders(f, multiColHeadersAndLen: list[tuple[str, int]]):
+    """Writes the headers of a LaTeX table.
+
+    Attributes:
+        f (file): file to be written to.
+        multiColHeadersAndLen (list[tuple[str, int]]): list of tuples containing the names of the headers and the number of columns they will span.
+    """
     f.write(" & ".join([getFirstLatexMultiColumnString(multiColHeadersAndLen[0])
                         ] + (list(map(getLatexMultiColumnString, multiColHeadersAndLen[1:])))))
     f.write(r" \\"+"\n")
 
 
 def getSubHeaderString(subHeaders: list[str], headerAndColLen: tuple[str, int]):
+    """Returns a string that can be used to write a LaTeX table subheader.
+
+    Attributes:
+        subHeaders (list[str]): list of subheaders.
+        headerAndColLen (tuple[str, int]): tuple containing the name of the header and the 
+                                            number of columns it will span.
+
+    Returns:
+        str: string that can be used to write a LaTeX table subheader.
+    """
     colLen: int = headerAndColLen[1]
     if colLen == 1:
         return " "
@@ -556,18 +626,41 @@ def getSubHeaderString(subHeaders: list[str], headerAndColLen: tuple[str, int]):
 
 
 def writeSubHeaders(f, multiColHeadersAndLen: list[tuple[str, int]], subHeaders: list[str]):
+    """Writes the subheaders of a LaTeX table.
+
+    Attributes:
+        f (file): file to be written to.
+        multiColHeadersAndLen (list[tuple[str, int]]): list of tuples containing the names of the headers and the number of columns they will span.
+        subHeaders (list[str]): list of subheaders.
+    """
     f.write(" & ".join(map(lambda x: getSubHeaderString(
         subHeaders, x), multiColHeadersAndLen)))
     f.write(r" \\" + "\n")
 
 
 def writeTableResults(f, results: list[list[str]]):
+    """Writes the results of a LaTeX table.
+
+    Attributes:
+        f (file): file to be written to.
+        results (list[list[str]]): list of lists containing the results of the table.
+    """
     for row in results:
         f.write(" & ".join(row))
         f.write(r" \\" + "\n")
 
 
 def writeTable(headersAndLen: list[tuple[str, int]], subHeaders: list[str], results: list[list[str]], f, caption: str | None = None):
+    """Writes a LaTeX table.
+
+    Attributes:
+        headersAndLen (list[tuple[str, int]]): list of tuples containing the names of the 
+                                               headers and the number of columns they will span.
+        subHeaders (list[str]): list of subheaders.
+        results (list[list[str]]): list of lists containing the results of the table.
+        f (file): file to be written to.
+        caption (str | None): caption of the table.
+    """
     numCols: int = reduce(lambda x, y: x + y, [
                           headerAndLen[1] for headerAndLen in headersAndLen], 0)
 
@@ -590,6 +683,12 @@ def writeTable(headersAndLen: list[tuple[str, int]], subHeaders: list[str], resu
 
 
 def writeStatisticsTables(standards: list[Standard], f) -> None:
+    """Writes the statistics tables.
+
+    Attributes:
+        standards (list[Standard]): list of standards.
+        f (file): file to be written to.
+    """
     headersAndLen: list[tuple[str, int]] = [("Standard", 1), ("Parsing", 2),
                                             ("Code Gen", 2), ("Idempotency", 2), ("Correctness", 2), ("All", 2)]
 

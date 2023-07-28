@@ -255,16 +255,17 @@ def writeStandardTestResultRow(test: Test, f) -> None:
     f.write(row+"\n")
 
 
-def createChart(xLabels: list, sucessRate : list[float], failRate : list[float],
-              xMeaning: str, yMeaning: str, outputPath,standard = "") -> None:
+def createChart(xLabels: list[str], sucessRate : list[float], failRate : list[float],
+              xMeaning: str, yMeaning: str, outputPath:str ,standard = "", abs = False) -> None:
     """ Draws a chart with the results of the tests for the given standard.
 
     Attributes:
-        xLabels (list): list of labels for the x axis.
+        xLabels (list[str]): list of labels for the x axis.
         sucessRate (list[float]): list of success rates for each test.
         failRate (list[float]): list of fail rates for each test.
         xMeaning (str): meaning of the x axis.
         yMeaning (str): meaning of the y axis.
+        outputPath (str): path to the directory where the chart will be saved.
         standard (str): name of the standard to be included in the title of the chart.
     """
     plt.figure(figsize=(10, 5))
@@ -289,7 +290,10 @@ def createChart(xLabels: list, sucessRate : list[float], failRate : list[float],
     if standard != "":
         plt.savefig(os.path.join(imagesPath, standard + ".png"))
     else:
-        plt.savefig(os.path.join(imagesPath, "standards.png"))
+        if(abs):
+            plt.savefig(os.path.join(imagesPath, "standardsAbs.png"))
+        else:
+            plt.savefig(os.path.join(imagesPath, "standardsRel.png"))
 
     plt.close()
 
@@ -300,17 +304,37 @@ def createChart(xLabels: list, sucessRate : list[float], failRate : list[float],
         f.write(r"\caption{Success and Fail Rate for each test in " + standard + "}"+"\n")
         f.write(r"\label{fig:"+standard+"}"+"\n")
     else:
-        f.write(r"\includegraphics[width=0.8\textwidth]{"+imagesPath + "/" + "standards.png}"+"\n")
+        if(abs):
+            f.write(r"\includegraphics[width=0.8\textwidth]{"+imagesPath + "/" + "standardsAbs.png}"+"\n")
+        else:
+            f.write(r"\includegraphics[width=0.8\textwidth]{"+imagesPath + "/" + "standardsRel.png}"+"\n")
         f.write(r"\caption{Success and Fail Rate for each standard}"+"\n")
         f.write(r"\label{fig:standards}"+"\n")
     f.write(r"\end{figure}"+"\n")
 
 def calculatePercentage(test_name, results):
+    """ Calculates the percentage of success for a given test in a list of results.
+
+    Attributes:
+        test_name (str): name of the test to be considered.
+        results (list[Test]): list of results to be considered.
+    
+    Returns:
+        float: percentage of success for the given test.
+    """
     total_count = len(results)
     success_count = sum(1 for result in results if any(test.name == test_name and test.success for test in result.details))
     return success_count / total_count * 100 if total_count > 0 else 0
 
 def getPercentagesFromStandard(standard):
+    """ Calculates the percentage of success for each test in a given standard.
+
+    Attributes:
+        standard (Standard): standard to be considered.
+
+    Returns:
+        list[float]: list of percentages of success for each test in the given standard.
+    """
     success_results = []
     failed_results = []
     success_results.append(calculatePercentage("test_parsing", standard.tests))
@@ -414,7 +438,14 @@ def findMostCompleteTestInfo(tests: list[Test]) -> tuple[Test, int]:
 
 
 def getPTNum(tests: list[Test]) -> float:
+    """Calculates the percentage of tests that passed.
 
+    Attributes:
+        tests (list[Test]): list of tests to be used to calculate the percentage of tests passed.
+
+    Returns:
+        float: percentage of tests passed.
+    """
     passedTestPhases: int = 0
     for test in tests:
         for details in test.details:
@@ -437,6 +468,7 @@ def getAbsP(tests: list[Test]) -> float:
         for details in test.details:
             if details.success == True:
                 passedTestPhases += 1
+
     return (passedTestPhases / maxPossiblePassedTestPhases) * 100
 
 
@@ -615,18 +647,18 @@ def writeStatistics(standards: list[Standard], maxTestPhases: int, f, outputPath
     f.write(r"\subsection{Absolute Percentage of tests passed chart}"+"\n")
     x_labels = [std.name.capitalize() for std in standards]
     
-    success = [getAbsP(std.tests) for std in standards]
-    failure = [100 - getAbsP(std.tests) for std in standards]
+    success_abs = [getAbsP(std.tests) for std in standards]
+    failure_abs = [100 - getAbsP(std.tests) for std in standards]
 
-    createChart(x_labels, success, failure, "Percentage of tests passed", "Percentage", outputPath)
+    createChart(x_labels, success_abs, failure_abs, "Standards", "Percentage", outputPath, "", True)
 
     f.write(r"\subsection{Relative Percentage of tests passed chart}"+"\n")
     x_labels = [std.name.capitalize() for std in standards]
     
-    success = [getRelP(std.tests) for std in standards]
-    failure = [100 - getRelP(std.tests) for std in standards]
+    success_rel = [getRelP(std.tests) for std in standards]
+    failure_rel = [100 - getRelP(std.tests) for std in standards]
 
-    createChart(x_labels, success, failure, "Percentage of tests passed", "Percentage", outputPath)
+    createChart(x_labels, success_rel, failure_rel, "Standards", "Percentage", outputPath)
 
 
 if __name__ == '__main__':

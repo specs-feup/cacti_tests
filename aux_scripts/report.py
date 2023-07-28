@@ -682,6 +682,9 @@ def createChart(xLabels: list[str], sucessRate : list[float], failRate : list[fl
         yMeaning (str): meaning of the y axis.
         outputPath (str): path to the directory where the chart will be saved.
         standard (str): name of the standard to be included in the title of the chart.
+        abs (bool): if True, the chart will be for the absolute percentage of tests passed. 
+                    Otherwise, it will be for the relative percentage of tests passed or 
+                    specific to a single standard.
     """
     plt.figure(figsize=(10, 5))
     x_pos = np.arange(len(xLabels))

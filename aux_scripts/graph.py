@@ -21,7 +21,7 @@ def handleParsing() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description="Script that generates a dependency graph between the tests.")
 
-    parser.add_argument('-s', '--source', dest="src_path", required=True,
+    parser.add_argument('-S', '--source', dest="src_path", required=True,
                         help="path to the directory with the test files.")
     parser.add_argument('-c', '--cycles', action='store_true', dest="listCycles",
                         default=False, help="print all the cycles found to standard output.")
@@ -29,16 +29,16 @@ def handleParsing() -> argparse.Namespace:
                         help="print all the leaf nodes, that is, nodes with no dependencies.")
     parser.add_argument('-v', '--visual', action='store_true', dest="showGraph", default=False,
                         help="open a pop-up window that allows for a visual analysis of the graph.")
-    parser.add_argument('-S', '--save', dest="output_path",
+    parser.add_argument('-O', '--output', dest="output_path",
                         help="save an svg of the visual representation of the graph to a given directory.")
-    parser.add_argument('-f', '--format', dest="format", default="SVG",
+    parser.add_argument('-F', '--format', dest="format", default="SVG",
                         help="Specify a file format to save the visual representation in. Must be supported by pyplot's savefig.")
 
     ret = parser.parse_args()
 
     if "format" in vars(ret) and "output_path" not in vars(ret):
         print(Fore.RED + Style.BRIGHT +
-              "--format requires --save. Nothing will be saved." + Style.RESET_ALL)
+              "--format requires --output. Nothing will be saved." + Style.RESET_ALL)
 
     return ret
 

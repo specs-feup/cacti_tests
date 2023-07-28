@@ -255,96 +255,6 @@ def writeStandardTestResultRow(test: Test, f) -> None:
     f.write(row+"\n")
 
 
-def createChart(xLabels: list[str], sucessRate : list[float], failRate : list[float],
-              xMeaning: str, yMeaning: str, outputPath:str ,standard = "", abs = False) -> None:
-    """ Draws a chart with the results of the tests for the given standard.
-
-    Attributes:
-        xLabels (list[str]): list of labels for the x axis.
-        sucessRate (list[float]): list of success rates for each test.
-        failRate (list[float]): list of fail rates for each test.
-        xMeaning (str): meaning of the x axis.
-        yMeaning (str): meaning of the y axis.
-        outputPath (str): path to the directory where the chart will be saved.
-        standard (str): name of the standard to be included in the title of the chart.
-    """
-    plt.figure(figsize=(10, 5))
-    x_pos = np.arange(len(xLabels))
-    width = 0.35
-    plt.bar(x_pos - width/2, sucessRate, width, label='Success Rate')
-    plt.bar(x_pos + width/2, failRate, width, label='Fail Rate')
-    plt.xlabel(xMeaning)
-    plt.ylabel(yMeaning)
-    if standard != "":
-        plt.title('Success and Fail Rate for each test in ' + standard)
-    else:
-        plt.title('Success and Fail Rate for each standard')
-    plt.xticks(x_pos, xLabels)
-    plt.legend()
-    plt.tight_layout()
-
-    imagesPath = os.path.join(outputPath, "images")
-    if not os.path.exists(imagesPath):
-        os.makedirs(imagesPath, exist_ok=True)
-    
-    if standard != "":
-        plt.savefig(os.path.join(imagesPath, standard + ".png"))
-    else:
-        if(abs):
-            plt.savefig(os.path.join(imagesPath, "standardsAbs.png"))
-        else:
-            plt.savefig(os.path.join(imagesPath, "standardsRel.png"))
-
-    plt.close()
-
-    f.write(r"\begin{figure}[h!]"+"\n")
-    f.write(r"\centering"+"\n")
-    if standard != "":
-        f.write(r"\includegraphics[width=0.8\textwidth]{"+imagesPath +"/"+ standard+".png}"+"\n")
-        f.write(r"\caption{Success and Fail Rate for each test in " + standard + "}"+"\n")
-        f.write(r"\label{fig:"+standard+"}"+"\n")
-    else:
-        if(abs):
-            f.write(r"\includegraphics[width=0.8\textwidth]{"+imagesPath + "/" + "standardsAbs.png}"+"\n")
-        else:
-            f.write(r"\includegraphics[width=0.8\textwidth]{"+imagesPath + "/" + "standardsRel.png}"+"\n")
-        f.write(r"\caption{Success and Fail Rate for each standard}"+"\n")
-        f.write(r"\label{fig:standards}"+"\n")
-    f.write(r"\end{figure}"+"\n")
-
-def calculatePercentage(test_name, results):
-    """ Calculates the percentage of success for a given test in a list of results.
-
-    Attributes:
-        test_name (str): name of the test to be considered.
-        results (list[Test]): list of results to be considered.
-    
-    Returns:
-        float: percentage of success for the given test.
-    """
-    total_count = len(results)
-    success_count = sum(1 for result in results if any(test.name == test_name and test.success for test in result.details))
-    return success_count / total_count * 100 if total_count > 0 else 0
-
-def getPercentagesFromStandard(standard):
-    """ Calculates the percentage of success for each test in a given standard.
-
-    Attributes:
-        standard (Standard): standard to be considered.
-
-    Returns:
-        list[float]: list of percentages of success for each test in the given standard.
-    """
-    success_results = []
-    failed_results = []
-    success_results.append(calculatePercentage("test_parsing", standard.tests))
-    success_results.append(calculatePercentage("test_code_generation", standard.tests))
-    success_results.append(calculatePercentage("test_idempotency", standard.tests))
-    success_results.append(calculatePercentage("test_correctness", standard.tests))
-    for result in success_results:
-        failed_results.append(100-result)
-    return success_results, failed_results
-
 def writeStandards(standards: list[Standard], f, outputFolder) -> None:
     """Writes the Standards section of the LaTeX report. This includes creating and filling the table with the test results for every standard.
 
@@ -758,6 +668,96 @@ def writeStatistics(standards: list[Standard], maxTestPhases: int, f, outputPath
     failure_rel = [100 - getRelP(std.tests) for std in standards]
 
     createChart(x_labels, success_rel, failure_rel, "Standards", "Percentage", outputPath)
+
+def createChart(xLabels: list[str], sucessRate : list[float], failRate : list[float],
+              xMeaning: str, yMeaning: str, outputPath:str ,standard = "", abs = False) -> None:
+    """ Draws a chart with the results of the tests for the given standard.
+
+    Attributes:
+        xLabels (list[str]): list of labels for the x axis.
+        sucessRate (list[float]): list of success rates for each test.
+        failRate (list[float]): list of fail rates for each test.
+        xMeaning (str): meaning of the x axis.
+        yMeaning (str): meaning of the y axis.
+        outputPath (str): path to the directory where the chart will be saved.
+        standard (str): name of the standard to be included in the title of the chart.
+    """
+    plt.figure(figsize=(10, 5))
+    x_pos = np.arange(len(xLabels))
+    width = 0.35
+    plt.bar(x_pos - width/2, sucessRate, width, label='Success Rate')
+    plt.bar(x_pos + width/2, failRate, width, label='Fail Rate')
+    plt.xlabel(xMeaning)
+    plt.ylabel(yMeaning)
+    if standard != "":
+        plt.title('Success and Fail Rate for each test in ' + standard)
+    else:
+        plt.title('Success and Fail Rate for each standard')
+    plt.xticks(x_pos, xLabels)
+    plt.legend()
+    plt.tight_layout()
+
+    imagesPath = os.path.join(outputPath, "images")
+    if not os.path.exists(imagesPath):
+        os.makedirs(imagesPath, exist_ok=True)
+    
+    if standard != "":
+        plt.savefig(os.path.join(imagesPath, standard + ".png"))
+    else:
+        if(abs):
+            plt.savefig(os.path.join(imagesPath, "standardsAbs.png"))
+        else:
+            plt.savefig(os.path.join(imagesPath, "standardsRel.png"))
+
+    plt.close()
+
+    f.write(r"\begin{figure}[h!]"+"\n")
+    f.write(r"\centering"+"\n")
+    if standard != "":
+        f.write(r"\includegraphics[width=0.8\textwidth]{"+imagesPath +"/"+ standard+".png}"+"\n")
+        f.write(r"\caption{Success and Fail Rate for each test in " + standard + "}"+"\n")
+        f.write(r"\label{fig:"+standard+"}"+"\n")
+    else:
+        if(abs):
+            f.write(r"\includegraphics[width=0.8\textwidth]{"+imagesPath + "/" + "standardsAbs.png}"+"\n")
+        else:
+            f.write(r"\includegraphics[width=0.8\textwidth]{"+imagesPath + "/" + "standardsRel.png}"+"\n")
+        f.write(r"\caption{Success and Fail Rate for each standard}"+"\n")
+        f.write(r"\label{fig:standards}"+"\n")
+    f.write(r"\end{figure}"+"\n")
+
+def calculatePercentage(testName, results):
+    """ Calculates the percentage of success for a given test in a list of results.
+
+    Attributes:
+        testName (str): name of the test to be considered.
+        results (list[Test]): list of results to be considered.
+    
+    Returns:
+        float: percentage of success for the given test.
+    """
+    totalCount = len(results)
+    successCount = sum(1 for result in results if any(test.name == testName and test.success for test in result.details))
+    return successCount / totalCount * 100 if totalCount > 0 else 0
+
+def getPercentagesFromStandard(standard):
+    """ Calculates the percentage of success for each test in a given standard.
+
+    Attributes:
+        standard (Standard): standard to be considered.
+
+    Returns:
+        list[float]: list of percentages of success for each test in the given standard.
+    """
+    successResults = []
+    failedResults = []
+    successResults.append(calculatePercentage("test_parsing", standard.tests))
+    successResults.append(calculatePercentage("test_code_generation", standard.tests))
+    successResults.append(calculatePercentage("test_idempotency", standard.tests))
+    successResults.append(calculatePercentage("test_correctness", standard.tests))
+    for result in successResults:
+        failedResults.append(100-result)
+    return successResults, failedResults
 
 
 if __name__ == '__main__':

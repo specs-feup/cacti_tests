@@ -36,9 +36,9 @@ $ python3 report.py [-h] -S SRC_PATH -T TRANSPILER
 ### Generate the metadata
 
 ```
-$ python3 metadata_gen.py [-h] -s SRC_PATH
+$ python3 metadata_gen.py [-h] -S SRC_PATH
 ```
-- `-s SRC_PATH` -  specify the path to the directory where the tests currently are
+- `-S SRC_PATH` -  specify the path to the directory where the tests currently are
 
 ### Extract keywords
 
@@ -58,14 +58,14 @@ python3 extract_single_file_keywords.py <cpp_standard> <file_path>
 ### Create graph with the generated nodes
 
 ```
-$ python3 graph.py [-h] -s SRC_PATH [-c] [-l] [-v] [-S OUTPUT_PATH] [-f FORMAT]
+$ python3 graph.py [-h] -S SRC_PATH [-c] [-l] [-v] [-O OUTPUT_PATH] [-F FORMAT]
 ```
-- `-s SRC_PATH` - path to the directory with the test files.
+- `-S SRC_PATH` - path to the directory with the test files.
 - `-c` - print all the cycles found to standard output.
 - `-l` - print all the leaf nodes, that is, nodes with no dependencies.
 - `-v` - open a pop-up window that allows for a visual analysis of the graph.
-- `-S OUTPUT_PATH` - save an svg of the visual representation of the graph to a given directory.
-- `-f FORMAT` - Specify a file format to save the visual representation in. Must be supported by pyplot's savefig. 
+- `-O OUTPUT_PATH` - save an svg of the visual representation of the graph to a given directory.
+- `-F FORMAT` - Specify a file format to save the visual representation in. Must be supported by pyplot's savefig. 
 
 ## Sources
 

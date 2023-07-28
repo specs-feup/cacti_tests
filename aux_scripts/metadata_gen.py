@@ -119,7 +119,7 @@ def handleArgumentParsing() -> argparse.Namespace:
 
     parser: argparse.ArgumentParser = argparse.ArgumentParser()
 
-    parser.add_argument('-s', '--source', dest="src_path", required=True,
+    parser.add_argument('-S', '--source', dest="src_path", required=True,
                         help="path to the tests directory. The directory's structure should abide by cacti's test folder convention.")
 
     return parser.parse_args()

@@ -559,8 +559,20 @@ def writeTableResults(f, results: list[list[str]]):
         f.write(" & ".join(row))
         f.write(r" \\" + "\n")
 
+def getLatexSize(size: int):
+    match size:
+        case 1: return "tiny"
+        case 2: return "scriptsize"
+        case 3: return "footnotesize"
+        case 4: return "small"
+        case 5: return "normalsize"
+        case 6: return "large"
+        case 7: return "Large"
+        case 8: return "LARGE"
+        case 9: return "huge"
+        case 10: return "Huge"
 
-def writeTable(headersAndLen: list[tuple[str, int]], subHeaders: list[str], results: list[list[str]], f, caption: str | None = None):
+def writeTable(headersAndLen: list[tuple[str, int]], subHeaders: list[str], results: list[list[str]], f, caption: str | None = None, fontSize: int = 3):
     """Writes a LaTeX table.
 
     Attributes:
@@ -571,12 +583,15 @@ def writeTable(headersAndLen: list[tuple[str, int]], subHeaders: list[str], resu
         f (file): file to be written to.
         caption (str | None): caption of the table.
     """
+
+    latexSize = getLatexSize(fontSize)
+
     numCols: int = reduce(lambda x, y: x + y, [
                           headerAndLen[1] for headerAndLen in headersAndLen], 0)
 
     f.write(r"\begin{table}[h]" + "\n")
     f.write(r"\begin{center}"+"\n")
-    f.write(r"\footnotesize"+"\n")
+    f.write(f"\\{latexSize}\n")
     f.write(r"\begin{tabular}{ |")
 
     writeTableStart(f, numCols)
@@ -591,10 +606,26 @@ def writeTable(headersAndLen: list[tuple[str, int]], subHeaders: list[str], resu
         f.write(r"\caption{" + caption + "}\n")
     f.write(r"\end{table}")
 
+def getPercentagesTableResults(standards: list[Standard], isRelative: bool):
+    results = []
+    
+    allTests: list[Test] = getAllTests(standards)
+
+    # Statistics per standard
+    for std in standards:
+        row = getStandardRow(std, isRelative)
+        results.append(row)
+    
+    # Statistics across all standards
+    totalRow = getTotalRow(allTests, isRelative)
+    results.append(totalRow)
+    return results
+
+
 
 def writeStatisticsTables(standards: list[Standard], f) -> None:
-    """Writes the statistics tables.
-
+    """Writes the two statistics tables currently featured, the first being the relative percentages of tests passed and the second being the absolute percentage.
+        Each row of the table contains the statistics of each standard except for the last, that contains the statistics for the tests in every standard.
     Attributes:
         standards (list[Standard]): list of standards.
         f (file): file to be written to.
@@ -602,35 +633,47 @@ def writeStatisticsTables(standards: list[Standard], f) -> None:
     headersAndLen: list[tuple[str, int]] = [("Standard", 1), ("Parsing", 2),
                                             ("Code Gen", 2), ("Idempotency", 2), ("Correctness", 2), ("All", 2)]
 
-    firstSubHeaders: list[str] = ["PT", "Rel\\%"]
+    # Relative Table
+    relativeTableSubHeaders: list[str] = ["PT", "Rel\\%"]
+    relativeTableResults = getPercentagesTableResults(standards, True)
+    writeTable(headersAndLen, relativeTableSubHeaders, relativeTableResults, f,
+               caption="Relative percentage of tests passed", fontSize=6)
 
-    firstResults = []
-    for std in standards:
-        row = [std.name]
-        for testPhase in testPhasesNames:
-            row.append(str(getTestPhaseTNum(std.tests, testPhase)))
-            row.append(f"{getTestPhaseRelP(std.tests, testPhase):.2f}")
-        row.append(str(getPTNum(std.tests)))
-        row.append(f"{getRelP(std.tests):.2f}")
-        firstResults.append(row)
+    # Absolute Table
+    absoluteTableSubHeaders: list[str] = ["PT", "Abs\\%"]
+    absoluteTableResults = getPercentagesTableResults(standards, False)
+    writeTable(headersAndLen, absoluteTableSubHeaders, absoluteTableResults,
+               f, caption="Absolute percentage of tests passed", fontSize=6)
 
-    writeTable(headersAndLen, firstSubHeaders, firstResults, f,
-               caption="Relative percentage of tests passed")
+def getStandardRow(std: Standard, isRelative: bool):
+    testPhaseFunc = getTestPhaseRelP if isRelative else getTestPhaseAbsP
+    allFunc = getRelP if isRelative else getAbsP
 
-    secondSubHeaders: list[str] = ["PT", "Abs\\%"]
-    secondResults = []
-    for std in standards:
-        row = [std.name]
-        for testPhase in testPhasesNames:
-            row.append(str(getTestPhaseTNum(std.tests, testPhase)))
-            row.append(f"{getTestPhaseAbsP(std.tests, testPhase):.2f}")
-        row.append(str(getPTNum(std.tests)))
-        row.append(f"{getAbsP(std.tests):.2f}")
-        secondResults.append(row)
+    row = [std.name]
 
-    writeTable(headersAndLen, secondSubHeaders, secondResults,
-               f, caption="Absolute percentage of tests passed.")
+    for testPhase in testPhasesNames:
+        row.append(str(getTestPhaseTNum(std.tests, testPhase)))
+        row.append(f"{testPhaseFunc(std.tests, testPhase):.2f}")
+
+    row.append(str(getPTNum(std.tests)))
+    row.append(f"{allFunc(std.tests):.2f}")
+
+    return row
+
+def getTotalRow(allTests: list[Test], isRelative: bool):
+    testPhaseFunc = getTestPhaseRelP if isRelative else getTestPhaseAbsP
+    allFunc = getRelP if isRelative else getAbsP
     
+    row: list[str] = ["Total"]
+
+    for testPhase in testPhasesNames:
+        row.append(str(getTestPhaseTNum(allTests, testPhase)))
+        row.append(f"{testPhaseFunc(allTests, testPhase):.2f}")
+
+    row.append(str(getPTNum(allTests)))
+    row.append(f"{allFunc(allTests):.2f}")
+
+    return row
 
 
 def writeStatistics(standards: list[Standard], maxTestPhases: int, f, outputPath) -> None:
@@ -811,3 +854,4 @@ if __name__ == '__main__':
     writeStatistics(standards, maxTestPhases, f, outputPath)
 
     f.write(r"\end{document}")
+    f.close()

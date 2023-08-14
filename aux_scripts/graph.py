@@ -12,11 +12,16 @@ JSON_NODE_LIST_KEY = "extraNodes"
 
 
 def handleParsing() -> argparse.Namespace:
-    """Adds the arguments necessary to run the program to the argparser, checks for arguments that need others in order to function properly and returns the Namespace object with the arguments."""
+    """Adds the arguments necessary to run the program to the argparser, checks for arguments that need others in order to 
+    function properly and returns the Namespace object with the arguments.
+
+    Returns:
+        object: Namespace object with the arguments.
+    """
     parser = argparse.ArgumentParser(
         description="Script that generates a dependency graph between the tests.")
 
-    parser.add_argument('-s', '--source', dest="srcPath", required=True,
+    parser.add_argument('-S', '--source', dest="src_path", required=True,
                         help="path to the directory with the test files.")
     parser.add_argument('-c', '--cycles', action='store_true', dest="listCycles",
                         default=False, help="print all the cycles found to standard output.")
@@ -24,16 +29,16 @@ def handleParsing() -> argparse.Namespace:
                         help="print all the leaf nodes, that is, nodes with no dependencies.")
     parser.add_argument('-v', '--visual', action='store_true', dest="showGraph", default=False,
                         help="open a pop-up window that allows for a visual analysis of the graph.")
-    parser.add_argument('-S', '--save', dest="outputPath",
+    parser.add_argument('-O', '--output', dest="output_path",
                         help="save an svg of the visual representation of the graph to a given directory.")
-    parser.add_argument('-f', '--format', dest="format", default="SVG",
+    parser.add_argument('-F', '--format', dest="format", default="SVG",
                         help="Specify a file format to save the visual representation in. Must be supported by pyplot's savefig.")
 
     ret = parser.parse_args()
 
-    if "format" in vars(ret) and "outputPath" not in vars(ret):
+    if "format" in vars(ret) and "output_path" not in vars(ret):
         print(Fore.RED + Style.BRIGHT +
-              "--format requires --save. Nothing will be saved." + Style.RESET_ALL)
+              "--format requires --output. Nothing will be saved." + Style.RESET_ALL)
 
     return ret
 
@@ -76,7 +81,9 @@ def constructGraph(sourcePath: str) -> nx.DiGraph:
 
 
 def isEligibile(filePath: str) -> bool:
-    """Checks if a file is a valid to be parsed into relevant information for the dependency graph."""
+    """Checks if a file is a valid to be parsed into 
+       relevant information for the dependency graph.
+    """
     if not path.basename(filePath) == "metadata.json":
         return False
     try:
@@ -94,12 +101,14 @@ def isEligibile(filePath: str) -> bool:
 
 
 def printCycles(graph: nx.DiGraph) -> None:
-    """Finds cycles in the given graph and prints it to standard output."""
+    """Finds cycles in the given graph and prints it to standard output.
+    """
     cycles: list[list[str]] = list(nx.simple_cycles(graph))
     if (len(cycles) == 0):
-        print(Fore.YELLOW + Style.BRIGHT + "There are no cycles in the graph." + Style.RESET_ALL)
+        print(Fore.YELLOW + Style.BRIGHT +
+              "There are no cycles in the graph." + Style.RESET_ALL)
         return
-    cycles.sort(key= lambda x: x[0])
+    cycles.sort(key=lambda x: x[0])
 
     print(f"There are {len(cycles)} cycles:")
     for cycle in cycles:
@@ -115,7 +124,8 @@ def printCycles(graph: nx.DiGraph) -> None:
 
 
 def findLeaves(graph: nx.DiGraph) -> list[str]:
-    """Finds the leaf nodes of the given graph and returns them as a list."""
+    """Finds the leaf nodes of the given graph and returns them as a list.
+    """
     leafNodes: list[str] = list()
     for node in graph.nodes:
         if len(list(graph.adj[node])) == 0:
@@ -128,28 +138,36 @@ def printLeaves(graph: nx.DiGraph) -> None:
     leafNodes = findLeaves(graph)
 
     if (len(leafNodes) == 0):
-        print(Fore.YELLOW + Style.BRIGHT + "There are no leaf nodes." + Style.RESET_ALL)
+        print(Fore.YELLOW + Style.BRIGHT +
+              "There are no leaf nodes." + Style.RESET_ALL)
 
-    print(f"There are {len(leafNodes)} ({(len(leafNodes) / len(graph.nodes) * 100):.2f}%) leaves:")
+    print(
+        f"There are {len(leafNodes)} ({(len(leafNodes) / len(graph.nodes) * 100):.2f}%) leaves:")
     for node in leafNodes:
         print(node)
     print("")
 
 
 def showGraph(graph: nx.DiGraph) -> None:
-    """Opens a pyplot pop-up window showing a visual representation of the graph."""
+    """Opens a pyplot pop-up window showing a visual representation 
+    of the graph.
+    """
     plt.tight_layout()
     nx.draw_networkx(dependencyGraph, arrows=True)
     plt.show()
 
 
 def saveGraph(graph: nx.DiGraph, outputPath: str, format: str) -> None:
-    """Saves a visual representation of the graph in a given directory and in a given format, as long as pyplot.savefig supports it."""
+    """Saves a visual representation of the graph in a given directory 
+    and in a given format, as long as pyplot.savefig supports it.
+    """
     plt.tight_layout()
     nx.draw_networkx(dependencyGraph, arrows=True)
-    savePath = path.abspath(path.join(outputPath, "dependencyGraph." + format.lower()))
+    savePath = path.abspath(
+        path.join(outputPath, "dependencyGraph." + format.lower()))
     plt.savefig(savePath, format=format)
-    print(Fore.GREEN + Style.BRIGHT + "File saved to " + savePath + Style.RESET_ALL)
+    print(Fore.GREEN + Style.BRIGHT +
+          "File saved to " + savePath + Style.RESET_ALL)
 
 
 if __name__ == "__main__":

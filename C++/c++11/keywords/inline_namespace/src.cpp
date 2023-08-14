@@ -1,0 +1,1 @@
+inline namespace v1{}

@@ -612,7 +612,7 @@ def getPercentagesTableResults(standards: list[Standard], isRelative: bool) -> l
 def writeStatisticsTables(standards: list[Standard], f) -> None:
     """Writes the two statistics tables currently featured, the first being the relative percentages of tests passed and the second being the absolute percentage.
         Each row of the table contains the statistics of each standard except for the last, that contains the statistics for the tests in every standard.
-    
+
     Attributes:
         standards (list[Standard]): list of standards.
         f (file): file to be written to.
@@ -639,7 +639,7 @@ def getStandardRow(std: Standard, isRelative: bool) -> list[str]:
     Attributes:
         std (Standard): which standard is this row relative to.
         isRelative (bool): whether this row should use relative or absolute percentages.
-    
+
     Returns:
         list[str]: the row with the information. The content of the list is as follows: [Standard.name, Parsing.PT, Parsing.%, CodeGen.PT, CodeGen.%, ..., All.PT, All.%].
     """
@@ -664,7 +664,7 @@ def getTotalRow(allTests: list[Test], isRelative: bool) -> list[str]:
     Attributes:
         allTests (list[Test]): the tests from which the statistics will be gathered.
         isRelative (bool): whether this row should use relative or absolute percentages
-    
+
     Returns:
         list[str]: the row with the information. The content of the list is as follows: ["Total", Parsing.PT, Parsing.%, CodeGen.PT, CodeGen.%, ..., All.PT, All.%]
     """
@@ -855,13 +855,13 @@ def getPercentagesFromStandard(standard) -> tuple[list[float], list[float]]:
 
     successResults.append(calculatePercentage(
         "test_code_generation", standard.tests))
-    
+
     successResults.append(calculatePercentage(
         "test_idempotency", standard.tests))
-    
+
     successResults.append(calculatePercentage(
         "test_correctness", standard.tests))
-    
+
     for result in successResults:
         failedResults.append(100-result)
     return successResults, failedResults
@@ -882,18 +882,18 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     transpiler = args.transpiler
-    outputPath = args.outputPath
+
+    outputPath = os.path.abspath(os.path.join(os.getcwd(), args.outputPath))
+    outputPath = os.path.join(outputPath, "reports")
     outputPath = os.path.join(outputPath, transpiler)
 
-    # creates path to generate the latex file
-    # latex_path = os.path.join(root_dir, "report.tex")
-    reportPath = os.path.join(outputPath, transpiler)
-    if not os.path.exists(reportPath):
-        os.makedirs(os.path.dirname(reportPath), exist_ok=True)
-    f = open(reportPath + ".tex", "w")
+    os.makedirs(outputPath, exist_ok=True)
+    latexAbsPath = os.path.join(outputPath, transpiler) + ".tex"
+
+    f = open(latexAbsPath, "wt") if os.path.isfile(latexAbsPath) else open(latexAbsPath, "+xt")
 
     # different test types folders
-    generalPath = os.path.join(args.src_path, transpiler)
+    srcGeneralPath = os.path.join(args.src_path, transpiler)
 
     # write usepackages and title to the tex file
     f.write(r"\documentclass{article}"+"\n" +
@@ -905,7 +905,7 @@ if __name__ == '__main__':
     f.write(r"\title{" + transpiler.capitalize() + r" Testing Results}"+"\n" +
             r"\maketitle"+"\n"+r"\newcolumntype{Y}{>{\centering\arraybackslash}X}"+"\n")
 
-    standards: list[Standard] = processDirectory(generalPath)[1]
+    standards: list[Standard] = processDirectory(srcGeneralPath)[1]
     standards.sort(key=lambda x: getStand(x))
 
     _, maxTestPhases = findMostCompleteTestInfo(getAllTests(standards))

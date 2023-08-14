@@ -26,6 +26,7 @@ As the name suggests, CACTI wishes to study and compare the capabilities of diff
 Most of the scripts of this directory are inside the **aux_scripts** folder. They all support a "-h" flag for information on how to run them. Here is a compilation on how to run some of them:
 
 ### Generate Report
+#### Note: This tool was meant to be used strictly with the output of our [CACTI](https://github.com/specs-feup/cacti) tool.
 ```
 $ python3 report.py [-h] -S SRC_PATH -T TRANSPILER
 ```
@@ -34,6 +35,12 @@ $ python3 report.py [-h] -S SRC_PATH -T TRANSPILER
 - `-T TRANSPILER` - the name of the transpiler which is to be tested
 
 ### Generate the metadata
+#### Note: You may use this tool on your own tests, as long as the directory of tests adheres to our convention:
+  - The directory's direct descendents are all directories
+  - The first nested directories' names are standard names
+  - Inside those directories there aren't any other directories or files named after a standard
+  - The last nested directory contains a `src` file with the correct suffix (e.g. `.c` for C files). A `metadata.json` file may also be present with additional information about the test, although its structure must also equal our conventions.
+  - The last nested directory's name is the test's name (e.g. bool/ for a test that tests bools)
 
 ```
 $ python3 metadata_gen.py [-h] -S SRC_PATH

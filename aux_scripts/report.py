@@ -312,9 +312,11 @@ def writeStandards(standards: list[Standard], f, outputFolder) -> None:
         f.write(r"\subsection{Success and Fail Rate chart}"+"\n")
         success, failure = getPercentagesFromStandard(standard)
         x_labels = ["Parsing", "CodeGeneration", "Idempotency", "Correctness"]
-        createChart(x_labels, success, failure, "Tests", "Percentage", outputFolder, standard.name)
+        createChart(x_labels, success, failure, "Tests",
+                    "Percentage", outputFolder, standard.name)
 
         f.write(r"\newpage" + "\n")
+
 
 def getAllTests(standards: list[Standard]) -> list[Test]:
     """Iterates over all the standards and flattens all their tests into a single list.
@@ -404,7 +406,7 @@ def getRelP(tests: list[Test]) -> float:
     return (passedTestPhases / (passedTestPhases + failedTestPhases)) * 100
 
 
-def getTestPhaseTNum(tests: list[Test], testPhaseName: str):
+def getTestPhaseTNum(tests: list[Test], testPhaseName: str) -> int:
     """ Calculates the number of tests that passed a specific test phase.
 
     Attributes:
@@ -424,7 +426,7 @@ def getTestPhaseTNum(tests: list[Test], testPhaseName: str):
     return numPassed
 
 
-def getTestPhaseRelP(tests: list[Test], testPhaseName: str):
+def getTestPhaseRelP(tests: list[Test], testPhaseName: str) -> float:
     """Calculates the relative percentage of tests that passed a specific test phase.
 
     Attributes:
@@ -446,7 +448,7 @@ def getTestPhaseRelP(tests: list[Test], testPhaseName: str):
     return 100 * numPassed / actualNumTests
 
 
-def getTestPhaseAbsP(tests: list[Test], testPhaseName: str):
+def getTestPhaseAbsP(tests: list[Test], testPhaseName: str) -> float:
     """Calculates the absolute percentage of tests that passed a specific test phase.
 
     Attributes:
@@ -467,7 +469,7 @@ def getTestPhaseAbsP(tests: list[Test], testPhaseName: str):
     return 100 * numPassed / maxNumTests
 
 
-def writeTableStart(f, numCols: int):
+def writeTableStart(f, numCols: int) -> None:
     """Writes the start of a LaTeX table.
 
     Attributes:
@@ -479,7 +481,7 @@ def writeTableStart(f, numCols: int):
     f.write(r" }"+"\n")
 
 
-def getFirstLatexMultiColumnString(headerNameAndLen: tuple[str, int]):
+def getFirstLatexMultiColumnString(headerNameAndLen: tuple[str, int]) -> str:
     """Returns a string that can be used to write a LaTeX table header.
 
     Attributes:
@@ -492,7 +494,7 @@ def getFirstLatexMultiColumnString(headerNameAndLen: tuple[str, int]):
     return r"\multicolumn{" + str(headerNameAndLen[1]) + r"}{|c|}{" + headerNameAndLen[0] + r"}"
 
 
-def getLatexMultiColumnString(headerNameAndLen: tuple[str, int]):
+def getLatexMultiColumnString(headerNameAndLen: tuple[str, int]) -> str:
     """Returns a string that can be used to write a LaTeX table header.
 
     Attributes:
@@ -505,7 +507,7 @@ def getLatexMultiColumnString(headerNameAndLen: tuple[str, int]):
     return r"\multicolumn{" + str(headerNameAndLen[1]) + r"}{c|}{" + headerNameAndLen[0] + r"}"
 
 
-def writeHeaders(f, multiColHeadersAndLen: list[tuple[str, int]]):
+def writeHeaders(f, multiColHeadersAndLen: list[tuple[str, int]]) -> None:
     """Writes the headers of a LaTeX table.
 
     Attributes:
@@ -517,7 +519,7 @@ def writeHeaders(f, multiColHeadersAndLen: list[tuple[str, int]]):
     f.write(r" \\"+"\n")
 
 
-def getSubHeaderString(subHeaders: list[str], headerAndColLen: tuple[str, int]):
+def getSubHeaderString(subHeaders: list[str], headerAndColLen: tuple[str, int]) -> str:
     """Returns a string that can be used to write a LaTeX table subheader.
 
     Attributes:
@@ -535,7 +537,7 @@ def getSubHeaderString(subHeaders: list[str], headerAndColLen: tuple[str, int]):
         return " & ".join(subHeaders[:colLen])
 
 
-def writeSubHeaders(f, multiColHeadersAndLen: list[tuple[str, int]], subHeaders: list[str]):
+def writeSubHeaders(f, multiColHeadersAndLen: list[tuple[str, int]], subHeaders: list[str]) -> None:
     """Writes the subheaders of a LaTeX table.
 
     Attributes:
@@ -548,7 +550,7 @@ def writeSubHeaders(f, multiColHeadersAndLen: list[tuple[str, int]], subHeaders:
     f.write(r" \\" + "\n")
 
 
-def writeTableResults(f, results: list[list[str]]):
+def writeTableResults(f, results: list[list[str]]) -> None:
     """Writes the results of a LaTeX table.
 
     Attributes:
@@ -559,7 +561,16 @@ def writeTableResults(f, results: list[list[str]]):
         f.write(" & ".join(row))
         f.write(r" \\" + "\n")
 
-def getLatexSize(size: int):
+
+def getLatexTableFontSize(size: int) -> str:
+    """Matches a font size (ranging from 1 to 10, 1 being the tiniest and 10 the biggest) to its LaTeX's counterpart to be used in tables.
+
+    Attributes:
+        size (int): an arbitrary measure of font size. 1 is the tiniest and 10 is the largest.
+
+    Returns:
+        str: the latex's table font size. E.g. "footnotesize"
+    """
     match size:
         case 1: return "tiny"
         case 2: return "scriptsize"
@@ -572,7 +583,108 @@ def getLatexSize(size: int):
         case 9: return "huge"
         case 10: return "Huge"
 
-def writeTable(headersAndLen: list[tuple[str, int]], subHeaders: list[str], results: list[list[str]], f, caption: str | None = None, fontSize: int = 3):
+
+def getPercentagesTableResults(standards: list[Standard], isRelative: bool) -> list[list[str]]:
+    """Calculates the result rows of a Percentage Table.
+
+    Attributes:
+        standards (list[Standard]): a list with the standards to be used to gather information from.
+        isRelative: whether this function should use relative or absolute percentages.
+
+    Returns:
+        list[list[str]]: a list of rows, each row containing various information about the specific standard or the total of all the standards.
+    """
+    results: list[list[str]] = []
+
+    allTests: list[Test] = getAllTests(standards)
+
+    # Statistics per standard
+    for std in standards:
+        row = getStandardRow(std, isRelative)
+        results.append(row)
+
+    # Statistics across all standards
+    totalRow = getTotalRow(allTests, isRelative)
+    results.append(totalRow)
+    return results
+
+
+def writeStatisticsTables(standards: list[Standard], f) -> None:
+    """Writes the two statistics tables currently featured, the first being the relative percentages of tests passed and the second being the absolute percentage.
+        Each row of the table contains the statistics of each standard except for the last, that contains the statistics for the tests in every standard.
+    
+    Attributes:
+        standards (list[Standard]): list of standards.
+        f (file): file to be written to.
+    """
+    headersAndLen: list[tuple[str, int]] = [("Standard", 1), ("Parsing", 2),
+                                            ("Code Gen", 2), ("Idempotency", 2), ("Correctness", 2), ("All", 2)]
+
+    # Relative Table
+    relativeTableSubHeaders: list[str] = ["PT", "Rel\\%"]
+    relativeTableResults = getPercentagesTableResults(standards, True)
+    writeTable(headersAndLen, relativeTableSubHeaders, relativeTableResults, f,
+               caption="Relative percentage of tests passed", fontSize=6)
+
+    # Absolute Table
+    absoluteTableSubHeaders: list[str] = ["PT", "Abs\\%"]
+    absoluteTableResults = getPercentagesTableResults(standards, False)
+    writeTable(headersAndLen, absoluteTableSubHeaders, absoluteTableResults,
+               f, caption="Absolute percentage of tests passed", fontSize=6)
+
+
+def getStandardRow(std: Standard, isRelative: bool) -> list[str]:
+    """Returns a row of a statistics table relative to a given Standard.
+
+    Attributes:
+        std (Standard): which standard is this row relative to.
+        isRelative (bool): whether this row should use relative or absolute percentages.
+    
+    Returns:
+        list[str]: the row with the information. The content of the list is as follows: [Standard.name, Parsing.PT, Parsing.%, CodeGen.PT, CodeGen.%, ..., All.PT, All.%].
+    """
+    testPhaseFunc = getTestPhaseRelP if isRelative else getTestPhaseAbsP
+    allFunc = getRelP if isRelative else getAbsP
+
+    row: list[str] = [std.name]
+
+    for testPhase in testPhasesNames:
+        row.append(str(getTestPhaseTNum(std.tests, testPhase)))
+        row.append(f"{testPhaseFunc(std.tests, testPhase):.2f}")
+
+    row.append(str(getPTNum(std.tests)))
+    row.append(f"{allFunc(std.tests):.2f}")
+
+    return row
+
+
+def getTotalRow(allTests: list[Test], isRelative: bool) -> list[str]:
+    """Returns a row of a statistics table relative to a given Standard.
+
+    Attributes:
+        allTests (list[Test]): the tests from which the statistics will be gathered.
+        isRelative (bool): whether this row should use relative or absolute percentages
+    
+    Returns:
+        list[str]: the row with the information. The content of the list is as follows: ["Total", Parsing.PT, Parsing.%, CodeGen.PT, CodeGen.%, ..., All.PT, All.%]
+    """
+
+    testPhaseFunc = getTestPhaseRelP if isRelative else getTestPhaseAbsP
+    allFunc = getRelP if isRelative else getAbsP
+
+    row: list[str] = ["Total"]
+
+    for testPhase in testPhasesNames:
+        row.append(str(getTestPhaseTNum(allTests, testPhase)))
+        row.append(f"{testPhaseFunc(allTests, testPhase):.2f}")
+
+    row.append(str(getPTNum(allTests)))
+    row.append(f"{allFunc(allTests):.2f}")
+
+    return row
+
+
+def writeTable(headersAndLen: list[tuple[str, int]], subHeaders: list[str], results: list[list[str]], f, caption: str | None = None, fontSize: int = 3) -> None:
     """Writes a LaTeX table.
 
     Attributes:
@@ -584,7 +696,7 @@ def writeTable(headersAndLen: list[tuple[str, int]], subHeaders: list[str], resu
         caption (str | None): caption of the table.
     """
 
-    latexSize = getLatexSize(fontSize)
+    latexSize = getLatexTableFontSize(fontSize)
 
     numCols: int = reduce(lambda x, y: x + y, [
                           headerAndLen[1] for headerAndLen in headersAndLen], 0)
@@ -605,75 +717,6 @@ def writeTable(headersAndLen: list[tuple[str, int]], subHeaders: list[str], resu
     if caption != None:
         f.write(r"\caption{" + caption + "}\n")
     f.write(r"\end{table}")
-
-def getPercentagesTableResults(standards: list[Standard], isRelative: bool):
-    results = []
-    
-    allTests: list[Test] = getAllTests(standards)
-
-    # Statistics per standard
-    for std in standards:
-        row = getStandardRow(std, isRelative)
-        results.append(row)
-    
-    # Statistics across all standards
-    totalRow = getTotalRow(allTests, isRelative)
-    results.append(totalRow)
-    return results
-
-
-
-def writeStatisticsTables(standards: list[Standard], f) -> None:
-    """Writes the two statistics tables currently featured, the first being the relative percentages of tests passed and the second being the absolute percentage.
-        Each row of the table contains the statistics of each standard except for the last, that contains the statistics for the tests in every standard.
-    Attributes:
-        standards (list[Standard]): list of standards.
-        f (file): file to be written to.
-    """
-    headersAndLen: list[tuple[str, int]] = [("Standard", 1), ("Parsing", 2),
-                                            ("Code Gen", 2), ("Idempotency", 2), ("Correctness", 2), ("All", 2)]
-
-    # Relative Table
-    relativeTableSubHeaders: list[str] = ["PT", "Rel\\%"]
-    relativeTableResults = getPercentagesTableResults(standards, True)
-    writeTable(headersAndLen, relativeTableSubHeaders, relativeTableResults, f,
-               caption="Relative percentage of tests passed", fontSize=6)
-
-    # Absolute Table
-    absoluteTableSubHeaders: list[str] = ["PT", "Abs\\%"]
-    absoluteTableResults = getPercentagesTableResults(standards, False)
-    writeTable(headersAndLen, absoluteTableSubHeaders, absoluteTableResults,
-               f, caption="Absolute percentage of tests passed", fontSize=6)
-
-def getStandardRow(std: Standard, isRelative: bool):
-    testPhaseFunc = getTestPhaseRelP if isRelative else getTestPhaseAbsP
-    allFunc = getRelP if isRelative else getAbsP
-
-    row = [std.name]
-
-    for testPhase in testPhasesNames:
-        row.append(str(getTestPhaseTNum(std.tests, testPhase)))
-        row.append(f"{testPhaseFunc(std.tests, testPhase):.2f}")
-
-    row.append(str(getPTNum(std.tests)))
-    row.append(f"{allFunc(std.tests):.2f}")
-
-    return row
-
-def getTotalRow(allTests: list[Test], isRelative: bool):
-    testPhaseFunc = getTestPhaseRelP if isRelative else getTestPhaseAbsP
-    allFunc = getRelP if isRelative else getAbsP
-    
-    row: list[str] = ["Total"]
-
-    for testPhase in testPhasesNames:
-        row.append(str(getTestPhaseTNum(allTests, testPhase)))
-        row.append(f"{testPhaseFunc(allTests, testPhase):.2f}")
-
-    row.append(str(getPTNum(allTests)))
-    row.append(f"{allFunc(allTests):.2f}")
-
-    return row
 
 
 def writeStatistics(standards: list[Standard], maxTestPhases: int, f, outputPath) -> None:
@@ -698,23 +741,25 @@ def writeStatistics(standards: list[Standard], maxTestPhases: int, f, outputPath
     f.write(r"\newpage"+"\n")
     f.write(r"\subsection{Relative Percentage of tests passed chart}"+"\n")
     x_labels = [std.name.capitalize() for std in standards]
-    
+
     success_rel = [getRelP(std.tests) for std in standards]
     failure_rel = [100 - getRelP(std.tests) for std in standards]
 
-    createChart(x_labels, success_rel, failure_rel, "Standards", "Percentage", outputPath)
-    
+    createChart(x_labels, success_rel, failure_rel,
+                "Standards", "Percentage", outputPath)
+
     f.write(r"\subsection{Absolute Percentage of tests passed chart}"+"\n")
     x_labels = [std.name.capitalize() for std in standards]
-    
+
     success_abs = [getAbsP(std.tests) for std in standards]
     failure_abs = [100 - getAbsP(std.tests) for std in standards]
 
-    createChart(x_labels, success_abs, failure_abs, "Standards", "Percentage", outputPath, "", True)
+    createChart(x_labels, success_abs, failure_abs,
+                "Standards", "Percentage", outputPath, "", True)
 
 
-def createChart(xLabels: list[str], sucessRate : list[float], failRate : list[float],
-              xMeaning: str, yMeaning: str, outputPath:str ,standard = "", abs = False) -> None:
+def createChart(xLabels: list[str], sucessRate: list[float], failRate: list[float],
+                xMeaning: str, yMeaning: str, outputPath: str, standard="", abs=False) -> None:
     """ Draws a chart with the results of the tests for the given standard.
 
     Attributes:
@@ -747,11 +792,11 @@ def createChart(xLabels: list[str], sucessRate : list[float], failRate : list[fl
     imagesPath = os.path.join(outputPath, "images")
     if not os.path.exists(imagesPath):
         os.makedirs(imagesPath, exist_ok=True)
-    
+
     if standard != "":
         plt.savefig(os.path.join(imagesPath, standard + ".png"))
     else:
-        if(abs):
+        if (abs):
             plt.savefig(os.path.join(imagesPath, "standardsAbs.png"))
         else:
             plt.savefig(os.path.join(imagesPath, "standardsRel.png"))
@@ -761,47 +806,62 @@ def createChart(xLabels: list[str], sucessRate : list[float], failRate : list[fl
     f.write(r"\begin{figure}[h!]"+"\n")
     f.write(r"\centering"+"\n")
     if standard != "":
-        f.write(r"\includegraphics[width=0.8\textwidth]{"+imagesPath +"/"+ standard+".png}"+"\n")
-        f.write(r"\caption{Success and Fail Rate for each test in " + standard + "}"+"\n")
+        f.write(
+            r"\includegraphics[width=0.8\textwidth]{"+imagesPath + "/" + standard+".png}"+"\n")
+        f.write(
+            r"\caption{Success and Fail Rate for each test in " + standard + "}"+"\n")
         f.write(r"\label{fig:"+standard+"}"+"\n")
     else:
-        if(abs):
-            f.write(r"\includegraphics[width=0.8\textwidth]{"+imagesPath + "/" + "standardsAbs.png}"+"\n")
+        if (abs):
+            f.write(
+                r"\includegraphics[width=0.8\textwidth]{"+imagesPath + "/" + "standardsAbs.png}"+"\n")
         else:
-            f.write(r"\includegraphics[width=0.8\textwidth]{"+imagesPath + "/" + "standardsRel.png}"+"\n")
+            f.write(
+                r"\includegraphics[width=0.8\textwidth]{"+imagesPath + "/" + "standardsRel.png}"+"\n")
         f.write(r"\caption{Success and Fail Rate for each standard}"+"\n")
         f.write(r"\label{fig:standards}"+"\n")
     f.write(r"\end{figure}"+"\n")
 
-def calculatePercentage(testName, results):
+
+def calculatePercentage(testName, results) -> float:
     """ Calculates the percentage of success for a given test in a list of results.
 
     Attributes:
         testName (str): name of the test to be considered.
         results (list[Test]): list of results to be considered.
-    
+
     Returns:
         float: percentage of success for the given test.
     """
     totalCount = len(results)
-    successCount = sum(1 for result in results if any(test.name == testName and test.success for test in result.details))
+    successCount = sum(1 for result in results if any(
+        test.name == testName and test.success for test in result.details))
     return successCount / totalCount * 100 if totalCount > 0 else 0
 
-def getPercentagesFromStandard(standard):
+
+def getPercentagesFromStandard(standard) -> tuple[list[float], list[float]]:
     """ Calculates the percentage of success for each test in a given standard.
 
     Attributes:
         standard (Standard): standard to be considered.
 
     Returns:
-        list[float]: list of percentages of success for each test in the given standard.
+        tuple[list[float], list[float]]: two lists containing the percentage of passed tests in parsing, code gen, idempotency and correctness. The first one contains the % of successes and the second the % of failures. 
     """
     successResults = []
     failedResults = []
+
     successResults.append(calculatePercentage("test_parsing", standard.tests))
-    successResults.append(calculatePercentage("test_code_generation", standard.tests))
-    successResults.append(calculatePercentage("test_idempotency", standard.tests))
-    successResults.append(calculatePercentage("test_correctness", standard.tests))
+
+    successResults.append(calculatePercentage(
+        "test_code_generation", standard.tests))
+    
+    successResults.append(calculatePercentage(
+        "test_idempotency", standard.tests))
+    
+    successResults.append(calculatePercentage(
+        "test_correctness", standard.tests))
+    
     for result in successResults:
         failedResults.append(100-result)
     return successResults, failedResults

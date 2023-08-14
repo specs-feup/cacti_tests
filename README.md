@@ -23,7 +23,7 @@ As the name suggests, CACTI wishes to study and compare the capabilities of diff
 
 ## Important scripts
 
-Most of the scripts of this directory are inside the **aux_scripts** folder. Here is a compilation on how to run some of them:
+Most of the scripts of this directory are inside the **aux_scripts** folder. They all support a "-h" flag for information on how to run them. Here is a compilation on how to run some of them:
 
 ### Generate Report
 ```
